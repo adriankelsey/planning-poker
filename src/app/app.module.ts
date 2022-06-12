@@ -2,17 +2,19 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { MainComponent } from './main/main.component';
 import { CardsComponent } from './cards/cards.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponent,
-    CardsComponent
+    CardsComponent,
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    NoopAnimationsModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

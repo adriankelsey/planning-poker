@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-cards',
-  templateUrl: './cards.component.html',
+  templateUrl: './cards.component.html', 
   styleUrls: ['./cards.component.scss']
 })
 export class CardsComponent implements OnInit {
 
-  constructor() { }
-
   ngOnInit(): void {
+  }
+
+  clickCard(event: Event) {
+    let elementId: string = (event.target as Element).id
+    console.log(elementId)
   }
 
 }
