@@ -21,5 +21,12 @@ mat-card {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 60px;
+
+    button {
+        height: 100%;
+        width: 100%;
+        font-size: 60px;
+        background: transparent;
+        border-style: none;
+    }
 }
