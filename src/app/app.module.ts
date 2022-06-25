@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { CardsComponent } from './cards/cards.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {MatCardModule} from '@angular/material/card';
+import {MatTableModule} from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,7 @@ import {MatCardModule} from '@angular/material/card';
   imports: [
     BrowserModule,
     NoopAnimationsModule,
-    MatCardModule
+    MatCardModule,  
   ],
   providers: [],
   bootstrap: [AppComponent]

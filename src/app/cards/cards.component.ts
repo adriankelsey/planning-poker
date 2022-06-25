@@ -10,7 +10,7 @@ export class CardsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  clickCard(event: Event) {
+  onClick(event: Event) {
     let elementId: string = (event.target as Element).id
     console.log(elementId)
   }
