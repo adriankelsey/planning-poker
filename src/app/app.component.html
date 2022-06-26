@@ -1,4 +1,5 @@
 <div class="main-content">
-    <app-cards></app-cards>
+    <h1>hello + {{card}}</h1>
+    <app-cards (event)="receivedMessage($event)"></app-cards>
     <app-data-table></app-data-table>
 </div>
