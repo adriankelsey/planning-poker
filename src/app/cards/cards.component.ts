@@ -9,10 +9,9 @@ export class CardsComponent {
   constructor() {}
   ngOnInit(): void {
   }
-  @Output() cardEvent = new EventEmitter<string>()
+  @Output() cardEvent:EventEmitter<any> = new EventEmitter<any>();
   onClick(event: Event) {
     const elementId = (event.target as Element).id;
-    this.cardEvent.emit('elementId')
-    console.log(elementId)
+    this.cardEvent.emit(elementId)
   }
 }

@@ -9,7 +9,6 @@ export class AppComponent {
   title = 'planning-poker';
   card = '1'
   receivedMessage($event: any){
-    console.log('hello from app.component.ts')
-    console.log($event)
+    this.card = $event
   }
 }

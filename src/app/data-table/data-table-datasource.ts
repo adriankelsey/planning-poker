@@ -13,6 +13,8 @@ export interface DataTableItem {
   score: string
 }
 
+
+
 // TODO: replace this with real data from your application
 const EXAMPLE_DATA: DataTableItem[] = [
   {id: 1, name: 'Hydrogen', score: '5'},
@@ -34,6 +36,8 @@ export class DataTableDataSource extends DataSource<DataTableItem> {
   constructor() {
     super();
   }
+
+  
 
   // ngOnInit(): void {
   //   console.log('hello from dataTableSource')
