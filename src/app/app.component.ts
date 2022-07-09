@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,8 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'planning-poker';
-  card = '1'
+  card = ''
   receivedMessage($event: any){
     this.card = $event
+    console.log('app-component')
+    console.log($event)
   }
 }

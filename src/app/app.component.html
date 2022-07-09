@@ -1,5 +1,4 @@
 <div class="main-content">
-    <h1>{{card}}</h1>
     <app-cards (cardEvent)="receivedMessage($event)"></app-cards>
-    <app-data-table></app-data-table>
+    <app-data-table (playerScore)="card"></app-data-table>
 </div>
