@@ -10,12 +10,16 @@ import { MatSortModule } from '@angular/material/sort';
 import { PlayerComponent } from './player/player.component';
 import { TableComponent } from './table/table.component';
 import {MatButtonModule} from '@angular/material/button';
+import { LoginComponent } from './login/login.component';
+import { AppRoutingModule } from './app-routing.module';
+import {MatInputModule} from '@angular/material/input';
 @NgModule({
   declarations: [
     AppComponent,
     CardsComponent,
     PlayerComponent,
     TableComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -24,7 +28,9 @@ import {MatButtonModule} from '@angular/material/button';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,  
-    MatButtonModule
+    MatButtonModule, 
+    AppRoutingModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]

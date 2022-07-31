@@ -1,0 +1,31 @@
+.main-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+    height: 20%;
+    margin-top: 4em;
+}
+
+.header {
+    margin-bottom: 4em;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2em;
+    height: 15%;
+    width: 30%;
+}
+
+.enter {
+    display: flex;
+    justify-content: center;
+}
+
+.button {
+    width: 50%;
+}
