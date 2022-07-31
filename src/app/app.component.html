@@ -1,3 +1,8 @@
 <div class="main-content">
-    <app-cards></app-cards>
+    <div class="table">
+        <app-table></app-table>
+    </div>
+    <div class="cards">
+        <app-cards (cardEvent)="receivedMessage($event)"></app-cards>
+    </div>
 </div>

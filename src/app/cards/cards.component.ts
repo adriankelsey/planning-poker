@@ -1,18 +1,17 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-cards',
   templateUrl: './cards.component.html', 
-  styleUrls: ['./cards.component.scss']
+  styleUrls: ['./cards.component.scss'],
 })
-export class CardsComponent implements OnInit {
-
+export class CardsComponent {
+  constructor() {}
   ngOnInit(): void {
   }
-
+  @Output() cardEvent:EventEmitter<any> = new EventEmitter<any>();
   onClick(event: Event) {
-    let elementId: string = (event.target as Element).id
-    console.log(elementId)
+    const elementId = (event.target as Element).id;
+    this.cardEvent.emit(elementId)
   }
-
 }
