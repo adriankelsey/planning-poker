@@ -18,6 +18,9 @@
 }
 
 .table {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
     margin: 2em;
     left: 50%;
@@ -39,8 +42,6 @@
 .button {
     display: flex;
     justify-content: center;
-    position: relative;
-
 }
 
 .players-1-3 {
@@ -67,26 +68,16 @@
 
 .players-7 {
     position: absolute;
-    margin-top: 1em;
+    margin: 1em 2em 0em;
     top: 20%;
-    right: 50%;
-    margin-right: 2em;
-    margin-left: 2em;
-    display: flex;
-    width: 60%;
-    justify-content: space-between;
+    right: 100%;
 }
 
 .players-8 {
     position: absolute;
-    margin-top: 1em;
+    margin: 1em 2em 0em;
     top: 20%;
     left: 100%;
-    margin-left: 2em;
-    margin-right: 2em;
-    display: flex;
-    width: 60%;
-    justify-content: space-between
 }
 
 
