@@ -13,6 +13,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './app-routing.module';
 import {MatInputModule} from '@angular/material/input';
+import { MenuComponent } from './menu/menu.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,6 +21,7 @@ import {MatInputModule} from '@angular/material/input';
     PlayerComponent,
     TableComponent,
     LoginComponent,
+    MenuComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,7 +32,7 @@ import {MatInputModule} from '@angular/material/input';
     MatSortModule,  
     MatButtonModule, 
     AppRoutingModule,
-    MatInputModule
+    MatInputModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
