@@ -4,8 +4,9 @@
 }
 
 .main-content {
+    display: flex;
     height: 80%;
-    width: 60%;
+    width: 100%;
 }
 
 .table-view {
@@ -23,7 +24,7 @@
     left: 50%;
     top: 35%;
     transform: translateX(-50%);
-    width: 50%;
+    width: 56%;
     height: 25%;
     border-radius: 100px;
     border-style: solid;
@@ -74,5 +75,8 @@
     justify-content: space-between;
 }
 
-
+.menu {
+    border-style: solid;
+    width: 60%;
+}
 

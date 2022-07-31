@@ -12,4 +12,8 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  enterGame(name: string) {
+    localStorage.setItem('username', name)
+  }
+
 }

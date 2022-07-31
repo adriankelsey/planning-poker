@@ -5,10 +5,10 @@
     <div class="form">
         <mat-form-field class="login" appearance="fill">
             <mat-label>Enter Name:</mat-label>
-            <input matInput>
+            <input #name matInput>
         </mat-form-field>
         <div class="enter">
-             <button mat-raised-button class="button" color="primary">Enter</button>
+             <button mat-raised-button class="button" color="primary" (click)="enterGame(name.value)">Enter</button>
         </div>
     </div>
 </div>
