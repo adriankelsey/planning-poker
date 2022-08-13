@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenuComponent implements OnInit {
 
+  player = {
+    name:  ''
+  }
+
   constructor() { }
 
   ngOnInit(): void {
+    const player = localStorage.getItem('username')
+    this.player.name = player!
   }
 
 }
