@@ -3,13 +3,19 @@
     height: 100%;
 }
 
-.ticket {
+.ticket-title {
     display: flex;
     justify-content: center;
-    border-style: solid;
 }
 
 table {
     width: 100%;
-    border-style: solid;
+    border-top: solid;
+    margin-top: 2em;
+}
+
+td {
+    font-size: 22px;
+    padding-left: 50px;
+    padding-top: 25px;
 }
