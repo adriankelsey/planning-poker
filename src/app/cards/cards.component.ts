@@ -13,5 +13,13 @@ export class CardsComponent {
   onClick(event: Event) {
     const elementId = (event.target as Element).id;
     this.cardEvent.emit(elementId)
+
+    const card = document.getElementById(elementId)
+
+
+    // TODO: Logic for if card is clicked stay highlighted with color & if another card is clicked undo color
+    // if (card != null)  {
+    //   card.style.backgroundColor = 'rgb(117, 82, 117)'
+    // }
   }
 }

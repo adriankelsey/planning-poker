@@ -16,6 +16,8 @@ mat-card {
     display: flex;
     justify-content: center;
     align-items: center;
+    border-width: 1px;
+    cursor: pointer;
 
     button {
         height: 100%;
@@ -24,4 +26,13 @@ mat-card {
         background: transparent;
         border-style: none;
     }
+}
+
+mat-card:hover {
+    background-color: rgb(117, 82, 117);
+    opacity: 0.5;
+}
+
+button {
+    cursor: pointer;
 }

@@ -34,15 +34,13 @@
 }
 
 .player-1, .player-2, .player-3, .player-4, .player-5, .player-6, .player-7, .player-8 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-style: solid;
     border-width: 1px;
     height: 60px;
     width: 40px;
-}
-
-.button {
-    display: flex;
-    justify-content: center;
 }
 
 .players-1-3 {
@@ -86,3 +84,11 @@
     width: 60%;
 }
 
+.voting-phase-banner {
+    border-style: solid;
+    position: absolute;
+    bottom: 93%;
+    width: 60%;
+    display: flex;
+    justify-content: center;
+}
