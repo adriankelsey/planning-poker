@@ -8,6 +8,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 export class CardsComponent {
   cards: string[] = []
   clickedCard: string[] = []
+  unClickedCard: string[] = []
   constructor() {}
   ngOnInit(): void {
   }
@@ -17,6 +18,13 @@ export class CardsComponent {
     this.cardEvent.emit(elementId)
 
     const card = document.getElementById(elementId)
+
+    if(this.clickedCard[0] == card?.id) {
+      this.unClickedCard.push(card.id)
+      if(this.unClickedCard.length > 1) this.unClickedCard.shift()
+    }
+
+
 
     if (card != null) {
       card.style.background = 'rgb(117, 82, 117)'
@@ -38,6 +46,9 @@ export class CardsComponent {
   mouseOver(event: Event) {
     const elementId = (event.target as Element).id;
     const card = document.getElementById(elementId)
+    console.log(this.unClickedCard)
+    const unClickedCard = document.getElementById(this.unClickedCard[0])
+    if(unClickedCard) unClickedCard.style.background = 'white'
     if (card != null) card.style.background = 'rgb(117, 82, 117)'
   }
 
@@ -46,6 +57,9 @@ export class CardsComponent {
     const card = document.getElementById(elementId)
     const clickedCard = document.getElementById(this.clickedCard[0])
 
+    if(!clickedCard) {
+      if(card != null) card.style.background = 'white'
+    }
     if (card?.id != clickedCard?.id && clickedCard != null) {
       if(card != null) card.style.background = 'white'
     } 
