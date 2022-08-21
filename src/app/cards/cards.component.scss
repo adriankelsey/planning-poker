@@ -9,9 +9,10 @@
 }
 
 mat-card {
+    padding: 0;
     border-style: solid;
-    width: 70px;
-    height: 120px;
+    width: 100px;
+    height: 150px;
     margin: 10px;
     display: flex;
     justify-content: center;
@@ -26,11 +27,6 @@ mat-card {
         background: transparent;
         border-style: none;
     }
-}
-
-mat-card:hover {
-    background-color: rgb(117, 82, 117);
-    opacity: 0.5;
 }
 
 button {
