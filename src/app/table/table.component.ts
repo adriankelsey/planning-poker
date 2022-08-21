@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PlayerCard } from './models/card.model';
 
 @Component({
   selector: 'app-table',
@@ -7,13 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TableComponent implements OnInit {
 
+  show = false
+
+  playerCard: PlayerCard[] = []
+
   votingPhase = {
     phase: '',
     banner: '',
     enabled: false,
   }
 
-  card = ''
+  card: PlayerCard = {
+    score: '',
+    visible: false
+  }
 
   constructor() { }
 
@@ -22,19 +30,21 @@ export class TableComponent implements OnInit {
   }
 
   receivedMessage($event: any){
-    this.card = $event
+    this.card.score = $event
   }
 
-  startVote() {
+  votePhase() {
     if(this.votingPhase.phase == 'Start Vote') {
       this.votingPhase.phase = 'Finish Vote'
       this.votingPhase.banner = 'Voting has started'
       this.votingPhase.enabled = true
-      console.log(this.card)
+      this.show = false
     } else if (this.votingPhase.phase == 'Finish Vote') {
       // countdown before turning over cards
       // also think about rescoring feature 
+      this.show = true
       this.votingPhase.phase = 'Start Vote'
+      this.votingPhase.enabled = false
       this.votingPhase.banner = ''
     }
   } 

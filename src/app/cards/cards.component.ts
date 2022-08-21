@@ -46,7 +46,6 @@ export class CardsComponent {
   mouseOver(event: Event) {
     const elementId = (event.target as Element).id;
     const card = document.getElementById(elementId)
-    console.log(this.unClickedCard)
     const unClickedCard = document.getElementById(this.unClickedCard[0])
     if(unClickedCard) unClickedCard.style.background = 'white'
     if (card != null) card.style.background = 'rgb(117, 82, 117)'

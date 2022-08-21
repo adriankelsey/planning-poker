@@ -11,7 +11,8 @@
             </div>
             <div class="players-4-6">
                 <div class="player-4"></div>
-                <div class="player-5">{{card}}</div>
+                <div class="player-5" *ngIf="show==false"></div>
+                <div class="player-5" *ngIf="show==true">{{card.score}}</div>
                 <div class="player-6"></div>
             </div>
             <div class="players-7">
@@ -21,7 +22,7 @@
                 <div class="player-8"></div>
             </div> 
             <div class="button">
-                <button id="startVoteButton" mat-raised-button color="primary" (click)="startVote()">{{votingPhase.phase}}</button>
+                <button id="startVoteButton" mat-raised-button color="primary" (click)="votePhase()">{{votingPhase.phase}}</button>
             </div>
         </div>
     </div>
