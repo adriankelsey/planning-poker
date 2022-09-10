@@ -23,6 +23,8 @@ export class TableComponent implements OnInit {
     visible: false
   }
 
+  // playerScore = ''
+
   constructor() { }
 
   ngOnInit(): void {
@@ -31,6 +33,7 @@ export class TableComponent implements OnInit {
 
   receivedMessage($event: any){
     this.card.score = $event
+    // this.playerScore = $event
   }
 
   votePhase() {
@@ -38,14 +41,14 @@ export class TableComponent implements OnInit {
       this.votingPhase.phase = 'Finish Vote'
       this.votingPhase.banner = 'Voting has started'
       this.votingPhase.enabled = true
-      this.show = false
     } else if (this.votingPhase.phase == 'Finish Vote') {
-      // countdown before turning over cards
-      // also think about rescoring feature 
-      this.show = true
+      this.card.visible = true
       this.votingPhase.phase = 'Start Vote'
       this.votingPhase.enabled = false
       this.votingPhase.banner = ''
     }
   } 
+
+  
+
 }

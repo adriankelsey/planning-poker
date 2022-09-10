@@ -1,16 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, Input, OnInit } from '@angular/core';
+import { PlayerCard } from '../table/models/card.model';
 
 
 export interface User {
   name: string,
-  score: number,
+  score: string,
   rescore: number | null
 }
 
 
-const myDataArry: User[] = [
-{name: 'adrian', score: 2, rescore: 2}, 
-{name: 'adrian', score: 2, rescore: 1}]
+const myDataArry: User[] = []
 
 @Component({
   selector: 'app-menu',
@@ -21,11 +20,25 @@ export class MenuComponent implements OnInit {
 
   displayedColumns: string[] = ['name', 'score', 'rescore']
   dataSource = myDataArry
+  @Input() player: PlayerCard = {
+    score: '',
+    visible: false
+  }
 
   constructor() { }
 
   ngOnInit(): void {
-    const player = localStorage.getItem('username')
+    this.createUser()
+  }
+
+  createUser() {
+    const username = localStorage.getItem('username')
+    const user: User = {
+      name: username ?? '',
+      score: this.player.score, 
+      rescore: null
+    }
+    myDataArry.push(user)
   }
 
 }
