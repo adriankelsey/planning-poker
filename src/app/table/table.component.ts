@@ -24,29 +24,13 @@ export class TableComponent implements OnInit {
     rescoreVisible: false
   }
 
-  // playerScore = ''
-
   constructor() { }
 
   ngOnInit(): void {}
 
   receivedMessage($event: any){
     this.card.score = $event
-    // this.playerScore = $event
   }
-
-  // votePhase() {
-  //   if(this.votingPhase.phase == 'Start Vote') {
-  //     this.votingPhase.phase = 'Finish Vote'
-  //     this.votingPhase.banner = 'Voting has started'
-  //     this.votingPhase.enabled = true
-  //   } else if (this.votingPhase.phase == 'Finish Vote') {
-  //     this.card.visible = true
-  //     this.votingPhase.phase = 'Start Vote'
-  //     this.votingPhase.enabled = false
-  //     this.votingPhase.banner = ''
-  //   }
-  // } 
 
   startVote() {
     this.votingPhases.banner = 'VOTING HAS STARTED'
@@ -59,6 +43,7 @@ export class TableComponent implements OnInit {
     this.votingPhases.finishVisible = false
     this.votingPhases.resetVisible = true
     this.votingPhases.rescoreVisible = true
+    this.card.visible = true
   }
 
   resetVote() {
@@ -66,6 +51,7 @@ export class TableComponent implements OnInit {
     this.votingPhases.resetVisible = false
     this.votingPhases.rescoreVisible = false
     this.votingPhases.startVisible = true
+    this.card.visible = false
   }  
 
   rescoreVote() {
@@ -73,6 +59,7 @@ export class TableComponent implements OnInit {
     this.votingPhases.resetVisible = false
     this.votingPhases.rescoreVisible = false
     this.votingPhases.finishVisible = true
+    this.card.visible = false
   }
   
 

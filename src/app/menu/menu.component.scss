@@ -5,7 +5,10 @@
 
 .ticket-title {
     display: flex;
+    align-items: center;
     justify-content: center;
+    border-style: solid;
+    height: 15%;
 }
 
 table {
@@ -18,4 +21,9 @@ td {
     font-size: 22px;
     padding-left: 50px;
     padding-top: 25px;
+}
+
+#ticketName {
+    border-style: none;
+    height: 80%;
 }

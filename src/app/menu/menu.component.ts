@@ -20,12 +20,18 @@ export class MenuComponent implements OnInit {
 
   displayedColumns: string[] = ['name', 'score', 'rescore']
   dataSource = myDataArry
+  ticket = {
+    editVisible: false,
+    headerVisible: true,
+    name: 'Ticket Here'
+  }
   @Input() player: PlayerCard = {
     score: '',
     visible: false
   }
 
-  constructor() { }
+  constructor() { 
+  }
 
   ngOnInit(): void {
     this.createUser()
@@ -39,6 +45,17 @@ export class MenuComponent implements OnInit {
       rescore: null
     }
     myDataArry.push(user)
+  }
+
+  editTicket() {
+    this.ticket.editVisible = true
+    this.ticket.headerVisible = false
+  }
+
+  editTicketName(value: string) {
+    this.ticket.name = value
+    this.ticket.editVisible = false
+    this.ticket.headerVisible = true
   }
 
 }
