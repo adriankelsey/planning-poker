@@ -1,15 +1,16 @@
 import { Component, Injectable, Input, OnInit } from '@angular/core';
+import axios from 'axios';
 import { PlayerCard } from '../table/models/card.model';
 
 
 export interface User {
-  name: string,
+  name: any,
   score: string,
   rescore: number | null
 }
 
 
-const myDataArry: User[] = []
+const myDataArry: any[] = []
 
 @Component({
   selector: 'app-menu',
@@ -20,6 +21,7 @@ export class MenuComponent implements OnInit {
 
   displayedColumns: string[] = ['name', 'score', 'rescore']
   dataSource = myDataArry
+  users: any[] = []
   ticket = {
     editVisible: false,
     headerVisible: true,
@@ -34,17 +36,13 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.createUser()
+    this.getUsers()
   }
 
-  createUser() {
-    const username = localStorage.getItem('username')
-    const user: User = {
-      name: username ?? '',
-      score: this.player.score, 
-      rescore: null
-    }
-    myDataArry.push(user)
+  async getUsers() {
+    const users = await axios.get('http://localhost:3000/users')
+    myDataArry.push(users)
+    console.log(this.users)
   }
 
   editTicket() {
