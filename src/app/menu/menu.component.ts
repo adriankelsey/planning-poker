@@ -41,8 +41,9 @@ export class MenuComponent implements OnInit {
 
   async getUsers() {
     const users = await axios.get('http://localhost:3000/users')
-    myDataArry.push(users)
-    console.log(this.users)
+    for(let i = 0; i < users.data.length; i++){
+      myDataArry.push(users.data[i])
+    }
   }
 
   editTicket() {
