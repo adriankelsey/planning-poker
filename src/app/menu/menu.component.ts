@@ -1,4 +1,5 @@
-import { Component, Injectable, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 import axios from 'axios';
 import { PlayerCard } from '../table/models/card.model';
 
@@ -9,9 +10,6 @@ export interface User {
   rescore: number | null
 }
 
-
-const myDataArry: any[] = []
-
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
@@ -20,8 +18,8 @@ const myDataArry: any[] = []
 export class MenuComponent implements OnInit {
 
   displayedColumns: string[] = ['name', 'score', 'rescore']
-  dataSource = myDataArry
-  users: any[] = []
+  data = []
+  dataSource: MatTableDataSource<any> = new MatTableDataSource()
   ticket = {
     editVisible: false,
     headerVisible: true,
@@ -35,15 +33,16 @@ export class MenuComponent implements OnInit {
   constructor() { 
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.getUsers()
+    console.log(this.dataSource)
   }
 
   async getUsers() {
     const users = await axios.get('http://localhost:3000/users')
-    for(let i = 0; i < users.data.length; i++){
-      myDataArry.push(users.data[i])
-    }
+
+    this.dataSource = new MatTableDataSource(users.data)
+  
   }
 
   editTicket() {

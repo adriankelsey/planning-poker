@@ -27,9 +27,9 @@
                 <!-- finish vote button -->
                 <button *ngIf="votingPhases.finishVisible==true" id="startVoteButton" mat-raised-button color="primary" (click)="finishVote()">Finish Vote</button>
                 <!-- reset vote button -->
-                <button *ngIf="votingPhases.resetVisible==true" id="startVoteButton" mat-raised-button color="primary" (click)="resetVote()">Reset</button>
+                <button class="reset" *ngIf="votingPhases.resetVisible==true" id="startVoteButton" mat-raised-button color="primary" (click)="resetVote()">Reset</button>
                 <!-- rescore vote button -->
-                <button *ngIf="votingPhases.rescoreVisible==true" id="startVoteButton" mat-raised-button color="primary" (click)="rescoreVote()">Rescore</button>
+                <button class="rescore" *ngIf="votingPhases.rescoreVisible==true" id="startVoteButton" mat-raised-button color="primary" (click)="rescoreVote()">Rescore</button>
             </div>
         </div>
     </div>

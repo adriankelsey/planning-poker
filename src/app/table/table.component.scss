@@ -85,10 +85,19 @@
 }
 
 .voting-phase-banner {
-    border-style: solid;
     position: absolute;
     bottom: 93%;
     width: 60%;
     display: flex;
     justify-content: center;
+}
+
+.button {
+    display: flex;
+    width: 70%;
+    justify-content: center;
+}
+
+.reset {
+    margin-right: 10%;
 }
