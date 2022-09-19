@@ -6,14 +6,16 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./cards.component.scss'],
 })
 export class CardsComponent {
+  players: any = []
   cards: string[] = []
   clickedCard: string[] = []
   unClickedCard: string[] = []
   constructor() {}
   ngOnInit(): void {
   }
+
   @Output() cardEvent:EventEmitter<any> = new EventEmitter<any>();
-  onClick(event: Event) {
+  async onClick(event: Event) {
     const elementId = (event.target as Element).id;
     this.cardEvent.emit(elementId)
 

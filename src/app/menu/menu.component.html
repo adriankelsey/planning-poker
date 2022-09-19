@@ -1,6 +1,4 @@
 <div class="main-content">
-    <!-- TODO: 
-            - click edit text on ticket title.   -->
     <div class="ticket-title" (click)="editTicket()">
         <h1  *ngIf="ticket.headerVisible==true">{{ticket.name}}</h1>
         <input #txtVal (keydown.enter)="editTicketName(txtVal.value)" id="ticketName" *ngIf="ticket.editVisible==true" matInput placeholder={{ticket.name}}>
@@ -14,7 +12,7 @@
       <ng-container matColumnDef="score">
          <th mat-header-cell *matHeaderCellDef>score</th>
          <td mat-cell *matCellDef="let user">
-            <div *ngIf="player.visible==true">{{player.score}}</div>
+            <div *ngIf="player.visible==true">{{user.score}}</div>
          </td>
       </ng-container>
       <ng-container matColumnDef="rescore">

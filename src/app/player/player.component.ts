@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import axios from 'axios';
 import { CardsComponent } from '../cards/cards.component';
 
@@ -9,12 +9,13 @@ import { CardsComponent } from '../cards/cards.component';
 })
 export class PlayerComponent implements OnInit {
 
-  constructor(cardsComponent: CardsComponent) { }
+  constructor(private cardsComponent: CardsComponent) { }
 
   ngOnInit(): void {
     
   }
 
+  @Output() playerEvent:EventEmitter<any> = new EventEmitter<any>();
   async createPlayer(id: string) {
     const response = await axios.get('http://localhost:3000/users')
     let player = {
@@ -28,6 +29,6 @@ export class PlayerComponent implements OnInit {
       }
     });
 
-    console.log(player)
+    return player
   }
 }

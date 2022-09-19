@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import axios from 'axios';
 import * as uuid from 'uuid';
 import { PlayerComponent } from '../player/player.component';
+import { TableComponent } from '../table/table.component';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -10,7 +11,7 @@ import { PlayerComponent } from '../player/player.component';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private router: Router, private playerComponent: PlayerComponent) { }
+  constructor(private router: Router, private playerComponent: PlayerComponent, private tableComponent: TableComponent) { }
 
   ngOnInit(): void {
   }
@@ -24,6 +25,10 @@ export class LoginComponent implements OnInit {
       id: id
     })
 
-    this.playerComponent.createPlayer(id)
+    localStorage.setItem('playerName', name)
+
+    const createdPlayer = await this.playerComponent.createPlayer(id)
+
+    this.tableComponent.getPlayer(createdPlayer)
   }
 }

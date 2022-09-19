@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import axios from 'axios';
 import { PlayerCard } from '../table/models/card.model';
+import { TableComponent } from '../table/table.component';
 
 
 export interface User {
@@ -18,7 +19,6 @@ export interface User {
 export class MenuComponent implements OnInit {
 
   displayedColumns: string[] = ['name', 'score', 'rescore']
-  data = []
   dataSource: MatTableDataSource<any> = new MatTableDataSource()
   ticket = {
     editVisible: false,
@@ -38,10 +38,15 @@ export class MenuComponent implements OnInit {
   }
 
   async getUsers() {
-    const users = await axios.get('http://localhost:3000/users')
+    const user = await axios.get('http://localhost:3000/users')
 
-    this.dataSource = new MatTableDataSource(users.data)
+    this.dataSource = new MatTableDataSource(user.data)
   
+  }
+
+  async getUsersState(state: any) {
+    console.log(this.dataSource.data)
+    console.log(state.data)
   }
 
   editTicket() {

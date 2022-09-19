@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import axios from 'axios';
+import { MenuComponent } from '../menu/menu.component';
 import { PlayerCard } from './models/card.model';
 
 @Component({
@@ -8,11 +10,12 @@ import { PlayerCard } from './models/card.model';
 })
 export class TableComponent implements OnInit {
 
-  playerCard: PlayerCard[] = []
+  player: any
 
-  card: PlayerCard = {
+  playerState: any = {
     score: '',
-    visible: false
+    visible: true,
+    uuid: undefined
   }
 
   votingPhases = {
@@ -24,12 +27,28 @@ export class TableComponent implements OnInit {
     rescoreVisible: false
   }
 
-  constructor() { }
+  constructor(private menuComponent: MenuComponent) { }
 
   ngOnInit(): void {}
 
-  receivedMessage($event: any){
-    this.card.score = $event
+  getPlayer(player: any) {
+    localStorage.setItem(player.name, player.id)
+  }
+
+  async receivedMessage($event: any){
+    const playerName = localStorage.getItem('playerName') ?? ''
+    const uuid = localStorage.getItem(playerName);
+    const playerScore = $event
+
+    const playerState = {
+      playerName: playerName,
+      uuid: uuid,
+      playerScore: playerScore   
+    }
+
+    axios.post('http://localhost:3000/state', playerState)
+
+    this.playerState.uuid = playerState.uuid
   }
 
   startVote() {
@@ -38,12 +57,16 @@ export class TableComponent implements OnInit {
     this.votingPhases.startVisible = false
   }
 
-  finishVote() {
+  async finishVote() {
     this.votingPhases.banner = 'VOTING HAS FINISHED'
     this.votingPhases.finishVisible = false
     this.votingPhases.resetVisible = true
     this.votingPhases.rescoreVisible = true
-    this.card.visible = true
+    this.playerState.visible = true
+
+    const response = await axios.get('http://localhost:3000/state')
+
+    this.menuComponent.getUsersState(response)
   }
 
   resetVote() {
@@ -51,7 +74,7 @@ export class TableComponent implements OnInit {
     this.votingPhases.resetVisible = false
     this.votingPhases.rescoreVisible = false
     this.votingPhases.startVisible = true
-    this.card.visible = false
+    this.playerState.visible = false
   }  
 
   rescoreVote() {
@@ -59,7 +82,7 @@ export class TableComponent implements OnInit {
     this.votingPhases.resetVisible = false
     this.votingPhases.rescoreVisible = false
     this.votingPhases.finishVisible = true
-    this.card.visible = false
+    this.playerState.visible = false
   }
   
 

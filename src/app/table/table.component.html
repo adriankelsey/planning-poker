@@ -11,8 +11,8 @@
             </div>
             <div class="players-4-6">
                 <div class="player-4"></div>
-                <div class="player-5" *ngIf="card.visible==false"></div>
-                <div class="player-5" *ngIf="card.visible==true">{{card.score}}</div>
+                <div class="player-5" *ngIf="playerState.visible==false"></div>
+                <div class="player-5" *ngIf="playerState.visible==true">{{playerState.score}}</div>
                 <div class="player-6"></div>
             </div>
             <div class="players-7">
@@ -34,7 +34,7 @@
         </div>
     </div>
     <div class="menu">
-        <app-menu  [player]="card"></app-menu>
+        <app-menu  [player]="playerState"></app-menu>
     </div>
 </div>
 <app-cards (cardEvent)="receivedMessage($event)"></app-cards>
