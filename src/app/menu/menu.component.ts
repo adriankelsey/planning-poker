@@ -35,7 +35,6 @@ export class MenuComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.getUsers()
-    console.log(this.dataSource)
   }
 
   async getUsers() {

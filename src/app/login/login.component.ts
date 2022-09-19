@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import axios from 'axios';
-
+import * as uuid from 'uuid';
+import { PlayerComponent } from '../player/player.component';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -9,20 +10,20 @@ import axios from 'axios';
 })
 export class LoginComponent implements OnInit {
 
-  players: string[] = []
-
-  constructor(private router: Router) { }
+  constructor(private router: Router, private playerComponent: PlayerComponent) { }
 
   ngOnInit(): void {
   }
 
   async enterGame(name: string) {
-    localStorage.setItem('username', name)
+    const id = uuid.v4()
     this.router.navigateByUrl('/table')
-    this.players.push(name)
+    
     const response = await axios.post('http://localhost:3000/login', {
-      playerName: name
+      playerName: name,
+      id: id
     })
-  }
 
+    this.playerComponent.createPlayer(id)
+  }
 }

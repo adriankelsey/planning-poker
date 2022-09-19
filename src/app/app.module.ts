@@ -34,7 +34,7 @@ import { MenuComponent } from './menu/menu.component';
     AppRoutingModule,
     MatInputModule,
   ],
-  providers: [],
+  providers: [PlayerComponent, CardsComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
