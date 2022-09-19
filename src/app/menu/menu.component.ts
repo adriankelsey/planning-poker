@@ -38,15 +38,17 @@ export class MenuComponent implements OnInit {
   }
 
   async getUsers() {
-    const user = await axios.get('http://localhost:3000/users')
+    const user: any = await axios.get('http://localhost:3000/users')
 
-    this.dataSource = new MatTableDataSource(user.data)
-  
+    this.dataSource.connect().next(user.data)
+    console.log(this.dataSource.connect().subscribe((e) => {
+      console.log(e)
+    }))
+    console.log(this.dataSource.connect().pipe)
   }
 
   async getUsersState(state: any) {
-    console.log(this.dataSource.data)
-    console.log(state.data)
+    console.log(this.dataSource.connect())
   }
 
   editTicket() {
