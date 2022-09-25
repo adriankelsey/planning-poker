@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import axios from 'axios';
+import  Axios from  'axios-observable';
+import { Observable } from 'rxjs';
 import { PlayerCard } from '../table/models/card.model';
 import { TableComponent } from '../table/table.component';
 
@@ -8,8 +9,10 @@ import { TableComponent } from '../table/table.component';
 export interface User {
   name: any,
   score: string,
-  rescore: number | null
+
 }
+
+let users: any = []
 
 @Component({
   selector: 'app-menu',
@@ -18,8 +21,8 @@ export interface User {
 })
 export class MenuComponent implements OnInit {
 
-  displayedColumns: string[] = ['name', 'score', 'rescore']
-  dataSource: MatTableDataSource<any> = new MatTableDataSource()
+  displayedColumns: string[] = ['name', 'score']
+  dataSource: MatTableDataSource<any>= new MatTableDataSource()
   ticket = {
     editVisible: false,
     headerVisible: true,
@@ -34,22 +37,26 @@ export class MenuComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.getUsers()
+    //const usersState = await axios.get('http://localhost:3000/state')
+    //this.dataSource = usersState.data
   }
 
   async getUsers() {
-    const user: any = await axios.get('http://localhost:3000/users')
-
-    this.dataSource.connect().next(user.data)
-    console.log(this.dataSource.connect().subscribe((e) => {
-      console.log(e)
-    }))
-    console.log(this.dataSource.connect().pipe)
+    console.log('__________________')
+    const usersStates = await Axios.get('http://localhost:3000/state')
+    usersStates.subscribe((response) => {
+      this.dataSource.data = response.data
+      console.log(this.dataSource.data)
+    })
   }
 
-  async getUsersState(state: any) {
-    console.log(this.dataSource.connect())
-  }
+  //  async getUsersState(state: any) {
+  //   const test = [{playerName: 'AKAAAA', id: '7029fb12-ba52-4674-9566-9e77d580dbf3'}]
+  //   console.log('hello')
+  //   this.dataSource.connect().next(test)
+
+  
+  // }
 
   editTicket() {
     this.ticket.editVisible = true

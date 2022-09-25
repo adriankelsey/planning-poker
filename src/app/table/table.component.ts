@@ -27,7 +27,7 @@ export class TableComponent implements OnInit {
     rescoreVisible: false
   }
 
-  constructor(private menuComponent: MenuComponent) { }
+  constructor(public menuComponent: MenuComponent) { }
 
   ngOnInit(): void {}
 
@@ -42,7 +42,7 @@ export class TableComponent implements OnInit {
 
     const playerState = {
       playerName: playerName,
-      uuid: uuid,
+      uuid: uuid, 
       playerScore: playerScore   
     }
 
@@ -51,7 +51,7 @@ export class TableComponent implements OnInit {
     this.playerState.uuid = playerState.uuid
   }
 
-  startVote() {
+  async startVote() {
     this.votingPhases.banner = 'VOTING HAS STARTED'
     this.votingPhases.finishVisible = true
     this.votingPhases.startVisible = false
@@ -63,10 +63,7 @@ export class TableComponent implements OnInit {
     this.votingPhases.resetVisible = true
     this.votingPhases.rescoreVisible = true
     this.playerState.visible = true
-
-    const response = await axios.get('http://localhost:3000/state')
-
-    this.menuComponent.getUsersState(response)
+    await this.menuComponent.getUsers()
   }
 
   resetVote() {
