@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
+import { Subject } from 'rxjs';
 import { MenuComponent } from '../menu/menu.component';
+import { SharedService } from '../services/shared-service';
 import { PlayerCard } from './models/card.model';
 
 @Component({
@@ -9,8 +11,6 @@ import { PlayerCard } from './models/card.model';
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnInit {
-
-  player: any
 
   playerState: any = {
     score: '',
@@ -27,9 +27,15 @@ export class TableComponent implements OnInit {
     rescoreVisible: false
   }
 
-  constructor(public menuComponent: MenuComponent) { }
+  constructor(public menuComponent: MenuComponent, public sharedService: SharedService) { }
 
-  ngOnInit(): void {}
+  test: string = 'harry'
+
+  async ngOnInit(): Promise<void> {
+    const userStates = await this.getUserStates()
+    this.sharedService.subject.next(userStates)
+  }
+
 
   getPlayer(player: any) {
     localStorage.setItem(player.name, player.id)
@@ -37,18 +43,16 @@ export class TableComponent implements OnInit {
 
   async receivedMessage($event: any){
     const playerName = localStorage.getItem('playerName') ?? ''
-    const uuid = localStorage.getItem(playerName);
+    const uuid = localStorage.getItem('playerId');
     const playerScore = $event
 
     const playerState = {
       playerName: playerName,
-      uuid: uuid, 
+      id: uuid, 
       playerScore: playerScore   
     }
 
     axios.post('http://localhost:3000/state', playerState)
-
-    this.playerState.uuid = playerState.uuid
   }
 
   async startVote() {
@@ -62,8 +66,13 @@ export class TableComponent implements OnInit {
     this.votingPhases.finishVisible = false
     this.votingPhases.resetVisible = true
     this.votingPhases.rescoreVisible = true
-    this.playerState.visible = true
-    await this.menuComponent.getUsers()
+    this.playerState.visible = true;
+
+    const userStates = await this.getUserStates()
+
+    this.sharedService.subject.next(userStates)
+
+    this.menuComponent.test()
   }
 
   resetVote() {
@@ -81,6 +90,9 @@ export class TableComponent implements OnInit {
     this.votingPhases.finishVisible = true
     this.playerState.visible = false
   }
-  
 
+    async getUserStates() {
+    const usersStates = await axios.get('http://localhost:3000/state')
+    return usersStates.data
+  }
 }

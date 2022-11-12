@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
     })
 
     localStorage.setItem('playerName', name)
+    localStorage.setItem('playerId', id)
 
     const createdPlayer = await this.playerComponent.createPlayer(id)
 

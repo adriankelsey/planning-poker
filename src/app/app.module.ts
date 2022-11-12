@@ -14,6 +14,7 @@ import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './app-routing.module';
 import {MatInputModule} from '@angular/material/input';
 import { MenuComponent } from './menu/menu.component';
+import { SharedService } from './services/shared-service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +35,7 @@ import { MenuComponent } from './menu/menu.component';
     AppRoutingModule,
     MatInputModule,
   ],
-  providers: [PlayerComponent, CardsComponent, TableComponent, MenuComponent],
+  providers: [PlayerComponent, CardsComponent, TableComponent, MenuComponent, SharedService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

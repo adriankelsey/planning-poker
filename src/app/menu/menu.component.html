@@ -2,9 +2,8 @@
     <div class="ticket-title" (click)="editTicket()">
         <h1  *ngIf="ticket.headerVisible==true">{{ticket.name}}</h1>
         <input #txtVal (keydown.enter)="editTicketName(txtVal.value)" id="ticketName" *ngIf="ticket.editVisible==true" matInput placeholder={{ticket.name}}>
-    </div>
-    <div>
-   <button (click)="getUsers()">click</button>
+</div>
+<div>
     <table mat-table [dataSource]="dataSource">
       <ng-container matColumnDef="name">
          <th mat-header-cell *matHeaderCellDef>name</th>
@@ -13,7 +12,7 @@
       <ng-container matColumnDef="score">
          <th mat-header-cell *matHeaderCellDef>score</th>
          <td mat-cell *matCellDef="let user">
-            <div *ngIf="player.visible==true">{{user.playerScore}}</div>
+            <div>{{user.playerScore}}</div>
          </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
