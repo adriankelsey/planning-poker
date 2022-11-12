@@ -12,7 +12,7 @@
       <ng-container matColumnDef="score">
          <th mat-header-cell *matHeaderCellDef>score</th>
          <td mat-cell *matCellDef="let user">
-            <div>{{user.playerScore}}</div>
+            <div *ngIf="visible==true">{{user.playerScore}}</div>
          </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -31,10 +31,15 @@ export class MenuComponent implements OnInit {
     name: 'Ticket Here'
   }
   players: BehaviorSubject<any> = new BehaviorSubject<any>('')
+  visible: boolean = true
 
   constructor(public sharedService:SharedService) { 
     this.sharedService.subject.subscribe((value) => {
       this.dataSource.data = value
+    })
+
+    this.sharedService.scoresVisible.subscribe((value) => {
+      this.visible = value
     })
   }
 

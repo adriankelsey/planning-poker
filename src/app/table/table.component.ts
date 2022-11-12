@@ -27,6 +27,8 @@ export class TableComponent implements OnInit {
     rescoreVisible: false
   }
 
+  scoresVisible = false
+
   constructor(public menuComponent: MenuComponent, public sharedService: SharedService) { }
 
   test: string = 'harry'
@@ -59,6 +61,8 @@ export class TableComponent implements OnInit {
     this.votingPhases.banner = 'VOTING HAS STARTED'
     this.votingPhases.finishVisible = true
     this.votingPhases.startVisible = false
+
+    this.sharedService.scoresVisible.next(false)
   }
 
   async finishVote() {
@@ -72,10 +76,10 @@ export class TableComponent implements OnInit {
 
     this.sharedService.subject.next(userStates)
 
-    this.menuComponent.test()
+    this.sharedService.scoresVisible.next(true)
   }
 
-  resetVote() {
+  async resetVote() {
     this.votingPhases.banner = ''
     this.votingPhases.resetVisible = false
     this.votingPhases.rescoreVisible = false
@@ -89,6 +93,8 @@ export class TableComponent implements OnInit {
     this.votingPhases.rescoreVisible = false
     this.votingPhases.finishVisible = true
     this.playerState.visible = false
+
+    this.sharedService.scoresVisible.next(false)
   }
 
     async getUserStates() {
