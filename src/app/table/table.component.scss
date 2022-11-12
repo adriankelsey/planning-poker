@@ -15,7 +15,6 @@
     align-items: center;
     height: 100%;
     width: 100%;
-    border-style: solid;
 }
 
 .table {
@@ -80,8 +79,14 @@
 }
 
 .menu {
-    border-style: solid;
+    border-left: solid;
+    border-width: 1px;
     width: 60%;
+}
+
+.cards {
+    display: flex;
+    justify-content: center;
 }
 
 .voting-phase-banner {

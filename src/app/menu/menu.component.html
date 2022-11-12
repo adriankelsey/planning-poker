@@ -1,8 +1,3 @@
-<div class="main-content">
-    <div class="ticket-title" (click)="editTicket()">
-        <h1  *ngIf="ticket.headerVisible==true">{{ticket.name}}</h1>
-        <input #txtVal (keydown.enter)="editTicketName(txtVal.value)" id="ticketName" *ngIf="ticket.editVisible==true" matInput placeholder={{ticket.name}}>
-</div>
 <div>
     <table mat-table [dataSource]="dataSource">
       <ng-container matColumnDef="name">

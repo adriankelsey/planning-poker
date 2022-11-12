@@ -17,7 +17,8 @@ mat-card {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-width: 1px;
+    border-width: 0.5px;
+    border-radius: 10px;
     cursor: pointer;
 
     button {

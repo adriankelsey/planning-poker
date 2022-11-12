@@ -49,8 +49,17 @@ export class CardsComponent {
     const elementId = (event.target as Element).id;
     const card = document.getElementById(elementId)
     const unClickedCard = document.getElementById(this.unClickedCard[0])
+    const clickedCard = document.getElementById(this.clickedCard[0])
     if(unClickedCard) unClickedCard.style.background = 'white'
-    if (card != null) card.style.background = 'rgb(117, 82, 117)'
+    if (card != null) {
+      if(card === clickedCard) {
+        card.style.background = 'rgb(117, 82, 117)'
+        card.style.borderRadius = '10px'
+      } else {
+        card.style.background = 'rgb(189, 96, 255, 0.093)'
+        card.style.borderRadius = '10px'
+      }
+    }
   }
 
   mouseOut(event: Event) {
