@@ -34,8 +34,8 @@ export class TableComponent implements OnInit {
   test: string = 'harry'
 
   async ngOnInit(): Promise<void> {
-    const userStates = await this.getUserStates()
-    this.sharedService.subject.next(userStates)
+    const users = await axios.get('http://localhost:3000/users')
+    this.sharedService.subject.next(users.data)
   }
 
 
@@ -72,9 +72,36 @@ export class TableComponent implements OnInit {
     this.votingPhases.rescoreVisible = true
     this.playerState.visible = true;
 
-    const userStates = await this.getUserStates()
+    const users = await axios.get('http://localhost:3000/users')
 
-    this.sharedService.subject.next(userStates)
+    const userStates: [] = await this.getUserStates()
+
+    const updatedArray: any[] = []
+
+    userStates.forEach((state: any) => {
+      users.data.forEach((user: any) => {
+        if(state.id === user.id) updatedArray.push(state)
+      })
+    })
+
+    const test: any[] = []
+
+    users.data.forEach((user: any) => {
+      updatedArray.forEach((update: any) => {
+        if(update.id !== user.id) {
+          test.push(user)
+        }
+      })
+    })
+
+    const toFindDuplicates = test.filter((item, index) => test.indexOf(item) !== index)
+
+    toFindDuplicates.forEach((value) => {
+      updatedArray.push(value)
+    })
+
+    const toFindDuplicatesUpdate = updatedArray.filter((item, index) => updatedArray.indexOf(item) !== index)
+    this.sharedService.subject.next(toFindDuplicatesUpdate)
 
     this.sharedService.scoresVisible.next(true)
   }

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import axios from 'axios';
 import * as uuid from 'uuid';
 import { PlayerComponent } from '../player/player.component';
+import { SharedService } from '../services/shared-service';
 import { TableComponent } from '../table/table.component';
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ import { TableComponent } from '../table/table.component';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private router: Router, private playerComponent: PlayerComponent, private tableComponent: TableComponent) { }
+  constructor(private router: Router, private playerComponent: PlayerComponent, private tableComponent: TableComponent, private sharedService: SharedService) { }
 
   ngOnInit(): void {
   }
@@ -20,7 +21,7 @@ export class LoginComponent implements OnInit {
     const id = uuid.v4()
     this.router.navigateByUrl('/table')
     
-    const response = await axios.post('http://localhost:3000/login', {
+    await axios.post('http://localhost:3000/login', {
       playerName: name,
       id: id
     })
@@ -29,6 +30,9 @@ export class LoginComponent implements OnInit {
     localStorage.setItem('playerId', id)
 
     const createdPlayer = await this.playerComponent.createPlayer(id)
+
+    const users = await axios.get('http://localhost:3000/users')
+    this.sharedService.subject.next(users.data)
 
     this.tableComponent.getPlayer(createdPlayer)
   }

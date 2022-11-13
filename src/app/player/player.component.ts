@@ -19,13 +19,13 @@ export class PlayerComponent implements OnInit {
   async createPlayer(id: string) {
     const response = await axios.get('http://localhost:3000/users')
     let player = {
-      name: undefined,
+      playerName: undefined,
       id : id
     }
 
     response.data.forEach((element: any) => {
       if(element.id == id) {
-        player.name = element.playerName
+        player.playerName = element.playerName
       }
     });
 

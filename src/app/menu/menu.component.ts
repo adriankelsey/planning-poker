@@ -46,7 +46,9 @@ export class MenuComponent implements OnInit {
   @Input() data: any
 
 
-  ngOnInit() {
+  async ngOnInit() {
+
+
   }
 
   editTicket() {
