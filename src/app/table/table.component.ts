@@ -76,33 +76,13 @@ export class TableComponent implements OnInit {
 
     const userStates: [] = await this.getUserStates()
 
-    const updatedArray: any[] = []
-
-    userStates.forEach((state: any) => {
-      users.data.forEach((user: any) => {
-        if(state.id === user.id) updatedArray.push(state)
-      })
-    })
-
-    const test: any[] = []
-
     users.data.forEach((user: any) => {
-      updatedArray.forEach((update: any) => {
-        if(update.id !== user.id) {
-          test.push(user)
-        }
+      userStates.forEach((state: any) => {
+        if(user.id === state.id) user.playerScore = state.playerScore
       })
     })
 
-    const toFindDuplicates = test.filter((item, index) => test.indexOf(item) !== index)
-
-    toFindDuplicates.forEach((value) => {
-      updatedArray.push(value)
-    })
-
-    const toFindDuplicatesUpdate = updatedArray.filter((item, index) => updatedArray.indexOf(item) !== index)
-    this.sharedService.subject.next(toFindDuplicatesUpdate)
-
+    this.sharedService.subject.next(users.data)
     this.sharedService.scoresVisible.next(true)
   }
 

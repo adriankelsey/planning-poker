@@ -23,7 +23,8 @@ export class LoginComponent implements OnInit {
     
     await axios.post('http://localhost:3000/login', {
       playerName: name,
-      id: id
+      id: id,
+      playerScore: ''
     })
 
     localStorage.setItem('playerName', name)

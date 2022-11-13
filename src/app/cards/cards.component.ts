@@ -29,7 +29,7 @@ export class CardsComponent {
 
 
     if (card != null) {
-      card.style.background = 'rgb(117, 82, 117)'
+      card.style.background = 'rgba(255, 0, 0, 0.144)'
       this.clickedCard.push(card.id)
       if(this.clickedCard.length > 1) this.clickedCard.shift()
     }
@@ -39,7 +39,7 @@ export class CardsComponent {
     for(let i = 0; i < this.cards.length; i++) {
       if(i > 0) {
         const previousCard = document.getElementById(this.cards[i - 1])
-        if (previousCard != null) previousCard.style.background = 'white'
+        if (previousCard != null) previousCard.style.background = 'rgba(189, 189, 189, 0.144)'
         this.cards.shift()
       }
     }
@@ -53,10 +53,10 @@ export class CardsComponent {
     if(unClickedCard) unClickedCard.style.background = 'white'
     if (card != null) {
       if(card === clickedCard) {
-        card.style.background = 'rgb(117, 82, 117)'
+        card.style.background = 'rgba(255, 0, 0, 0.144)'
         card.style.borderRadius = '10px'
       } else {
-        card.style.background = 'rgb(189, 96, 255, 0.093)'
+        card.style.background = 'rgba(255, 0, 0, 0.144)'
         card.style.borderRadius = '10px'
       }
     }
@@ -68,10 +68,10 @@ export class CardsComponent {
     const clickedCard = document.getElementById(this.clickedCard[0])
 
     if(!clickedCard) {
-      if(card != null) card.style.background = 'white'
+      if(card != null) card.style.background = 'rgba(189, 189, 189, 0.144)'
     }
     if (card?.id != clickedCard?.id && clickedCard != null) {
-      if(card != null) card.style.background = 'white'
+      if(card != null) card.style.background = 'rgba(189, 189, 189, 0.144)'
     } 
   }
 }
