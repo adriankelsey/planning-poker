@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
     const id = uuid.v4()
     this.router.navigateByUrl('/table')
     
-    await axios.post('http://localhost:3000/login', {
+    await axios.post('http://localhost:3000/users/login', {
       playerName: name,
       id: id,
       playerScore: ''
