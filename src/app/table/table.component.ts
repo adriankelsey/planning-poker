@@ -33,8 +33,6 @@ export class TableComponent implements OnInit {
     public sharedService: SharedService
   ) {}
 
-  test: string = 'harry';
-
   async ngOnInit(): Promise<void> {
     const users = await axios.get('http://localhost:3000/users');
     this.sharedService.subject.next(users.data);

@@ -5,36 +5,37 @@ import * as uuid from 'uuid';
 import { PlayerComponent } from '../player/player.component';
 import { SharedService } from '../services/shared-service';
 import { TableComponent } from '../table/table.component';
+import { UsersService } from './services/users.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
+  constructor(
+    private router: Router,
+    private playerComponent: PlayerComponent,
+    private tableComponent: TableComponent,
+    private sharedService: SharedService,
+    private usersService: UsersService
+  ) {}
 
-  constructor(private router: Router, private playerComponent: PlayerComponent, private tableComponent: TableComponent, private sharedService: SharedService) { }
-
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   async enterGame(name: string) {
-    const id = uuid.v4()
-    this.router.navigateByUrl('/table')
-    
-    await axios.post('http://localhost:3000/users/login', {
-      playerName: name,
-      id: id,
-      playerScore: ''
-    })
+    const id = uuid.v4();
 
-    localStorage.setItem('playerName', name)
-    localStorage.setItem('playerId', id)
+    await this.usersService.createUser(name, id);
 
-    const createdPlayer = await this.playerComponent.createPlayer(id)
+    localStorage.setItem('playerName', name);
+    localStorage.setItem('playerId', id);
 
-    const users = await axios.get('http://localhost:3000/users')
-    this.sharedService.subject.next(users.data)
+    const createdPlayer = await this.playerComponent.createPlayer(id);
 
-    this.tableComponent.getPlayer(createdPlayer)
+    const users = await axios.get('http://localhost:3000/users');
+    this.sharedService.subject.next(users.data);
+
+    this.tableComponent.getPlayer(createdPlayer);
+    this.router.navigateByUrl('/table');
   }
 }
