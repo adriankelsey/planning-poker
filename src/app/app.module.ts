@@ -16,6 +16,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MenuComponent } from './menu/menu.component';
 import { SharedService } from './services/shared-service';
 import { UsersService } from './login/services/users.service';
+import { SocketIoConfig } from 'ngx-socket-io';
+
+const config: SocketIoConfig = {
+  url: 'http://localhost:3000', // socket server url;
+  options: {
+    transports: ['websocket'],
+  },
+};
 @NgModule({
   declarations: [
     AppComponent,

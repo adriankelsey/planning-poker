@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
+import { Socket } from 'ngx-socket-io';
 import { Subject } from 'rxjs';
 import { MenuComponent } from '../menu/menu.component';
 import { SharedService } from '../services/shared-service';
@@ -30,7 +31,8 @@ export class TableComponent implements OnInit {
 
   constructor(
     public menuComponent: MenuComponent,
-    public sharedService: SharedService
+    public sharedService: SharedService,
+    private socket: Socket
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -52,6 +54,8 @@ export class TableComponent implements OnInit {
       id: uuid,
       playerScore: playerScore,
     };
+
+    this.socket.emit('newMessage', 'hello');
 
     axios.post('http://localhost:3000/users/playerScore', playerState);
   }
