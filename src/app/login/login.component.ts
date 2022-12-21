@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  async enterGame(name: string) {
+  async login(name: string) {
     const id = uuid.v4();
 
     await this.usersService.createUser(name, id);
