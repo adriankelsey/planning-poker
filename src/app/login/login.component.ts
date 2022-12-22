@@ -4,6 +4,7 @@ import axios from 'axios';
 import * as uuid from 'uuid';
 import { PlayerComponent } from '../player/player.component';
 import { SharedService } from '../services/shared-service';
+import { SocketService } from '../services/socket.service';
 import { TableComponent } from '../table/table.component';
 import { UsersService } from './services/users.service';
 @Component({
@@ -17,7 +18,8 @@ export class LoginComponent implements OnInit {
     private playerComponent: PlayerComponent,
     private tableComponent: TableComponent,
     private sharedService: SharedService,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private socketService: SocketService
   ) {}
 
   ngOnInit(): void {}
@@ -37,5 +39,7 @@ export class LoginComponent implements OnInit {
 
     this.tableComponent.getPlayer(createdPlayer);
     this.router.navigateByUrl('/table');
+
+    this.socketService.connect();
   }
 }

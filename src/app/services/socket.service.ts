@@ -6,6 +6,10 @@ import * as io from 'socket.io-client';
 export class SocketService {
   constructor() {}
 
+  public connect() {
+    io.io('http://localhost:3000', { transports: ['websocket'] }).connect();
+  }
+
   public sendMessage(message: any) {
     io.io('http://localhost:3000', { transports: ['websocket'] }).emit(
       'newMessage',

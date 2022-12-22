@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { MenuComponent } from '../menu/menu.component';
 import { SharedService } from '../services/shared-service';
 import { PlayerCard } from './models/card.model';
-import { SocketService } from './services/socket.service';
+import { SocketService } from '../services/socket.service';
 
 @Component({
   selector: 'app-table',
