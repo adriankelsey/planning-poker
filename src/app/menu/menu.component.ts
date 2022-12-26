@@ -3,7 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import axios from 'axios';
 import Axios from 'axios-observable';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { SharedService } from '../services/shared-service';
+import { StateService } from '../services/shared-service';
 import { SocketService } from '../services/socket.service';
 import { PlayerCard } from '../table/models/card.model';
 import { TableComponent } from '../table/table.component';
@@ -12,8 +12,6 @@ export interface User {
   name: any;
   score: string;
 }
-
-let users: any = [];
 
 @Component({
   selector: 'app-menu',
@@ -32,18 +30,17 @@ export class MenuComponent implements OnInit {
   visible: boolean = true;
 
   constructor(
-    public sharedService: SharedService,
+    public stateService: StateService,
     public socketService: SocketService
   ) {
-    this.sharedService.subject.subscribe((value) => {
-      if (value.content) {
-        this.dataSource.data = value.content;
-      } else {
-        this.dataSource.data = value;
-      }
+    this.stateService.createPlayer.subscribe((value) => {
+      this.dataSource = value;
     });
-
-    this.sharedService.scoresVisible.subscribe((value) => {
+    this.stateService.playerScore.subscribe((value) => {
+      console.log(value);
+      this.dataSource = value;
+    });
+    this.stateService.scoresVisible.subscribe((value) => {
       this.visible = value.content;
     });
   }

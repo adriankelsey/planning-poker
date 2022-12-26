@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
 import { Subject } from 'rxjs';
 import { MenuComponent } from '../menu/menu.component';
-import { SharedService } from '../services/shared-service';
+import { StateService } from '../services/shared-service';
 import { PlayerCard } from './models/card.model';
 import { SocketService } from '../services/socket.service';
 
@@ -31,13 +31,16 @@ export class TableComponent implements OnInit {
 
   constructor(
     public menuComponent: MenuComponent,
-    public sharedService: SharedService,
+    public stateService: StateService,
     public socketService: SocketService
-  ) {}
+  ) {
+    this.socketService.getUsers();
+    this.socketService.onPlayerScore();
+  }
 
   async ngOnInit(): Promise<void> {
     const users = await axios.get('http://localhost:3000/users');
-    this.sharedService.subject.next(users.data);
+    this.stateService.playerScore.next(users.data);
   }
 
   getPlayer(player: any) {
@@ -45,7 +48,6 @@ export class TableComponent implements OnInit {
   }
 
   async receivedMessage($event: any) {
-    console.log('received message');
     const playerName = localStorage.getItem('playerName') ?? '';
     const uuid = localStorage.getItem('playerId');
     const playerScore = $event;
@@ -56,9 +58,7 @@ export class TableComponent implements OnInit {
       playerScore: playerScore,
     };
 
-    this.socketService.sendMessage(playerState);
-
-    axios.post('http://localhost:3000/users/playerScore', playerState);
+    this.socketService.sendPlayerScore(playerState);
   }
 
   async startVote() {
@@ -74,18 +74,6 @@ export class TableComponent implements OnInit {
     this.votingPhases.resetVisible = true;
     this.votingPhases.rescoreVisible = true;
     this.playerState.visible = true;
-
-    const users = await axios.get('http://localhost:3000/users');
-
-    const userStates: [] = await this.getUserStates();
-
-    users.data.forEach((user: any) => {
-      userStates.forEach((state: any) => {
-        if (user.id === state.id) user.playerScore = state.playerScore;
-      });
-    });
-
-    this.sharedService.subject.next(users.data);
     this.socketService.sendIsVisible(true);
   }
 
@@ -103,8 +91,7 @@ export class TableComponent implements OnInit {
     this.votingPhases.rescoreVisible = false;
     this.votingPhases.finishVisible = true;
     this.playerState.visible = false;
-
-    this.sharedService.scoresVisible.next(false);
+    this.stateService.scoresVisible.next(false);
   }
 
   async getUserStates() {

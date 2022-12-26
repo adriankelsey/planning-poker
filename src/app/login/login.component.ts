@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import axios from 'axios';
 import * as uuid from 'uuid';
 import { PlayerComponent } from '../player/player.component';
-import { SharedService } from '../services/shared-service';
+import { StateService } from '../services/shared-service';
 import { SocketService } from '../services/socket.service';
 import { TableComponent } from '../table/table.component';
 import { UsersService } from './services/users.service';
@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private playerComponent: PlayerComponent,
     private tableComponent: TableComponent,
-    private sharedService: SharedService,
+    private sharedService: StateService,
     private usersService: UsersService,
     private socketService: SocketService
   ) {}
@@ -26,18 +26,9 @@ export class LoginComponent implements OnInit {
 
   async login(name: string) {
     const id = uuid.v4();
-
     await this.usersService.createUser(name, id);
-
     localStorage.setItem('playerName', name);
     localStorage.setItem('playerId', id);
-
-    const createdPlayer = await this.playerComponent.createPlayer(id);
-
-    const users = await axios.get('http://localhost:3000/users');
-    this.sharedService.subject.next(users.data);
-
-    this.tableComponent.getPlayer(createdPlayer);
     this.router.navigateByUrl('/table');
   }
 }

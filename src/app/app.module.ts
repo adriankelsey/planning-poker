@@ -14,7 +14,7 @@ import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MatInputModule } from '@angular/material/input';
 import { MenuComponent } from './menu/menu.component';
-import { SharedService } from './services/shared-service';
+import { StateService } from './services/shared-service';
 import { UsersService } from './login/services/users.service';
 import { SocketService } from './services/socket.service';
 @NgModule({
@@ -42,7 +42,7 @@ import { SocketService } from './services/socket.service';
     CardsComponent,
     TableComponent,
     MenuComponent,
-    SharedService,
+    StateService,
     UsersService,
     SocketService,
   ],

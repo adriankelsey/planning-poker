@@ -1,28 +1,44 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import * as io from 'socket.io-client';
-import { SharedService } from './shared-service';
+import { StateService } from './shared-service';
 
 @Injectable()
 export class SocketService {
-  constructor(public sharedService: SharedService) {}
+  constructor(public stateService: StateService) {}
 
   public connect() {
     io.io('http://localhost:3000', { transports: ['websocket'] }).connect();
   }
 
-  public sendMessage(message: any) {
+  public sendPlayerScore(message: any) {
+    message.playerName = localStorage.getItem('playerName');
+    message.id = localStorage.getItem('playerId');
+    console.log(message);
     io.io('http://localhost:3000', { transports: ['websocket'] }).emit(
-      'newMessage',
+      'playerScore',
       message
     );
   }
 
-  public receiveMessage() {
+  public onPlayerScore() {
     let test = io.io('http://localhost:3000', { transports: ['websocket'] });
+    test.on('onPlayerScore', (x) => {
+      this.stateService.playerScore.next(x);
+    });
+  }
 
-    test.on('onMessage', (x) => {
-      this.sharedService.subject.next(x);
+  public createUser(user: any) {
+    io.io('http://localhost:3000', { transports: ['websocket'] }).emit(
+      'newUser',
+      user
+    );
+  }
+
+  public getUsers() {
+    let test = io.io('http://localhost:3000', { transports: ['websocket'] });
+    test.on('onNewUser', (x) => {
+      this.stateService.createPlayer.next(x);
     });
   }
 
@@ -31,17 +47,13 @@ export class SocketService {
       'isVisible',
       message
     );
-
     this.receiveIsVisible();
   }
 
   public receiveIsVisible() {
-    console.log('hello');
     let test = io.io('http://localhost:3000', { transports: ['websocket'] });
-
     test.on('onVisible', (x) => {
-      console.log(x);
-      this.sharedService.scoresVisible.next(x);
+      this.stateService.scoresVisible.next(x);
     });
   }
 }
