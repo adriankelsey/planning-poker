@@ -4,6 +4,7 @@ import axios from 'axios';
 import Axios from 'axios-observable';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { SharedService } from '../services/shared-service';
+import { SocketService } from '../services/socket.service';
 import { PlayerCard } from '../table/models/card.model';
 import { TableComponent } from '../table/table.component';
 
@@ -30,13 +31,24 @@ export class MenuComponent implements OnInit {
   players: BehaviorSubject<any> = new BehaviorSubject<any>('');
   visible: boolean = true;
 
-  constructor(public sharedService: SharedService) {
+  constructor(
+    public sharedService: SharedService,
+    public socketService: SocketService
+  ) {
     this.sharedService.subject.subscribe((value) => {
-      this.dataSource.data = value;
+      if (value.content) {
+        console.log(value.content);
+        this.dataSource.data = value.content;
+      } else {
+        console.log(value);
+        this.dataSource.data = value;
+      }
     });
 
     this.sharedService.scoresVisible.subscribe((value) => {
-      this.visible = value;
+      console.log('hello');
+      console.log(value);
+      this.visible = value.content;
     });
   }
 

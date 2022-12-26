@@ -39,7 +39,5 @@ export class LoginComponent implements OnInit {
 
     this.tableComponent.getPlayer(createdPlayer);
     this.router.navigateByUrl('/table');
-
-    this.socketService.connect();
   }
 }

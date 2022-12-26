@@ -33,7 +33,9 @@ export class TableComponent implements OnInit {
     public menuComponent: MenuComponent,
     public sharedService: SharedService,
     public socketService: SocketService
-  ) {}
+  ) {
+    console.log(this.socketService.receiveMessage());
+  }
 
   async ngOnInit(): Promise<void> {
     const users = await axios.get('http://localhost:3000/users');
@@ -57,8 +59,6 @@ export class TableComponent implements OnInit {
 
     this.socketService.sendMessage(playerState);
 
-    this.socketService.receiveMessage();
-
     axios.post('http://localhost:3000/users/playerScore', playerState);
   }
 
@@ -66,8 +66,7 @@ export class TableComponent implements OnInit {
     this.votingPhases.banner = 'VOTING HAS STARTED';
     this.votingPhases.finishVisible = true;
     this.votingPhases.startVisible = false;
-
-    this.sharedService.scoresVisible.next(false);
+    this.socketService.sendIsVisible(false);
   }
 
   async finishVote() {
@@ -88,7 +87,7 @@ export class TableComponent implements OnInit {
     });
 
     this.sharedService.subject.next(users.data);
-    this.sharedService.scoresVisible.next(true);
+    this.socketService.sendIsVisible(true);
   }
 
   async resetVote() {
