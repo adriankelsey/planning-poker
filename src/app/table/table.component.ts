@@ -33,9 +33,7 @@ export class TableComponent implements OnInit {
     public menuComponent: MenuComponent,
     public sharedService: SharedService,
     public socketService: SocketService
-  ) {
-    console.log(this.socketService.receiveMessage());
-  }
+  ) {}
 
   async ngOnInit(): Promise<void> {
     const users = await axios.get('http://localhost:3000/users');
@@ -47,6 +45,7 @@ export class TableComponent implements OnInit {
   }
 
   async receivedMessage($event: any) {
+    console.log('received message');
     const playerName = localStorage.getItem('playerName') ?? '';
     const uuid = localStorage.getItem('playerId');
     const playerScore = $event;

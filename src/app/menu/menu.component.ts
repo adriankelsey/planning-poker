@@ -37,17 +37,13 @@ export class MenuComponent implements OnInit {
   ) {
     this.sharedService.subject.subscribe((value) => {
       if (value.content) {
-        console.log(value.content);
         this.dataSource.data = value.content;
       } else {
-        console.log(value);
         this.dataSource.data = value;
       }
     });
 
     this.sharedService.scoresVisible.subscribe((value) => {
-      console.log('hello');
-      console.log(value);
       this.visible = value.content;
     });
   }
