@@ -39,12 +39,14 @@ export class TableComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    const users = await axios.get('http://localhost:3000/users');
-    this.stateService.playerScore.next(users.data);
+    this.socketService.getUsers();
+    await this.getUsers();
   }
 
-  getPlayer(player: any) {
-    localStorage.setItem(player.name, player.id);
+  async getUsers() {
+    const users = await axios.get('http://localhost:3000/users');
+    console.log(users.data);
+    return users.data;
   }
 
   async receivedMessage($event: any) {

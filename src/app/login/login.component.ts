@@ -15,14 +15,13 @@ import { UsersService } from './services/users.service';
 export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
-    private playerComponent: PlayerComponent,
-    private tableComponent: TableComponent,
-    private sharedService: StateService,
     private usersService: UsersService,
     private socketService: SocketService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.socketService.connect();
+  }
 
   async login(name: string) {
     const id = uuid.v4();

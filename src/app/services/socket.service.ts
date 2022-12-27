@@ -5,55 +5,49 @@ import { StateService } from './shared-service';
 
 @Injectable()
 export class SocketService {
+  connection: io.Socket | undefined;
   constructor(public stateService: StateService) {}
 
   public connect() {
-    io.io('http://localhost:3000', { transports: ['websocket'] }).connect();
+    let connection = io
+      .io('http://localhost:3000', { transports: ['websocket'] })
+      .connect();
+    this.connection = connection;
   }
 
-  public sendPlayerScore(message: any) {
-    message.playerName = localStorage.getItem('playerName');
-    message.id = localStorage.getItem('playerId');
-    console.log(message);
-    io.io('http://localhost:3000', { transports: ['websocket'] }).emit(
-      'playerScore',
-      message
-    );
+  public sendPlayerScore(score: any) {
+    let socket = this.connection;
+    socket?.emit('playerScore', score);
   }
 
   public onPlayerScore() {
-    let test = io.io('http://localhost:3000', { transports: ['websocket'] });
-    test.on('onPlayerScore', (x) => {
-      this.stateService.playerScore.next(x);
+    let socket = this.connection;
+    socket?.on('onPlayerScore', (score) => {
+      this.stateService.playerScore.next(score);
     });
   }
 
   public createUser(user: any) {
-    io.io('http://localhost:3000', { transports: ['websocket'] }).emit(
-      'newUser',
-      user
-    );
+    let socket = this.connection;
+    socket?.emit('newUser', user);
   }
 
   public getUsers() {
-    let test = io.io('http://localhost:3000', { transports: ['websocket'] });
-    test.on('onNewUser', (x) => {
-      this.stateService.createPlayer.next(x);
+    let socket = this.connection;
+    socket?.on('onNewUser', (newUser) => {
+      this.stateService.createPlayer.next(newUser);
     });
   }
 
-  public sendIsVisible(message: any) {
-    io.io('http://localhost:3000', { transports: ['websocket'] }).emit(
-      'isVisible',
-      message
-    );
-    this.receiveIsVisible();
+  public sendIsVisible(visible: any) {
+    let socket = this.connection;
+    socket?.emit('isVisible', visible);
   }
 
   public receiveIsVisible() {
-    let test = io.io('http://localhost:3000', { transports: ['websocket'] });
-    test.on('onVisible', (x) => {
-      this.stateService.scoresVisible.next(x);
+    let socket = this.connection;
+    socket?.on('onVisible', (visible) => {
+      this.stateService.scoresVisible.next(visible);
     });
   }
 }
