@@ -12,13 +12,14 @@ export class UsersService {
     public socketService: SocketService
   ) {}
 
-  public createUser(name: string, id: string) {
+  public async createUser(name: string, id: string) {
     const user: User = {
       id: id,
       playerName: name,
       playerScore: '',
     };
     try {
+      await axios.post('http://localhost:3000/users', user);
       this.socketService.createUser(user);
     } catch (x) {
       console.log(x);

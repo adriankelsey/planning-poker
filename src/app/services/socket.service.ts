@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import axios from 'axios';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import * as io from 'socket.io-client';
 import { StateService } from './shared-service';
@@ -32,7 +33,17 @@ export class SocketService {
     socket?.emit('newUser', user);
   }
 
+  public test() {
+    let socket = this.connection;
+    socket?.on('connect', async () => {
+      const users = await axios.get('http://localhost:3000/users');
+      this.stateService.createPlayer.next(users.data);
+      this.getUsers();
+    });
+  }
+
   public getUsers() {
+    console.log('hello');
     let socket = this.connection;
     socket?.on('onNewUser', (newUser) => {
       this.stateService.createPlayer.next(newUser);

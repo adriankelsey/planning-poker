@@ -38,14 +38,10 @@ export class TableComponent implements OnInit {
     this.socketService.onPlayerScore();
   }
 
-  async ngOnInit(): Promise<void> {
-    this.socketService.getUsers();
-    await this.getUsers();
-  }
+  async ngOnInit(): Promise<void> {}
 
   async getUsers() {
     const users = await axios.get('http://localhost:3000/users');
-    console.log(users.data);
     return users.data;
   }
 

@@ -1,8 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { NavigationEnd, Router } from '@angular/router';
 import axios from 'axios';
 import Axios from 'axios-observable';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, filter, Observable } from 'rxjs';
 import { StateService } from '../services/shared-service';
 import { SocketService } from '../services/socket.service';
 import { PlayerCard } from '../table/models/card.model';
@@ -28,16 +29,16 @@ export class MenuComponent implements OnInit {
   };
   players: BehaviorSubject<any> = new BehaviorSubject<any>('');
   visible: boolean = true;
-
   constructor(
     public stateService: StateService,
-    public socketService: SocketService
+    public socketService: SocketService,
+    public router: Router
   ) {
     this.stateService.createPlayer.subscribe((value) => {
+      console.log(value);
       this.dataSource = value;
     });
     this.stateService.playerScore.subscribe((value) => {
-      console.log(value);
       this.dataSource = value;
     });
     this.stateService.scoresVisible.subscribe((value) => {
@@ -47,7 +48,11 @@ export class MenuComponent implements OnInit {
 
   @Input() data: any;
 
-  async ngOnInit() {}
+  async ngOnInit() {
+    console.log('init');
+    this.socketService.connect();
+    this.socketService.test();
+  }
 
   editTicket() {
     this.ticket.editVisible = true;
