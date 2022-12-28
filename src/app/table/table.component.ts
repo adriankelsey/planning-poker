@@ -34,8 +34,8 @@ export class TableComponent implements OnInit {
     public stateService: StateService,
     public socketService: SocketService
   ) {
-    this.socketService.getUsers();
     this.socketService.onPlayerScore();
+    this.socketService.getUsers();
   }
 
   async ngOnInit(): Promise<void> {}
@@ -57,6 +57,13 @@ export class TableComponent implements OnInit {
     };
 
     this.socketService.sendPlayerScore(playerState);
+  }
+
+  async getUserStates() {
+    const usersStates = await axios.get(
+      'http://localhost:3000/users/playerScore'
+    );
+    return usersStates.data;
   }
 
   async startVote() {
@@ -90,12 +97,5 @@ export class TableComponent implements OnInit {
     this.votingPhases.finishVisible = true;
     this.playerState.visible = false;
     this.stateService.scoresVisible.next(false);
-  }
-
-  async getUserStates() {
-    const usersStates = await axios.get(
-      'http://localhost:3000/users/playerScore'
-    );
-    return usersStates.data;
   }
 }

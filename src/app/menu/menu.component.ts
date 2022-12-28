@@ -35,15 +35,15 @@ export class MenuComponent implements OnInit {
     public router: Router
   ) {
     this.stateService.createPlayer.subscribe((value) => {
-      console.log(value);
       this.dataSource = value;
     });
     this.stateService.playerScore.subscribe((value) => {
+      console.log(value);
       this.dataSource = value;
     });
-    this.stateService.scoresVisible.subscribe((value) => {
-      this.visible = value.content;
-    });
+    // this.stateService.scoresVisible.subscribe((value) => {
+    //   this.visible = value.content;
+    // });
   }
 
   @Input() data: any;
@@ -51,7 +51,7 @@ export class MenuComponent implements OnInit {
   async ngOnInit() {
     console.log('init');
     this.socketService.connect();
-    this.socketService.test();
+    this.socketService.onConnection();
   }
 
   editTicket() {

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import axios from 'axios';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import * as io from 'socket.io-client';
+import { User } from '../login/models/user.model';
 import { StateService } from './shared-service';
 
 @Injectable()
@@ -16,36 +17,39 @@ export class SocketService {
     this.connection = connection;
   }
 
-  public sendPlayerScore(score: any) {
+  public sendPlayerScore(playerState: any) {
     let socket = this.connection;
-    socket?.emit('playerScore', score);
+    socket?.emit('playerScore', playerState);
   }
 
   public onPlayerScore() {
+    console.log('hello');
     let socket = this.connection;
     socket?.on('onPlayerScore', (score) => {
       this.stateService.playerScore.next(score);
     });
   }
 
-  public createUser(user: any) {
+  public createUser(user: User) {
     let socket = this.connection;
+    user.connectionId = socket?.id;
     socket?.emit('newUser', user);
   }
 
-  public test() {
+  public onConnection() {
     let socket = this.connection;
     socket?.on('connect', async () => {
       const users = await axios.get('http://localhost:3000/users');
       this.stateService.createPlayer.next(users.data);
       this.getUsers();
+      this.onPlayerScore();
     });
   }
 
   public getUsers() {
-    console.log('hello');
     let socket = this.connection;
     socket?.on('onNewUser', (newUser) => {
+      console.log(newUser);
       this.stateService.createPlayer.next(newUser);
     });
   }
