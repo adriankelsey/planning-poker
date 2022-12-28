@@ -23,10 +23,19 @@ export class SocketService {
   }
 
   public onPlayerScore() {
-    console.log('hello');
     let socket = this.connection;
-    socket?.on('onPlayerScore', (score) => {
-      this.stateService.playerScore.next(score);
+    socket?.on('onPlayerScore', async (score) => {
+      const users = await axios.get('http://localhost:3000/users');
+      console.log('on player score method');
+      for (let i = 0; i < users.data.length; i++) {
+        for (let x = 0; x < score.length; x++) {
+          if (score[x].id === users.data[i].id) {
+            users.data[i].playerScore = score[x].playerScore;
+          }
+        }
+      }
+      console.log(users);
+      this.stateService.createPlayer.next(users.data);
     });
   }
 
@@ -40,6 +49,9 @@ export class SocketService {
     let socket = this.connection;
     socket?.on('connect', async () => {
       const users = await axios.get('http://localhost:3000/users');
+      // const playerState = await axios.get(
+      //   'http://localhost:3000/users/playerScore'
+      // );
       this.stateService.createPlayer.next(users.data);
       this.getUsers();
       this.onPlayerScore();
@@ -49,6 +61,7 @@ export class SocketService {
   public getUsers() {
     let socket = this.connection;
     socket?.on('onNewUser', (newUser) => {
+      console.log('new user');
       console.log(newUser);
       this.stateService.createPlayer.next(newUser);
     });

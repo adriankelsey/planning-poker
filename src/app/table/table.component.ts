@@ -56,6 +56,7 @@ export class TableComponent implements OnInit {
       playerScore: playerScore,
     };
 
+    // axios.post('http://localhost:3000/users/playerScore', playerState)
     this.socketService.sendPlayerScore(playerState);
   }
 
