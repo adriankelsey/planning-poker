@@ -20,7 +20,6 @@ export class UsersService {
       connectionId: '',
     };
     try {
-      console.log(await axios.get('http://localhost:3000/users/playerScore'));
       await axios.post('http://localhost:3000/users', user);
       this.socketService.createUser(user);
     } catch (x) {

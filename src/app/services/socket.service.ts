@@ -22,11 +22,11 @@ export class SocketService {
     socket?.emit('playerScore', playerState);
   }
 
-  public onPlayerScore() {
+  public async onPlayerScore() {
+    const scores = await axios.get('http://localhost:3000/users/playerScores');
     let socket = this.connection;
     socket?.on('onPlayerScore', async (score) => {
       const users = await axios.get('http://localhost:3000/users');
-      console.log('on player score method');
       for (let i = 0; i < users.data.length; i++) {
         for (let x = 0; x < score.length; x++) {
           if (score[x].id === users.data[i].id) {
@@ -34,8 +34,8 @@ export class SocketService {
           }
         }
       }
-      console.log(users);
       this.stateService.createPlayer.next(users.data);
+      await axios.post('http://localhost:3000/users/playerScores', users.data);
     });
   }
 
@@ -49,21 +49,28 @@ export class SocketService {
     let socket = this.connection;
     socket?.on('connect', async () => {
       const users = await axios.get('http://localhost:3000/users');
-      // const playerState = await axios.get(
-      //   'http://localhost:3000/users/playerScore'
-      // );
       this.stateService.createPlayer.next(users.data);
-      this.getUsers();
+      this.onNewUser();
       this.onPlayerScore();
     });
   }
 
-  public getUsers() {
+  // when logging into a new user it does not show the previous scores
+  // we want to display the previous scores when logging in
+  public onNewUser() {
+    console.log('adding new user');
     let socket = this.connection;
-    socket?.on('onNewUser', (newUser) => {
-      console.log('new user');
+    socket?.on('onNewUser', async (newUser) => {
       console.log(newUser);
-      this.stateService.createPlayer.next(newUser);
+      for (let i = 0; i < newUser.users.length; i++) {
+        for (let x = 0; x < newUser.scores.length; x++) {
+          if (newUser.users[i].id === newUser.scores[x].id) {
+            newUser.users[i].playerScore = newUser.scores[x].playerScore;
+          }
+        }
+      }
+
+      this.stateService.createPlayer.next(newUser.users);
     });
   }
 

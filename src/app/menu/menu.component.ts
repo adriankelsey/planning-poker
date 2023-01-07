@@ -35,6 +35,7 @@ export class MenuComponent implements OnInit {
     public router: Router
   ) {
     this.stateService.createPlayer.subscribe((value) => {
+      console.log(value);
       this.dataSource = value;
     });
     this.stateService.playerScore.subscribe((value) => {

@@ -35,7 +35,7 @@ export class TableComponent implements OnInit {
     public socketService: SocketService
   ) {
     this.socketService.onPlayerScore();
-    this.socketService.getUsers();
+    // this.socketService.onNewUser();
   }
 
   async ngOnInit(): Promise<void> {}
