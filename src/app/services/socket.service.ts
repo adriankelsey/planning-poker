@@ -34,6 +34,8 @@ export class SocketService {
         }
       }
       this.stateService.createPlayer.next(users.data);
+
+      axios.post('http://localhost:3000/users/playerScores', users.data);
     });
   }
 
@@ -44,9 +46,25 @@ export class SocketService {
   }
 
   public onConnection() {
+    console.log('socket service, on connection ======================>');
     let socket = this.connection;
     socket?.on('connect', async () => {
+      // on connection we get the users to use in the table of the menu component
+      // problem here is if there are already scores associated with a user they will not be applied
       const users = await axios.get('http://localhost:3000/users');
+      const playerScores = await axios.get(
+        'http://localhost:3000/users/playerScores'
+      );
+      for (let i = 0; i < users.data.length; i++) {
+        for (let x = 0; x < playerScores.data.length; x++) {
+          if (playerScores.data[x].id === users.data[i].id) {
+            console.log('change score!');
+            console.log(playerScores.data[x]);
+            console.log(users.data[i]);
+            users.data[i].playerScore = playerScores.data[x].playerScore;
+          }
+        }
+      }
       this.stateService.createPlayer.next(users.data);
       this.onNewUser();
       this.onPlayerScore();
