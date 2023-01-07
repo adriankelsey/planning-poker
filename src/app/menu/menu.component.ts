@@ -34,6 +34,7 @@ export class MenuComponent implements OnInit {
     public socketService: SocketService,
     public router: Router
   ) {
+    // lets delete one of these and only use one observable to update the table
     this.stateService.createPlayer.subscribe((value) => {
       console.log(value);
       this.dataSource = value;

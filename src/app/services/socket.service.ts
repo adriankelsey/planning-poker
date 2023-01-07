@@ -23,7 +23,6 @@ export class SocketService {
   }
 
   public async onPlayerScore() {
-    const scores = await axios.get('http://localhost:3000/users/playerScores');
     let socket = this.connection;
     socket?.on('onPlayerScore', async (score) => {
       const users = await axios.get('http://localhost:3000/users');
@@ -35,7 +34,6 @@ export class SocketService {
         }
       }
       this.stateService.createPlayer.next(users.data);
-      await axios.post('http://localhost:3000/users/playerScores', users.data);
     });
   }
 
@@ -58,10 +56,8 @@ export class SocketService {
   // when logging into a new user it does not show the previous scores
   // we want to display the previous scores when logging in
   public onNewUser() {
-    console.log('adding new user');
     let socket = this.connection;
     socket?.on('onNewUser', async (newUser) => {
-      console.log(newUser);
       for (let i = 0; i < newUser.users.length; i++) {
         for (let x = 0; x < newUser.scores.length; x++) {
           if (newUser.users[i].id === newUser.scores[x].id) {
