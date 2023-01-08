@@ -15,7 +15,6 @@
   align-items: center;
   height: 100%;
   width: 100%;
-  background-color: rgb(223, 223, 223);
 }
 
 .table {
@@ -86,9 +85,8 @@
 }
 
 .menu {
-  border-left: solid;
-  border-width: 1px;
-  width: 50%;
+  position: absolute;
+  background-color: rgba(255, 145, 0, 0);
 }
 
 .cards {
@@ -121,6 +119,7 @@ button {
 
 .poker-table {
   width: 200%;
+  height: 400%;
   position: absolute;
 }
 

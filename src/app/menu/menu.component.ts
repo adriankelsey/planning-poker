@@ -20,7 +20,7 @@ export interface User {
   styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'score'];
+  displayedColumns: string[] = ['name', 'score', 'test'];
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
   ticket = {
     editVisible: false,
