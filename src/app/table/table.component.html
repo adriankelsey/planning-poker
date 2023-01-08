@@ -1,43 +1,85 @@
 <div class="main-content">
-    <div class="table-view">
-        <div class="voting-phase-banner">
-            <h1>{{votingPhases.banner}}</h1>
-        </div>
-        <div class="table">
-            <img class="poker-table" src="/assets/pokertable.png">
-            <div class="players-1-3">
-                <img class="player-1" src="/assets/card.png">
-                <img class="player-2" src="/assets/card.png">
-                <img class="player-3" src="/assets/card.png">
-            </div>
-            <div class="players-4-6">
-                <img class="player-4" src="/assets/card.png">
-                <img class="player-5" src="/assets/card.png" *ngIf="playerState.visible==false">
-                <img class="player-5"  src="/assets/card.png"*ngIf="playerState.visible==true">
-                <img class="player-6"  src="/assets/card.png">
-            </div>
-            <div class="players-7">
-                <img class="player-7" src="/assets/card.png">
-            </div>
-            <div class="players-8">
-                <img class="player-8" src="/assets/card.png">
-            </div> 
-            <div class="button">
-                <!-- start vote button -->
-                <button *ngIf="votingPhases.startVisible==true" id="startVoteButton" mat-raised-button color="primary" (click)="startVote()"> Start Vote</button>
-                <!-- finish vote button -->
-                <button *ngIf="votingPhases.finishVisible==true" id="startVoteButton" mat-raised-button color="primary" (click)="finishVote()">Finish Vote</button>
-                <!-- reset vote button -->
-                <button class="reset" *ngIf="votingPhases.resetVisible==true" id="startVoteButton" mat-raised-button color="primary" (click)="resetVote()">Reset</button>
-                <!-- rescore vote button -->
-                <button class="rescore" *ngIf="votingPhases.rescoreVisible==true" id="startVoteButton" mat-raised-button color="primary" (click)="rescoreVote()">Rescore</button>
-            </div>
-        </div>
+  <div class="table-view">
+    <div class="voting-phase-banner">
+      <h1>{{ votingPhases.banner }}</h1>
     </div>
-    <div class="menu">
-        <app-menu></app-menu>
+    <div class="table">
+      <img class="poker-table" src="/assets/pokertable.png" />
+      <div class="players-1-3">
+        <img class="player-1" src="/assets/card.png" />
+        <img class="player-2" src="/assets/card.png" />
+        <img class="player-3" src="/assets/card.png" />
+      </div>
+      <div class="players-4-6">
+        <img class="player-4" src="/assets/card.png" />
+        <img
+          class="player-5"
+          src="/assets/card.png"
+          *ngIf="playerState.visible == false"
+        />
+        <img
+          class="player-5"
+          src="/assets/card.png"
+          *ngIf="playerState.visible == true"
+        />
+        <img class="player-6" src="/assets/card.png" />
+      </div>
+      <div class="players-7">
+        <img class="player-7" src="/assets/card.png" />
+      </div>
+      <div class="players-8">
+        <img class="player-8" src="/assets/card.png" />
+      </div>
+      <div class="button">
+        <!-- start vote button -->
+        <button
+          *ngIf="votingPhases.startVisible == true"
+          id="startVoteButton"
+          mat-raised-button
+          color="accent"
+          (click)="startVote()"
+        >
+          Start Vote
+        </button>
+        <!-- finish vote button -->
+        <button
+          *ngIf="votingPhases.finishVisible == true"
+          id="startVoteButton"
+          mat-raised-button
+          color="accent"
+          (click)="finishVote()"
+        >
+          Finish Vote
+        </button>
+        <!-- reset vote button -->
+        <button
+          class="reset"
+          *ngIf="votingPhases.resetVisible == true"
+          id="startVoteButton"
+          mat-raised-button
+          color="accent"
+          (click)="resetVote()"
+        >
+          Reset
+        </button>
+        <!-- rescore vote button -->
+        <button
+          class="rescore"
+          *ngIf="votingPhases.rescoreVisible == true"
+          id="startVoteButton"
+          mat-raised-button
+          color="accent"
+          (click)="rescoreVote()"
+        >
+          Rescore
+        </button>
+      </div>
     </div>
+  </div>
+  <div class="menu">
+    <app-menu></app-menu>
+  </div>
 </div>
 <div class="cards">
-    <app-cards (cardEvent)="receivedMessage($event)"></app-cards>
+  <app-cards (cardEvent)="receivedMessage($event)"></app-cards>
 </div>

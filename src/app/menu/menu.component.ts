@@ -36,22 +36,19 @@ export class MenuComponent implements OnInit {
   ) {
     // lets delete one of these and only use one observable to update the table
     this.stateService.createPlayer.subscribe((value) => {
-      console.log(value);
       this.dataSource = value;
     });
     this.stateService.playerScore.subscribe((value) => {
-      console.log(value);
       this.dataSource = value;
     });
-    // this.stateService.scoresVisible.subscribe((value) => {
-    //   this.visible = value.content;
-    // });
+    this.stateService.scoresVisible.subscribe((value) => {
+      this.visible = value.content;
+    });
   }
 
   @Input() data: any;
 
   async ngOnInit() {
-    console.log('init');
     this.socketService.connect();
     this.socketService.onConnection();
   }

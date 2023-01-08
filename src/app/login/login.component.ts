@@ -25,19 +25,16 @@ export class LoginComponent implements OnInit {
 
   async login(name: string) {
     if (localStorage.getItem('playerName')) {
-      console.log('overwrite new player');
       const id = localStorage.getItem('playerId');
       localStorage.removeItem('playerName');
       localStorage.setItem('playerName', name);
       await this.usersService.createUser(name, id);
-      console.log(localStorage);
       this.router.navigateByUrl('/table');
     } else {
       const id = uuid.v4();
       await this.usersService.createUser(name, id);
       localStorage.setItem('playerName', name);
       localStorage.setItem('playerId', id);
-      console.log(localStorage);
       this.router.navigateByUrl('/table');
     }
   }

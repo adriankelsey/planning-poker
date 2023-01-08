@@ -68,6 +68,7 @@ export class SocketService {
       this.stateService.createPlayer.next(users.data);
       this.onNewUser();
       this.onPlayerScore();
+      this.onIsVisible();
     });
   }
 
@@ -91,9 +92,10 @@ export class SocketService {
   public sendIsVisible(visible: any) {
     let socket = this.connection;
     socket?.emit('isVisible', visible);
+    this.onIsVisible();
   }
 
-  public receiveIsVisible() {
+  public onIsVisible() {
     let socket = this.connection;
     socket?.on('onVisible', (visible) => {
       this.stateService.scoresVisible.next(visible);
