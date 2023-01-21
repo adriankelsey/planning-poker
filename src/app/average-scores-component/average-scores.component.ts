@@ -16,7 +16,11 @@ export class AverageScoresComponent implements OnInit {
   average: BehaviorSubject<number> = new BehaviorSubject(0);
   sum: BehaviorSubject<number> = new BehaviorSubject(0);
   users: BehaviorSubject<any[]> = new BehaviorSubject([] as any[]);
+  isVisible: BehaviorSubject<boolean> = new BehaviorSubject(false);
   constructor(private stateService: StateService) {
+    this.stateService.scoresVisible.subscribe((isVisible) => {
+      if (isVisible) this.isVisible.next(isVisible.content.visible);
+    });
     this.stateService.averageScore.subscribe((userData) => {
       if (userData) {
         let users: any[] = [];
@@ -27,20 +31,11 @@ export class AverageScoresComponent implements OnInit {
           }
         }
       }
-
-      // if (users.length > 0) {
-      //   let sum: number = users.reduce(
-      //     (a, b) => parseInt(a.playerScore) + parseInt(b.playerScore)
-      //   );
-      //   let average: number = sum / users.length;
-      //   this.average.next(average);
-      // }
     });
 
     this.users.subscribe((users) => {
       let scores = [];
       for (let i = 0; i < users.length; i++) {
-        console.log(users[i]);
         scores.push(users[i].playerScore);
       }
 
@@ -50,10 +45,6 @@ export class AverageScoresComponent implements OnInit {
 
         this.average.next(average);
       }
-    });
-
-    this.average.subscribe((value) => {
-      console.log(value);
     });
   }
 

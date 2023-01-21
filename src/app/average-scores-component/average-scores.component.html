@@ -1,4 +1,6 @@
 <div class="main">
   <h1 class="header">Average Score</h1>
-  <div class="average">{{ average.getValue() }}</div>
+  <div class="average" *ngIf="isVisible.getValue()">
+    {{ average.getValue() }}
+  </div>
 </div>
