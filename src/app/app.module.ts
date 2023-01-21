@@ -17,6 +17,7 @@ import { TableComponent } from './table-component/table.component';
 import { StateService } from './services/shared-service';
 import { UsersService } from './login-component/services/users.service';
 import { SocketService } from './services/socket.service';
+import { AverageScoresComponent } from './average-scores-component/average-scores.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,6 +26,7 @@ import { SocketService } from './services/socket.service';
     MainComponent,
     LoginComponent,
     TableComponent,
+    AverageScoresComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,6 +47,7 @@ import { SocketService } from './services/socket.service';
     StateService,
     UsersService,
     SocketService,
+    AverageScoresComponent,
   ],
   bootstrap: [AppComponent],
 })

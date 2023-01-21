@@ -7,6 +7,7 @@ import { CardsComponent } from '../cards-component/cards.component';
   templateUrl: './player.component.html',
   styleUrls: ['./player.component.scss'],
 })
+// move this component into it's own service
 export class PlayerComponent implements OnInit {
   constructor(private cardsComponent: CardsComponent) {}
 

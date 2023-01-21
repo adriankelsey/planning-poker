@@ -33,7 +33,7 @@ export class SocketService {
           }
         }
       }
-      this.stateService.createPlayer.next(users.data);
+      this.stateService.userData.next(users.data);
 
       axios.post('http://localhost:3000/users/playerScores', users.data);
     });
@@ -59,7 +59,7 @@ export class SocketService {
           }
         }
       }
-      this.stateService.createPlayer.next(users.data);
+      this.stateService.userData.next(users.data);
       this.onNewUser();
       this.onPlayerScore();
       this.onIsVisible();
@@ -77,7 +77,7 @@ export class SocketService {
         }
       }
 
-      this.stateService.createPlayer.next(newUser.users);
+      this.stateService.userData.next(newUser.users);
     });
   }
 
