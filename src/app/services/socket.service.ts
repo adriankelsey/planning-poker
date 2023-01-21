@@ -89,9 +89,11 @@ export class SocketService {
     });
   }
 
-  public sendIsVisible(visible: any) {
+  public sendIsVisible(visible: any, votingPhase: string) {
+    console.log('hello');
+    console.log(visible);
     let socket = this.connection;
-    socket?.emit('isVisible', visible);
+    socket?.emit('isVisible', { visible: visible, votingPhase: votingPhase });
     this.onIsVisible();
   }
 

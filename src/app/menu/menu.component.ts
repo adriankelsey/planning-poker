@@ -7,7 +7,10 @@ import { BehaviorSubject, filter, Observable } from 'rxjs';
 import { StateService } from '../services/shared-service';
 import { SocketService } from '../services/socket.service';
 import { PlayerCard } from '../table/models/card.model';
-import { TableComponent } from '../table/table.component';
+import {
+  isVisibleRecievedMessage,
+  TableComponent,
+} from '../table/table.component';
 
 export interface User {
   name: any;
@@ -41,9 +44,13 @@ export class MenuComponent implements OnInit {
     this.stateService.playerScore.subscribe((value) => {
       this.dataSource = value;
     });
-    this.stateService.scoresVisible.subscribe((value) => {
-      this.visible = value.content;
-    });
+    this.stateService.scoresVisible.subscribe(
+      (value: isVisibleRecievedMessage) => {
+        console.log('captain');
+        console.log(value);
+        if (value.content) this.visible = value.content.visible;
+      }
+    );
   }
 
   @Input() data: any;
