@@ -33,12 +33,9 @@ export class TableComponent implements OnInit {
     public router: Router
   ) {
     this.stateService.userData.subscribe((value) => {
-      console.log(value);
       this.dataSource = value;
+      this.stateService.averageScore.next(value);
     });
-    // this.stateService.playerScore.subscribe((value) => {
-    //   this.dataSource = value;
-    // });
     this.stateService.scoresVisible.subscribe(
       (value: isVisibleRecievedMessage) => {
         if (value.content) this.visible = value.content.visible;

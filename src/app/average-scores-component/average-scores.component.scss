@@ -1,6 +1,18 @@
 .main {
-  display: flex;
+  display: flexbox;
   justify-content: center;
   width: 100%;
   height: 100%;
+}
+
+h1 {
+  display: flex;
+  justify-content: center;
+}
+
+.average {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  font-size: 36px;
 }
