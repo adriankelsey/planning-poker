@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import axios from 'axios';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import * as io from 'socket.io-client';
-import { User } from '../login/models/user.model';
+import { User } from '../login-component/models/user.model';
 import { StateService } from './shared-service';
 
 @Injectable()

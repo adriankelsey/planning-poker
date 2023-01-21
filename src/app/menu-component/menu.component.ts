@@ -6,11 +6,11 @@ import Axios from 'axios-observable';
 import { BehaviorSubject, filter, Observable } from 'rxjs';
 import { StateService } from '../services/shared-service';
 import { SocketService } from '../services/socket.service';
-import { PlayerCard } from '../table/models/card.model';
+import { PlayerCard } from '../main-component/models/card.model';
 import {
   isVisibleRecievedMessage,
-  TableComponent,
-} from '../table/table.component';
+  MainComponent,
+} from '../main-component/main.component';
 
 export interface User {
   name: any;
@@ -25,11 +25,6 @@ export interface User {
 export class MenuComponent implements OnInit {
   displayedColumns: string[] = ['name', 'score', 'test'];
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
-  ticket = {
-    editVisible: false,
-    headerVisible: true,
-    name: 'Ticket Here',
-  };
   players: BehaviorSubject<any> = new BehaviorSubject<any>('');
   visible: boolean = true;
   constructor(
@@ -37,7 +32,6 @@ export class MenuComponent implements OnInit {
     public socketService: SocketService,
     public router: Router
   ) {
-    // lets delete one of these and only use one observable to update the table
     this.stateService.createPlayer.subscribe((value) => {
       this.dataSource = value;
     });
@@ -46,8 +40,6 @@ export class MenuComponent implements OnInit {
     });
     this.stateService.scoresVisible.subscribe(
       (value: isVisibleRecievedMessage) => {
-        console.log('captain');
-        console.log(value);
         if (value.content) this.visible = value.content.visible;
       }
     );
@@ -58,16 +50,5 @@ export class MenuComponent implements OnInit {
   async ngOnInit() {
     this.socketService.connect();
     this.socketService.onConnection();
-  }
-
-  editTicket() {
-    this.ticket.editVisible = true;
-    this.ticket.headerVisible = false;
-  }
-
-  editTicketName(value: string) {
-    this.ticket.name = value;
-    this.ticket.editVisible = false;
-    this.ticket.headerVisible = true;
   }
 }

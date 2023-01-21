@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import axios from 'axios';
 import * as uuid from 'uuid';
-import { PlayerComponent } from '../player/player.component';
+import { PlayerComponent } from '../player-component/player.component';
 import { StateService } from '../services/shared-service';
 import { SocketService } from '../services/socket.service';
-import { TableComponent } from '../table/table.component';
+import { MainComponent } from '../main-component/main.component';
 import { UsersService } from './services/users.service';
 @Component({
   selector: 'app-login',
