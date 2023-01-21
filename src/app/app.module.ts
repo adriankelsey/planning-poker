@@ -13,7 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { LoginComponent } from './login-component/login.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MatInputModule } from '@angular/material/input';
-import { MenuComponent } from './menu-component/menu.component';
+import { TableComponent } from './table-component/table.component';
 import { StateService } from './services/shared-service';
 import { UsersService } from './login-component/services/users.service';
 import { SocketService } from './services/socket.service';
@@ -24,7 +24,7 @@ import { SocketService } from './services/socket.service';
     PlayerComponent,
     MainComponent,
     LoginComponent,
-    MenuComponent,
+    TableComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,7 +41,7 @@ import { SocketService } from './services/socket.service';
     PlayerComponent,
     CardsComponent,
     MainComponent,
-    MenuComponent,
+    TableComponent,
     StateService,
     UsersService,
     SocketService,

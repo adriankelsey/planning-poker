@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { MenuComponent } from '../menu-component/menu.component';
+import { TableComponent } from '../table-component/table.component';
 import { StateService } from '../services/shared-service';
 import { PlayerCard } from './models/card.model';
 import { SocketService } from '../services/socket.service';
@@ -16,8 +16,8 @@ export type isVisibleRecievedMessage = {
 
 @Component({
   selector: 'app-table',
-  templateUrl: 'main.component.html',
-  styleUrls: ['main.component.scss'],
+  templateUrl: './main.component.html',
+  styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
   playerState: any = {
@@ -41,7 +41,7 @@ export class MainComponent implements OnInit {
   scoresVisible = false;
 
   constructor(
-    public menuComponent: MenuComponent,
+    public menuComponent: TableComponent,
     public stateService: StateService,
     public socketService: SocketService
   ) {

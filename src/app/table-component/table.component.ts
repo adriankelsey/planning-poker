@@ -19,10 +19,10 @@ export interface User {
 
 @Component({
   selector: 'app-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss'],
+  templateUrl: './table.component.html',
+  styleUrls: ['./table.component.scss'],
 })
-export class MenuComponent implements OnInit {
+export class TableComponent implements OnInit {
   displayedColumns: string[] = ['name', 'score', 'test'];
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
   players: BehaviorSubject<any> = new BehaviorSubject<any>('');
