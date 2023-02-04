@@ -31,9 +31,11 @@ export class SocketService {
         for (let x = 0; x < state.length; x++) {
           if (state[x].id === users.data[i].id) {
             users.data[i].playerScore = state[x].playerScore;
+            users.data[i].voted = state[x].voted;
           }
         }
       }
+
       this.stateService.userData.next(users.data);
 
       axios.post('http://localhost:3000/users/playerScores', users.data);
@@ -57,6 +59,7 @@ export class SocketService {
         for (let x = 0; x < playerScores.data.length; x++) {
           if (playerScores.data[x].id === users.data[i].id) {
             users.data[i].playerScore = playerScores.data[x].playerScore;
+            users.data[i].voted = playerScores.data[x].voted;
           }
         }
       }

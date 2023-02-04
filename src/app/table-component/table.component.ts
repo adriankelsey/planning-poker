@@ -11,6 +11,7 @@ import {
   isVisibleRecievedMessage,
   MainComponent,
 } from '../main-component/main.component';
+import { PlayerState } from '../main-component/models/player-state.model';
 
 export interface User {
   name: any;
