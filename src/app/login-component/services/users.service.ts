@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
 import { Socket } from 'socket.io-client';
-import { StateService } from 'src/app/services/shared-service';
+import { StateService } from 'src/app/services/shared.service';
 import { SocketService } from 'src/app/services/socket.service';
 import { User } from '../models/user.model';
 

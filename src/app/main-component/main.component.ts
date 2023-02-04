@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { TableComponent } from '../table-component/table.component';
-import { StateService } from '../services/shared-service';
+import { StateService } from '../services/shared.service';
 import { PlayerCard } from './models/card.model';
 import { SocketService } from '../services/socket.service';
+import { PlayerState } from './models/player-state.model';
 
 export type isVisibleRecievedMessage = {
   msge: string;
@@ -82,15 +83,16 @@ export class MainComponent implements OnInit {
     return users.data;
   }
 
-  async receivedMessage($event: any) {
+  async receivedMessage($event: number) {
     const playerName = localStorage.getItem('playerName') ?? '';
     const uuid = localStorage.getItem('playerId');
     const playerScore = $event;
 
-    const playerState = {
+    const playerState: PlayerState = {
       playerName: playerName,
       id: uuid,
       playerScore: playerScore,
+      voted: true,
     };
 
     this.socketService.sendPlayerScore(playerState);

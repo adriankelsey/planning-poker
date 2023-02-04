@@ -3,7 +3,8 @@ import axios from 'axios';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import * as io from 'socket.io-client';
 import { User } from '../login-component/models/user.model';
-import { StateService } from './shared-service';
+import { PlayerState } from '../main-component/models/player-state.model';
+import { StateService } from './shared.service';
 
 @Injectable()
 export class SocketService {
@@ -17,19 +18,19 @@ export class SocketService {
     this.connection = connection;
   }
 
-  public sendPlayerScore(playerState: any) {
+  public sendPlayerScore(playerState: PlayerState) {
     let socket = this.connection;
     socket?.emit('playerScore', playerState);
   }
 
   public async onPlayerScore() {
     let socket = this.connection;
-    socket?.on('onPlayerScore', async (score) => {
+    socket?.on('onPlayerScore', async (state) => {
       const users = await axios.get('http://localhost:3000/users');
       for (let i = 0; i < users.data.length; i++) {
-        for (let x = 0; x < score.length; x++) {
-          if (score[x].id === users.data[i].id) {
-            users.data[i].playerScore = score[x].playerScore;
+        for (let x = 0; x < state.length; x++) {
+          if (state[x].id === users.data[i].id) {
+            users.data[i].playerScore = state[x].playerScore;
           }
         }
       }

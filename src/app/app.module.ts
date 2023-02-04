@@ -14,7 +14,7 @@ import { LoginComponent } from './login-component/login.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MatInputModule } from '@angular/material/input';
 import { TableComponent } from './table-component/table.component';
-import { StateService } from './services/shared-service';
+import { StateService } from './services/shared.service';
 import { UsersService } from './login-component/services/users.service';
 import { SocketService } from './services/socket.service';
 import { AverageScoresComponent } from './average-scores-component/average-scores.component';

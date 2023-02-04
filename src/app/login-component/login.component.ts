@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import axios from 'axios';
 import * as uuid from 'uuid';
 import { PlayerComponent } from '../player-component/player.component';
-import { StateService } from '../services/shared-service';
+import { StateService } from '../services/shared.service';
 import { SocketService } from '../services/socket.service';
 import { MainComponent } from '../main-component/main.component';
 import { UsersService } from './services/users.service';

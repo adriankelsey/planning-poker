@@ -4,7 +4,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import axios from 'axios';
 import Axios from 'axios-observable';
 import { BehaviorSubject, filter, Observable } from 'rxjs';
-import { StateService } from '../services/shared-service';
+import { StateService } from '../services/shared.service';
 import { SocketService } from '../services/socket.service';
 import { PlayerCard } from '../main-component/models/card.model';
 import {
@@ -23,7 +23,7 @@ export interface User {
   styleUrls: ['./table.component.scss'],
 })
 export class TableComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'score', 'test'];
+  displayedColumns: string[] = ['name', 'score', 'voted'];
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
   players: BehaviorSubject<any> = new BehaviorSubject<any>('');
   visible: boolean = true;
@@ -33,6 +33,7 @@ export class TableComponent implements OnInit {
     public router: Router
   ) {
     this.stateService.userData.subscribe((value) => {
+      console.log(value);
       this.dataSource = value;
       this.stateService.averageScore.next(value);
     });
