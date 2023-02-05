@@ -34,7 +34,6 @@ export class TableComponent implements OnInit {
     public router: Router
   ) {
     this.stateService.userData.subscribe((value) => {
-      console.log(value);
       this.dataSource = value;
       this.stateService.averageScore.next(value);
     });

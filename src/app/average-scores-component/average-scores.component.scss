@@ -1,18 +1,34 @@
 .main {
-  display: flexbox;
+  display: flex;
   justify-content: center;
+  align-items: center;
   width: 100%;
   height: 100%;
 }
 
 h1 {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  position: absolute;
 }
 
 .average {
   display: flex;
-  width: 100%;
+  width: 45%;
+  height: 80%;
   justify-content: center;
   font-size: 36px;
+  margin-top: 1em;
+  border-radius: 50%;
+  background: conic-gradient(#ffd63f 0deg, rgba(187, 187, 187, 0.333) 0deg);
+}
+
+.average::before {
+  content: "";
+  position: absolute;
+  width: 35%;
+  height: 65%;
+  margin-top: 20px;
+  border-radius: 50%;
+  background: #000 center/cover url("/assets/poker-table-cloth.png") no-repeat;
 }
