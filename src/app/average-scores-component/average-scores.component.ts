@@ -32,9 +32,6 @@ export class AverageScoresComponent implements AfterViewInit {
   @ViewChild('progress')
   component: ElementRef<HTMLElement> | undefined;
   constructor(private stateService: StateService, private renderer: Renderer2) {
-    this.stateService.scoresVisible.subscribe((isVisible) => {
-      if (isVisible) this.isVisible.next(isVisible.content.visible);
-    });
     this.stateService.averageScore.subscribe((userData) => {
       if (userData) {
         let users: any[] = [];
@@ -61,30 +58,32 @@ export class AverageScoresComponent implements AfterViewInit {
       }
     });
 
-    this.isVisible.subscribe((value) => {
-      if (this.component) {
-        let progressValue = 0;
-        let averageProgress = 0;
-        let averageInterval = this.average.getValue() / 360;
-        let progressInterval = setInterval(() => {
-          progressValue++;
-          averageProgress = averageProgress + averageInterval;
-          this.averageProgress.next(
-            Math.round((averageProgress + Number.EPSILON) * 100) / 100
-          );
-          this.renderer.setStyle(
-            this.component?.nativeElement,
-            'background',
-            `conic-gradient(#ffd63f  ${progressValue}deg, rgba(187, 187, 187, 0.333) 0deg)`
-          );
-          if (progressValue === 360) clearInterval(progressInterval);
-        }, 1);
+    this.stateService.scoresVisible.subscribe((isVisible) => {
+      if (isVisible && isVisible.content.votingPhase === 'finish vote') {
+        this.isVisible.subscribe((value) => {
+          if (this.component) {
+            let progressValue = 0;
+            let averageProgress = 0;
+            let averageInterval = this.average.getValue() / 360;
+            let progressInterval = setInterval(() => {
+              progressValue++;
+              averageProgress = averageProgress + averageInterval;
+              this.averageProgress.next(
+                Math.round((averageProgress + Number.EPSILON) * 100) / 100
+              );
+              this.renderer.setStyle(
+                this.component?.nativeElement,
+                'background',
+                `conic-gradient(#ffd63f  ${progressValue}deg, rgba(187, 187, 187, 0.333) 0deg)`
+              );
+              if (progressValue === 360) clearInterval(progressInterval);
+            }, 1);
+          }
+        });
       }
     });
   }
   ngAfterViewInit(): void {}
 
-  ngOnInit(): void {
-    console.log(this.component);
-  }
+  ngOnInit(): void {}
 }
