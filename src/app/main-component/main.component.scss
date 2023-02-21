@@ -115,18 +115,20 @@
 }
 
 .button {
+  position: absolute;
   display: flex;
-  width: 70%;
-  justify-content: center;
+  align-items: flex-end;
+  flex-direction: column;
+  right: 0;
+  width: 20%;
+  height: 25%;
 }
 
 button {
+  margin: 2em;
   width: 50%;
+  height: 25%;
   font-size: 15px;
-}
-
-.reset {
-  margin-right: 10%;
 }
 
 .poker-table {
