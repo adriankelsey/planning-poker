@@ -1,4 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostBinding,
+  HostListener,
+  OnInit,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import axios from 'axios';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { TableComponent } from '../table-component/table.component';
@@ -20,7 +29,7 @@ export type isVisibleRecievedMessage = {
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements AfterViewInit {
   playerState: any = {
     score: '',
     visible: true,
@@ -40,11 +49,16 @@ export class MainComponent implements OnInit {
     new BehaviorSubject<boolean>(true);
 
   scoresVisible = false;
-
+  @ViewChild('averageScore')
+  averageScoreElement: ElementRef<HTMLElement> | undefined;
+  averageScoreResize: BehaviorSubject<number> = new BehaviorSubject(100);
+  windowWidth: BehaviorSubject<number> = new BehaviorSubject(0);
+  windowHeight: BehaviorSubject<number> = new BehaviorSubject(0);
   constructor(
     public menuComponent: TableComponent,
     public stateService: StateService,
-    public socketService: SocketService
+    public socketService: SocketService,
+    private renderer: Renderer2
   ) {
     this.socketService.onPlayerScore();
     this.stateService.scoresVisible.subscribe(
@@ -74,6 +88,39 @@ export class MainComponent implements OnInit {
         }
       }
     );
+  }
+  ngAfterViewInit(): void {
+    console.log(innerWidth);
+    console.log(innerHeight);
+    this.windowWidth.next(innerWidth);
+    this.windowHeight.next(innerHeight);
+  }
+
+  @HostListener('window:resize', ['$event.target'])
+  onResize() {
+    if (innerWidth < this.windowWidth.getValue()) {
+      this.renderer.setStyle(
+        this.averageScoreElement?.nativeElement,
+        'height',
+        `${20 - (this.windowWidth.getValue() - innerWidth) / 100}%`
+      );
+    }
+
+    if (innerWidth === 1920) {
+      this.renderer.setStyle(
+        this.averageScoreElement?.nativeElement,
+        'height',
+        `20%`
+      );
+    }
+
+    if (innerWidth === 1440) {
+      this.renderer.setStyle(
+        this.averageScoreElement?.nativeElement,
+        'height',
+        `20%`
+      );
+    }
   }
 
   async ngOnInit(): Promise<void> {}
