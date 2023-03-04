@@ -51,7 +51,13 @@ export class AverageScoresComponent implements AfterViewInit {
       }
 
       if (scores.length > 0) {
-        let sum = scores.reduce((a, b) => parseInt(a) + parseInt(b));
+        let updatedScore: any = [];
+        scores.forEach((score) => {
+          if (score !== '?') updatedScore.push(score);
+        });
+        let sum = updatedScore.reduce(
+          (a: string, b: string) => parseInt(a) + parseInt(b)
+        );
         let average = sum / scores.length;
 
         this.average.next(Math.round((average + Number.EPSILON) * 100) / 100);

@@ -34,6 +34,11 @@ export class TableComponent implements OnInit {
     public router: Router
   ) {
     this.stateService.userData.subscribe((value) => {
+      if (value) {
+        value.map((userStates: any) => {
+          if (userStates.playerScore === -1) userStates.playerScore = '?';
+        });
+      }
       this.dataSource = value;
       this.stateService.averageScore.next(value);
     });
