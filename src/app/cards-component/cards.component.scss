@@ -1,0 +1,42 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.main-content {
+  height: 25vh;
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+}
+
+.cards {
+  justify-content: center;
+  display: flex;
+  width: 80%;
+}
+
+mat-card {
+  background-color: rgba(189, 189, 189, 0.144);
+  padding: 0;
+  width: 100px;
+  height: 150px;
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  cursor: pointer;
+
+  button {
+    height: 100%;
+    width: 100%;
+    font-size: 60px;
+    background: transparent;
+    border-style: none;
+  }
+}
+
+button {
+  cursor: pointer;
+}

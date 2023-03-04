@@ -1,0 +1,63 @@
+<div class="main-content">
+  <div class="table-view">
+    <div class="voting-phase-banner">
+      <h1>{{ votingPhases.banner }}</h1>
+    </div>
+    <div class="table">
+      <img class="poker-table" src="/assets/poker-table-cloth.png" />
+    </div>
+    <div class="button">
+      <!-- start vote button -->
+      <button
+        *ngIf="votingPhases.startVisible == true"
+        id="startVoteButton"
+        mat-raised-button
+        color="accent"
+        (click)="startVote()"
+      >
+        Start Vote
+      </button>
+      <!-- finish vote button -->
+      <button
+        *ngIf="votingPhases.finishVisible == true"
+        id="startVoteButton"
+        mat-raised-button
+        color="accent"
+        (click)="finishVote()"
+      >
+        Finish Vote
+      </button>
+      <!-- reset vote button -->
+      <button
+        class="reset"
+        *ngIf="votingPhases.resetVisible == true"
+        id="startVoteButton"
+        mat-raised-button
+        color="accent"
+        (click)="resetVote()"
+      >
+        Reset
+      </button>
+      <!-- rescore vote button -->
+      <button
+        class="rescore"
+        *ngIf="votingPhases.rescoreVisible == true"
+        id="startVoteButton"
+        mat-raised-button
+        color="accent"
+        (click)="rescoreVote()"
+      >
+        Rescore
+      </button>
+    </div>
+  </div>
+  <div #averageScore id="averageScore" class="average-score">
+    <app-average-scores></app-average-scores>
+  </div>
+  <div class="menu">
+    <app-menu></app-menu>
+  </div>
+</div>
+<div class="cards">
+  <app-cards (cardEvent)="receivedMessage($event)"></app-cards>
+</div>

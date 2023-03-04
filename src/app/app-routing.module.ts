@@ -1,14 +1,13 @@
 import { Routes, RouterModule } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { TableComponent } from './table/table.component';
-
+import { LoginComponent } from './login-component/login.component';
+import { MainComponent } from './main-component/main.component';
 
 const routes: Routes = [
-    { path: 'login', component: LoginComponent },
-    { path: 'table', component: TableComponent},
+  { path: 'login', component: LoginComponent },
+  { path: 'table', component: MainComponent },
 
-    // otherwise redirect to home
-    { path: '**', redirectTo: '' }
+  // otherwise redirect to home
+  { path: '**', redirectTo: '' },
 ];
 
 export const AppRoutingModule = RouterModule.forRoot(routes);
