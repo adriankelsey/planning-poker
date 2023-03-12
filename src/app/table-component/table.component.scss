@@ -1,12 +1,11 @@
 .main-content {
-  width: 200%;
+  width: 100%;
   height: 100%;
-  margin-left: 2em;
+  margin: 20px;
 }
 
 table {
   width: 100%;
-  margin-top: 2em;
   background-color: rgba(0, 255, 255, 0);
 }
 
@@ -15,13 +14,45 @@ td {
   padding-left: 50px;
   padding-top: 25px;
   color: white;
+  font-family: "RobotoItalic";
 }
 
 th {
+  font-family: "MyFont";
   font-size: 22px;
   color: white;
 }
 
+.header-players {
+  border-color: white;
+  border-right: solid;
+}
+
+.header-score {
+  border-color: white;
+  padding: 10px;
+}
+
+.row-players {
+  border-style: solid;
+  border-left: none;
+  border-top: none;
+}
+
+.row-score {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin-top: 20px;
+  border-bottom: none;
+}
+
 td .playing-card {
   height: 10%;
+}
+
+img {
+  width: 30%;
+  margin: 15px;
 }
