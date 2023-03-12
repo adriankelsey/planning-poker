@@ -142,6 +142,7 @@ export class MainComponent implements AfterViewInit {
       voted: true,
     };
 
+    if (playerScore === null) playerState.voted = false;
     this.socketService.sendPlayerScore(playerState);
   }
 
