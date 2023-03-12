@@ -47,7 +47,7 @@ export class AverageScoresComponent implements AfterViewInit {
     this.users.subscribe((users) => {
       let scores = [];
       for (let i = 0; i < users.length; i++) {
-        scores.push(users[i].playerScore);
+        if (users[i].playerScore) scores.push(users[i].playerScore);
       }
 
       if (scores.length > 0) {
@@ -58,7 +58,7 @@ export class AverageScoresComponent implements AfterViewInit {
         let sum = updatedScore.reduce(
           (a: string, b: string) => parseInt(a) + parseInt(b)
         );
-        let average = sum / scores.length;
+        let average = sum / updatedScore.length;
 
         this.average.next(Math.round((average + Number.EPSILON) * 100) / 100);
       }

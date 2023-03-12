@@ -85,6 +85,7 @@
 
 .menu {
   position: absolute;
+  width: 25%;
   background-color: rgba(255, 145, 0, 0);
 }
 
@@ -139,4 +140,11 @@ button {
 
 h1 {
   font-family: monospace;
+}
+
+.pert {
+  left: 30%;
+  width: 50%;
+  height: 70%;
+  position: absolute;
 }

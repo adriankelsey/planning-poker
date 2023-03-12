@@ -1,18 +1,30 @@
 <div class="main-content">
   <table mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Players</th>
-      <td mat-cell *matCellDef="let user">{{ user.playerName }}</td>
+      <th class="header-players" mat-header-cell *matHeaderCellDef>Players</th>
+      <td
+        class="row-players"
+        mat-cell
+        *matCellDef="let user"
+        style="border-bottom: none"
+      >
+        {{ user.playerName }}
+      </td>
     </ng-container>
     <ng-container matColumnDef="score">
-      <th mat-header-cell *matHeaderCellDef>Score</th>
-      <td mat-cell *matCellDef="let user">
+      <th class="header-score" mat-header-cell *matHeaderCellDef>Score</th>
+      <td class="row-score" mat-cell *matCellDef="let user">
         <div *ngIf="visible == true">{{ user.playerScore }}</div>
       </td>
     </ng-container>
     <ng-container matColumnDef="voted">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let state">
+      <th mat-header-cell *matHeaderCellDef style="border-color: white"></th>
+      <td
+        class="row-img"
+        mat-cell
+        *matCellDef="let state"
+        style="border-bottom: none"
+      >
         <img
           [hidden]="!state.voted"
           class="playing-card"
