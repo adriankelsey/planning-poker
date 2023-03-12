@@ -42,3 +42,19 @@ h2 {
   // border-style: solid;
   height: 100%;
 }
+
+.red-chip {
+  width: 50px;
+  // animation: drop 2s ease forwards;
+}
+
+// @keyframes drop {
+//   0% {
+//     opacity: 0;
+//   }
+
+//   100% {
+//     transform: translateY(150px);
+//     rotate: (0deg);
+//   }
+// }

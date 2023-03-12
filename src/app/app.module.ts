@@ -2,7 +2,10 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { CardsComponent } from './cards-component/cards.component';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  BrowserAnimationsModule,
+  NoopAnimationsModule,
+} from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -40,6 +43,7 @@ import { PertComponentComponent } from './pert-component/pert-component.componen
     MatButtonModule,
     AppRoutingModule,
     MatInputModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     PlayerComponent,
