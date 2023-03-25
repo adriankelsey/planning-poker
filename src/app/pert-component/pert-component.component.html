@@ -23,6 +23,7 @@
     </div>
     <div class="chips">
       <img
+        [hidden]="!voted.getValue()"
         [@someCoolAnimation]="bindingVar"
         #redChip
         id="red-chip"

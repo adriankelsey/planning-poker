@@ -15,6 +15,7 @@ import {
   keyframes,
 } from '@angular/animations';
 import { StateService } from '../services/shared.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-pert-component',
@@ -54,12 +55,14 @@ export class PertComponentComponent implements AfterViewInit {
   @ViewChild('redChip')
   chip: ElementRef<HTMLElement> | undefined;
   bindingVar = '';
+  voted: BehaviorSubject<boolean> = new BehaviorSubject(false);
   constructor(stateService: StateService, private renderer: Renderer2) {
     stateService.userData.subscribe((usersData) => {
       if (usersData)
         usersData.forEach((user: any) => {
           if (user.id === localStorage.getItem('playerId')) {
             this.showChip(user.voted);
+            this.voted.next(user.voted);
           }
         });
     });
