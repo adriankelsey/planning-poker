@@ -9,7 +9,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import axios from 'axios';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, flatMap, Subject } from 'rxjs';
 import { TableComponent } from '../table-component/table.component';
 import { StateService } from '../services/shared.service';
 import { PlayerCard } from './models/card.model';
@@ -31,6 +31,7 @@ export type isVisibleRecievedMessage = {
 })
 export class MainComponent implements AfterViewInit {
   enablePert$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  nextPert$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   playerState: any = {
     score: '',
     visible: true,
@@ -170,5 +171,9 @@ export class MainComponent implements AfterViewInit {
 
   enablePert() {
     this.enablePert$.next(true);
+  }
+
+  nextPert() {
+    this.nextPert$.next(true);
   }
 }

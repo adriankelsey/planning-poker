@@ -49,6 +49,14 @@
       >
         Rescore
       </button>
+      <button
+        *ngIf="(enablePert$ | async) === true"
+        mat-flat-button
+        class="next-pert"
+        (click)="nextPert()"
+      >
+        Next
+      </button>
       <button mat-flat-button class="enable-pert" (click)="enablePert()">
         Enable PERT Scoring
       </button>
@@ -63,6 +71,7 @@
   <div class="pert">
     <app-pert-component
       [enablePert]="enablePert$.asObservable()"
+      [nextPert$]="nextPert$.asObservable()"
     ></app-pert-component>
   </div>
 </div>
