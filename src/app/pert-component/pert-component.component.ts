@@ -54,6 +54,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 })
 export class PertComponentComponent implements AfterViewInit {
   @Input() enablePert: Observable<boolean> | undefined;
+  @Input() nextPert$: Observable<boolean> | undefined;
   @ViewChild('redChip')
   chip: ElementRef<HTMLElement> | undefined;
   bindingVar = '';
@@ -62,6 +63,10 @@ export class PertComponentComponent implements AfterViewInit {
   optimisticScore: BehaviorSubject<any> = new BehaviorSubject({});
   scoreVisble: Subject<boolean> = new Subject();
   averageScore: BehaviorSubject<number> = new BehaviorSubject(0);
+  currentPert: BehaviorSubject<string> = new BehaviorSubject('');
+  optimisticElement: HTMLElement | undefined;
+  mostLikelyElement: HTMLElement | undefined;
+  pessimisticElement: HTMLElement | undefined;
 
   constructor(
     stateService: StateService,
@@ -98,9 +103,15 @@ export class PertComponentComponent implements AfterViewInit {
   ngAfterViewInit(): void {}
 
   ngOnInit(): void {
+    this.optimisticElement = document.getElementById('optimistic')!;
+    this.mostLikelyElement = document.getElementById('most-likely')!;
+    this.pessimisticElement = document.getElementById('pessimistic')!;
     this.enablePert?.subscribe((value) => {
       if (value === true) {
-        this.startPert();
+        this.startOptimisticScoring();
+        this.nextPert$?.subscribe((value) => {
+          if (value === true) this.nextPert();
+        });
       }
     });
   }
@@ -130,10 +141,54 @@ export class PertComponentComponent implements AfterViewInit {
     this.startOptimisticScoring();
   }
 
+  nextPert() {
+    if (this.currentPert.getValue() === 'optimistic') {
+      this.startMostLikelyScoring();
+      this.stopOptimisticScoring();
+    } else if (this.currentPert.getValue() === 'most likely') {
+      this.stopMostLikelyScoring();
+      this.startPessimisticScoring();
+    }
+  }
+
   startOptimisticScoring() {
-    let optimisticElement = document.getElementById('optimistic');
+    this.currentPert.next('optimistic');
+    console.log(this.optimisticElement);
     this.renderer.setStyle(
-      optimisticElement,
+      this.optimisticElement,
+      'background',
+      'rgba(160, 219, 255, 0.628)'
+    );
+  }
+
+  stopOptimisticScoring() {
+    this.renderer.setStyle(
+      this.optimisticElement,
+      'background',
+      'rgb(223, 223, 223)'
+    );
+  }
+
+  startMostLikelyScoring() {
+    this.currentPert.next('most likely');
+    this.renderer.setStyle(
+      this.mostLikelyElement,
+      'background',
+      'rgba(160, 219, 255, 0.628)'
+    );
+  }
+
+  stopMostLikelyScoring() {
+    this.renderer.setStyle(
+      this.mostLikelyElement,
+      'background',
+      'rgb(223, 223, 223)'
+    );
+  }
+
+  startPessimisticScoring() {
+    this.renderer.setStyle(
+      this.pessimisticElement,
       'background',
       'rgba(160, 219, 255, 0.628)'
     );
