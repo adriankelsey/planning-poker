@@ -148,7 +148,17 @@ button {
   font-size: 12px;
   font-weight: 900;
   font-family: "RobotoItalic";
-  background-color: rgba(160, 219, 255, 0.628);
+  background-color: rgb(160, 219, 255);
+}
+
+.next-pert {
+  position: absolute;
+  width: 80%;
+  height: 13%;
+  bottom: 0;
+  margin-bottom: 50px;
+  background-color: rgb(160, 219, 255);
+  font-family: "RobotoBoldItalic";
 }
 
 .poker-table {
