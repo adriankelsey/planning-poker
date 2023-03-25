@@ -6,7 +6,7 @@
     <div class="table">
       <img class="poker-table" src="/assets/poker-table-cloth.png" />
     </div>
-    <div class="button">
+    <div class="controls">
       <!-- start vote button -->
       <button
         *ngIf="votingPhases.startVisible == true"
@@ -49,6 +49,7 @@
       >
         Rescore
       </button>
+      <button mat-flat-button class="enable-pert">Enable PERT Scoring</button>
     </div>
   </div>
   <div #averageScore id="averageScore" class="average-score">
