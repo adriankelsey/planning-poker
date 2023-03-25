@@ -49,7 +49,9 @@
       >
         Rescore
       </button>
-      <button mat-flat-button class="enable-pert">Enable PERT Scoring</button>
+      <button mat-flat-button class="enable-pert" (click)="enablePert()">
+        Enable PERT Scoring
+      </button>
     </div>
   </div>
   <div #averageScore id="averageScore" class="average-score">
@@ -59,7 +61,9 @@
     <app-menu></app-menu>
   </div>
   <div class="pert">
-    <app-pert-component></app-pert-component>
+    <app-pert-component
+      [enablePert]="enablePert$.asObservable()"
+    ></app-pert-component>
   </div>
 </div>
 <div class="cards">

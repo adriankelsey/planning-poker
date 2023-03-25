@@ -30,6 +30,7 @@ export type isVisibleRecievedMessage = {
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements AfterViewInit {
+  enablePert$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   playerState: any = {
     score: '',
     visible: true,
@@ -90,8 +91,6 @@ export class MainComponent implements AfterViewInit {
     );
   }
   ngAfterViewInit(): void {
-    console.log(innerWidth);
-    console.log(innerHeight);
     this.windowWidth.next(innerWidth);
     this.windowHeight.next(innerHeight);
   }
@@ -167,5 +166,9 @@ export class MainComponent implements AfterViewInit {
 
   rescoreVote() {
     this.socketService.sendIsVisible(false, 're-score vote');
+  }
+
+  enablePert() {
+    this.enablePert$.next(true);
   }
 }

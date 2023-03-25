@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  Input,
   OnInit,
   Renderer2,
   ViewChild,
@@ -15,7 +16,7 @@ import {
   keyframes,
 } from '@angular/animations';
 import { StateService } from '../services/shared.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-pert-component',
@@ -52,26 +53,57 @@ import { BehaviorSubject } from 'rxjs';
   ],
 })
 export class PertComponentComponent implements AfterViewInit {
+  @Input() enablePert: Observable<boolean> | undefined;
   @ViewChild('redChip')
   chip: ElementRef<HTMLElement> | undefined;
   bindingVar = '';
   voted: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  constructor(stateService: StateService, private renderer: Renderer2) {
+  playerScore: BehaviorSubject<number> = new BehaviorSubject(0);
+  optimisticScore: BehaviorSubject<any> = new BehaviorSubject({});
+  scoreVisble: Subject<boolean> = new Subject();
+  averageScore: BehaviorSubject<number> = new BehaviorSubject(0);
+
+  constructor(
+    stateService: StateService,
+    private renderer: Renderer2,
+    private element: ElementRef
+  ) {
     stateService.userData.subscribe((usersData) => {
+      console.log(usersData);
       if (usersData)
         usersData.forEach((user: any) => {
           if (user.id === localStorage.getItem('playerId')) {
             this.showChip(user.voted);
             this.voted.next(user.voted);
+            this.playerScore.next(user.playerScore);
           }
         });
     });
 
-    this.getImgChip();
+    stateService.scoresVisible.subscribe((scoreVisible) => {
+      if (scoreVisible) {
+        console.log(scoreVisible.content.visible);
+        this.scoreVisble.next(scoreVisible.content.visible);
+      }
+    });
+
+    stateService.averageScore.subscribe((value) => {
+      this.averageScore.next(value);
+    });
+
+    this.scoreVisble.subscribe((value) => {
+      console.log(value);
+    });
   }
   ngAfterViewInit(): void {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.enablePert?.subscribe((value) => {
+      if (value === true) {
+        this.startPert();
+      }
+    });
+  }
 
   showChip(voted: boolean) {
     if (voted) {
@@ -81,8 +113,6 @@ export class PertComponentComponent implements AfterViewInit {
     }
   }
 
-  getImgChip() {}
-
   animateFall() {
     this.bindingVar = 'fall';
   }
@@ -90,8 +120,22 @@ export class PertComponentComponent implements AfterViewInit {
   reset() {
     this.bindingVar = 'reset';
   }
+
   toggle() {
     this.bindingVar == 'fall' ? this.reset() : this.animateFall();
     console.log(this.bindingVar);
+  }
+
+  startPert() {
+    this.startOptimisticScoring();
+  }
+
+  startOptimisticScoring() {
+    let optimisticElement = document.getElementById('optimistic');
+    this.renderer.setStyle(
+      optimisticElement,
+      'background',
+      'rgba(160, 219, 255, 0.628)'
+    );
   }
 }

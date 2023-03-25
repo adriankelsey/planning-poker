@@ -32,7 +32,7 @@ export class AverageScoresComponent implements AfterViewInit {
   @ViewChild('progress')
   component: ElementRef<HTMLElement> | undefined;
   constructor(private stateService: StateService, private renderer: Renderer2) {
-    this.stateService.averageScore.subscribe((userData) => {
+    this.stateService.userData.subscribe((userData) => {
       if (userData) {
         let users: any[] = [];
         for (let i = 0; i < userData.length; i++) {
@@ -61,6 +61,10 @@ export class AverageScoresComponent implements AfterViewInit {
         let average = sum / updatedScore.length;
 
         this.average.next(Math.round((average + Number.EPSILON) * 100) / 100);
+
+        this.stateService.averageScore.next(
+          Math.round((average + Number.EPSILON) * 100) / 100
+        );
       }
     });
 

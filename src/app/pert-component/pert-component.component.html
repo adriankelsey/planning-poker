@@ -1,16 +1,26 @@
 <div class="main">
-  <div class="optimistic">
+  <div #optimistic id="optimistic" class="optimistic">
     <h2>Optimistic</h2>
     <div class="scores">
-      <p>(Your) Score: <span>10</span></p>
-      <p>Average:<span>10</span></p>
+      <p>
+        (Your) Score:
+        <span *ngIf="(scoreVisble | async) === true">{{
+          playerScore | async
+        }}</span>
+      </p>
+      <p>
+        Average:<span>{{ averageScore | async }}</span>
+      </p>
     </div>
     <div class="chips"></div>
   </div>
   <div class="most-likely">
     <h2>Most Likely</h2>
     <div class="scores">
-      <p>(Your) Score: <span>10</span></p>
+      <p>
+        (Your) Score:
+        <span *ngIf="(scoreVisble | async) === true">10</span>
+      </p>
       <p>Average:<span>10</span></p>
     </div>
     <div class="chips"></div>
