@@ -1,38 +1,24 @@
 <div class="main-content">
-  <table mat-table [dataSource]="dataSource">
-    <ng-container matColumnDef="name">
-      <th class="header-players" mat-header-cell *matHeaderCellDef>Players</th>
-      <td
-        class="row-players"
-        mat-cell
-        *matCellDef="let user"
-        style="border-bottom: none"
-      >
-        {{ user.playerName }}
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="score">
-      <th class="header-score" mat-header-cell *matHeaderCellDef>Score</th>
-      <td class="row-score" mat-cell *matCellDef="let user">
-        <div *ngIf="visible == true">{{ user.playerScore }}</div>
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="voted">
-      <th mat-header-cell *matHeaderCellDef style="border-color: white"></th>
-      <td
-        class="row-img"
-        mat-cell
-        *matCellDef="let state"
-        style="border-bottom: none"
-      >
-        <img
-          [hidden]="!state.voted"
-          class="playing-card"
-          src="/assets/playing-card.png"
-        />
-      </td>
-    </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
+	<table mat-table [dataSource]="dataSource">
+		<ng-container matColumnDef="name">
+			<th class="header-players" mat-header-cell *matHeaderCellDef>Players</th>
+			<td class="row-players" mat-cell *matCellDef="let user" style="border-bottom: none">
+				{{ user.playerName }}
+			</td>
+		</ng-container>
+		<ng-container matColumnDef="score">
+			<th class="header-score" mat-header-cell *matHeaderCellDef>Score</th>
+			<td class="row-score" mat-cell *matCellDef="let user">
+				<div *ngIf="visible == true">{{ user.playerScore }}</div>
+			</td>
+		</ng-container>
+		<ng-container matColumnDef="voted">
+			<th mat-header-cell *matHeaderCellDef style="border-color: white"></th>
+			<td class="row-img" mat-cell *matCellDef="let state" style="border-bottom: none">
+				<img [hidden]="!state.voted" class="playing-card" src="/assets/playing-card.png" />
+			</td>
+		</ng-container>
+		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+	</table>
 </div>
