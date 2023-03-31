@@ -1,196 +1,217 @@
 import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  Input,
-  OnInit,
-  Renderer2,
-  ViewChild,
-} from '@angular/core';
+	AfterViewInit,
+	Component,
+	ElementRef,
+	Input,
+	OnInit,
+	Renderer2,
+	ViewChild,
+} from "@angular/core";
 import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition,
-  keyframes,
-} from '@angular/animations';
-import { StateService } from '../services/shared.service';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+	trigger,
+	state,
+	style,
+	animate,
+	transition,
+	keyframes,
+} from "@angular/animations";
+import { StateService } from "../services/shared.service";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
 
 @Component({
-  selector: 'app-pert-component',
-  templateUrl: './pert-component.component.html',
-  styleUrls: ['./pert-component.component.scss'],
-  animations: [
-    trigger('someCoolAnimation', [
-      state(
-        'fall',
+	selector: "app-pert-component",
+	templateUrl: "./pert-component.component.html",
+	styleUrls: ["./pert-component.component.scss"],
+	animations: [
+		trigger("someCoolAnimation", [
+			state(
+				"fall",
 
-        style({ transform: 'translateY(135px)' })
-      ),
+				style({ transform: "translateY(135px)" })
+			),
 
-      state('reset', style({ transform: 'translateY(0px)' })),
-      transition('* => reset', [animate(0)]),
-      transition('* => fall', [
-        animate(
-          '1s',
-          keyframes([
-            style({ transform: 'rotate(5deg)' }),
-            style({ transform: 'rotate(-5deg)' }),
-            style({ transform: 'rotate(5deg)' }),
-            style({ transform: 'rotate(-5deg)' }),
-            style({ transform: 'rotate(5deg)' }),
-            style({ transform: 'rotate(-5deg)' }),
-            style({ transform: 'rotate(5deg)' }),
-            style({ transform: 'rotate(-5deg)' }),
-            style({ transform: 'translateY(50px)' }),
-            style({ transform: 'translateY(100px)' }),
-          ])
-        ),
-      ]),
-    ]),
-  ],
+			state("reset", style({ transform: "translateY(0px)" })),
+			transition("* => reset", [animate(0)]),
+			transition("* => fall", [
+				animate(
+					"1s",
+					keyframes([
+						style({ transform: "rotate(5deg)" }),
+						style({ transform: "rotate(-5deg)" }),
+						style({ transform: "rotate(5deg)" }),
+						style({ transform: "rotate(-5deg)" }),
+						style({ transform: "rotate(5deg)" }),
+						style({ transform: "rotate(-5deg)" }),
+						style({ transform: "rotate(5deg)" }),
+						style({ transform: "rotate(-5deg)" }),
+						style({ transform: "translateY(50px)" }),
+						style({ transform: "translateY(100px)" }),
+					])
+				),
+			]),
+		]),
+	],
 })
 export class PertComponentComponent implements AfterViewInit {
-  @Input() enablePert: Observable<boolean> | undefined;
-  @Input() nextPert$: Observable<boolean> | undefined;
-  @ViewChild('redChip')
-  chip: ElementRef<HTMLElement> | undefined;
-  bindingVar = '';
-  voted: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  playerScore: BehaviorSubject<number> = new BehaviorSubject(0);
-  optimisticScore: BehaviorSubject<any> = new BehaviorSubject({});
-  scoreVisble: Subject<boolean> = new Subject();
-  averageScore: BehaviorSubject<number> = new BehaviorSubject(0);
-  currentPert: BehaviorSubject<string> = new BehaviorSubject('');
-  optimisticElement: HTMLElement | undefined;
-  mostLikelyElement: HTMLElement | undefined;
-  pessimisticElement: HTMLElement | undefined;
+	@Input() enablePert: Observable<boolean> | undefined;
+	@Input() nextPert$: Observable<boolean> | undefined;
+	@ViewChild("redChip")
+	chip: ElementRef<HTMLElement> | undefined;
+	bindingVar = "";
+	voted: BehaviorSubject<boolean> = new BehaviorSubject(false);
+	playerScore: BehaviorSubject<number> = new BehaviorSubject(0);
+	optimisticScore: BehaviorSubject<any> = new BehaviorSubject({});
+	mostLikelyScore: BehaviorSubject<any> = new BehaviorSubject({});
+	pessimisticScore: BehaviorSubject<any> = new BehaviorSubject({});
+	scoreVisible: Subject<boolean> = new Subject();
+	averageScore: BehaviorSubject<number> = new BehaviorSubject(0);
+	currentPert: BehaviorSubject<string> = new BehaviorSubject("");
+	optimisticElement: HTMLElement | undefined;
+	mostLikelyElement: HTMLElement | undefined;
+	pessimisticElement: HTMLElement | undefined;
 
-  constructor(
-    stateService: StateService,
-    private renderer: Renderer2,
-    private element: ElementRef
-  ) {
-    stateService.userData.subscribe((usersData) => {
-      console.log(usersData);
-      if (usersData)
-        usersData.forEach((user: any) => {
-          if (user.id === localStorage.getItem('playerId')) {
-            this.showChip(user.voted);
-            this.voted.next(user.voted);
-            this.playerScore.next(user.playerScore);
-          }
-        });
-    });
+	constructor(
+		stateService: StateService,
+		private renderer: Renderer2,
+		private element: ElementRef
+	) {
+		stateService.userData.subscribe((usersData) => {
+			console.log(usersData);
+			if (usersData)
+				usersData.forEach((user: any) => {
+					if (user.id === localStorage.getItem("playerId")) {
+						this.showChip(user.voted);
+						this.voted.next(user.voted);
+						this.playerScore.next(user.playerScore);
+					}
+				});
+		});
 
-    stateService.scoresVisible.subscribe((scoreVisible) => {
-      if (scoreVisible) {
-        console.log(scoreVisible.content.visible);
-        this.scoreVisble.next(scoreVisible.content.visible);
-      }
-    });
+		stateService.scoresVisible.subscribe((scoreVisible) => {
+			if (scoreVisible) {
+				console.log(scoreVisible.content.visible);
+				this.scoreVisible.next(scoreVisible.content.visible);
+			}
+		});
 
-    stateService.averageScore.subscribe((value) => {
-      this.averageScore.next(value);
-    });
+		stateService.averageScore.subscribe((value) => {
+			this.averageScore.next(value);
+		});
 
-    this.scoreVisble.subscribe((value) => {
-      console.log(value);
-    });
-  }
-  ngAfterViewInit(): void {}
+		this.scoreVisible.subscribe((value) => {
+			console.log(value);
+		});
 
-  ngOnInit(): void {
-    this.optimisticElement = document.getElementById('optimistic')!;
-    this.mostLikelyElement = document.getElementById('most-likely')!;
-    this.pessimisticElement = document.getElementById('pessimistic')!;
-    this.enablePert?.subscribe((value) => {
-      if (value === true) {
-        this.startOptimisticScoring();
-        this.nextPert$?.subscribe((value) => {
-          if (value === true) this.nextPert();
-        });
-      }
-    });
-  }
+		console.log("optimistic score: " + this.optimisticScore.getValue());
+		console.log("most likely score: " + this.mostLikelyScore.getValue());
+		console.log("pessimistice score: " + this.pessimisticScore.getValue());
+	}
+	ngAfterViewInit(): void {}
 
-  showChip(voted: boolean) {
-    if (voted) {
-      this.animateFall();
-    } else {
-      this.reset();
-    }
-  }
+	ngOnInit(): void {
+		this.optimisticElement = document.getElementById("optimistic")!;
+		this.mostLikelyElement = document.getElementById("most-likely")!;
+		this.pessimisticElement = document.getElementById("pessimistic")!;
+		this.enablePert?.subscribe((value) => {
+			if (value === true) {
+				this.startOptimisticScoring();
+				this.nextPert$?.subscribe((value) => {
+					if (value === true) this.nextPert();
+				});
+			}
+		});
+	}
 
-  animateFall() {
-    this.bindingVar = 'fall';
-  }
+	showChip(voted: boolean) {
+		if (voted) {
+			this.animateFall();
+		} else {
+			this.reset();
+		}
+	}
 
-  reset() {
-    this.bindingVar = 'reset';
-  }
+	animateFall() {
+		this.bindingVar = "fall";
+	}
 
-  toggle() {
-    this.bindingVar == 'fall' ? this.reset() : this.animateFall();
-    console.log(this.bindingVar);
-  }
+	reset() {
+		this.bindingVar = "reset";
+	}
 
-  startPert() {
-    this.startOptimisticScoring();
-  }
+	toggle() {
+		this.bindingVar == "fall" ? this.reset() : this.animateFall();
+		console.log(this.bindingVar);
+	}
 
-  nextPert() {
-    if (this.currentPert.getValue() === 'optimistic') {
-      this.startMostLikelyScoring();
-      this.stopOptimisticScoring();
-    } else if (this.currentPert.getValue() === 'most likely') {
-      this.stopMostLikelyScoring();
-      this.startPessimisticScoring();
-    }
-  }
+	startPert() {
+		this.startOptimisticScoring();
+	}
 
-  startOptimisticScoring() {
-    this.currentPert.next('optimistic');
-    console.log(this.optimisticElement);
-    this.renderer.setStyle(
-      this.optimisticElement,
-      'background',
-      'rgba(160, 219, 255, 0.628)'
-    );
-  }
+	nextPert() {
+		if (this.currentPert.getValue() === "optimistic") {
+			this.startMostLikelyScoring();
+			this.stopOptimisticScoring();
+			console.log(this.optimisticScore.getValue());
+		} else if (this.currentPert.getValue() === "most likely") {
+			this.stopMostLikelyScoring();
+			this.startPessimisticScoring();
+		} else if (this.currentPert.getValue() === "pessimistic") {
+		}
+	}
 
-  stopOptimisticScoring() {
-    this.renderer.setStyle(
-      this.optimisticElement,
-      'background',
-      'rgb(223, 223, 223)'
-    );
-  }
+	startOptimisticScoring() {
+		this.currentPert.next("optimistic");
+		this.renderer.setStyle(
+			this.optimisticElement,
+			"background",
+			"rgba(160, 219, 255, 0.628)"
+		);
+	}
 
-  startMostLikelyScoring() {
-    this.currentPert.next('most likely');
-    this.renderer.setStyle(
-      this.mostLikelyElement,
-      'background',
-      'rgba(160, 219, 255, 0.628)'
-    );
-  }
+	stopOptimisticScoring() {
+		this.renderer.setStyle(
+			this.optimisticElement,
+			"background",
+			"rgb(223, 223, 223)"
+		);
 
-  stopMostLikelyScoring() {
-    this.renderer.setStyle(
-      this.mostLikelyElement,
-      'background',
-      'rgb(223, 223, 223)'
-    );
-  }
+		this.optimisticScore.next({
+			playerScore: this.playerScore.getValue(),
+			averageScore: this.averageScore.getValue(),
+		});
+	}
 
-  startPessimisticScoring() {
-    this.renderer.setStyle(
-      this.pessimisticElement,
-      'background',
-      'rgba(160, 219, 255, 0.628)'
-    );
-  }
+	startMostLikelyScoring() {
+		this.currentPert.next("most likely");
+		this.renderer.setStyle(
+			this.mostLikelyElement,
+			"background",
+			"rgba(160, 219, 255, 0.628)"
+		);
+	}
+
+	stopMostLikelyScoring() {
+		this.renderer.setStyle(
+			this.mostLikelyElement,
+			"background",
+			"rgb(223, 223, 223)"
+		);
+		this.mostLikelyScore.next({
+			playerScore: this.playerScore.getValue(),
+			averageScore: this.averageScore.getValue(),
+		});
+	}
+
+	startPessimisticScoring() {
+		this.currentPert.next("pessimistic");
+		this.renderer.setStyle(
+			this.pessimisticElement,
+			"background",
+			"rgba(160, 219, 255, 0.628)"
+		);
+		this.pessimisticScore.next({
+			playerScore: this.playerScore.getValue(),
+			averageScore: this.averageScore.getValue(),
+		});
+	}
 }
