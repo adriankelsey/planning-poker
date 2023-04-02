@@ -1,20 +1,5 @@
-import {
-	AfterViewInit,
-	Component,
-	ElementRef,
-	Input,
-	OnInit,
-	Renderer2,
-	ViewChild,
-} from "@angular/core";
-import {
-	trigger,
-	state,
-	style,
-	animate,
-	transition,
-	keyframes,
-} from "@angular/animations";
+import { AfterViewInit, Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from "@angular/core";
+import { trigger, state, style, animate, transition, keyframes } from "@angular/animations";
 import { StateService } from "../services/shared.service";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 
@@ -70,11 +55,7 @@ export class PertComponentComponent implements AfterViewInit {
 	mostLikelyElement: HTMLElement | undefined;
 	pessimisticElement: HTMLElement | undefined;
 
-	constructor(
-		stateService: StateService,
-		private renderer: Renderer2,
-		private element: ElementRef
-	) {
+	constructor(stateService: StateService, private renderer: Renderer2, private element: ElementRef) {
 		stateService.userData.subscribe((usersData) => {
 			console.log(usersData);
 			if (usersData)
@@ -116,7 +97,11 @@ export class PertComponentComponent implements AfterViewInit {
 			if (value === true) {
 				this.startOptimisticScoring();
 				this.nextPert$?.subscribe((value) => {
-					if (value === true) this.nextPert();
+					if (value === true) {
+						this.nextPert();
+					} else {
+						this.previousPert();
+					}
 				});
 			}
 		});
@@ -159,21 +144,24 @@ export class PertComponentComponent implements AfterViewInit {
 		}
 	}
 
+	previousPert() {
+		if (this.currentPert.getValue() === "optimistic") {
+		} else if (this.currentPert.getValue() === "most likely") {
+			this.startOptimisticScoring();
+			this.stopMostLikelyScoring();
+		} else if (this.currentPert.getValue() === "pessimistic") {
+			this.startMostLikelyScoring();
+			this.stopOptimisticScoring();
+		}
+	}
+
 	startOptimisticScoring() {
 		this.currentPert.next("optimistic");
-		this.renderer.setStyle(
-			this.optimisticElement,
-			"background",
-			"rgba(160, 219, 255, 0.628)"
-		);
+		this.renderer.setStyle(this.optimisticElement, "background", "rgba(160, 219, 255, 0.628)");
 	}
 
 	stopOptimisticScoring() {
-		this.renderer.setStyle(
-			this.optimisticElement,
-			"background",
-			"rgb(223, 223, 223)"
-		);
+		this.renderer.setStyle(this.optimisticElement, "background", "rgb(223, 223, 223)");
 
 		this.optimisticScore.next({
 			playerScore: this.playerScore.getValue(),
@@ -183,19 +171,11 @@ export class PertComponentComponent implements AfterViewInit {
 
 	startMostLikelyScoring() {
 		this.currentPert.next("most likely");
-		this.renderer.setStyle(
-			this.mostLikelyElement,
-			"background",
-			"rgba(160, 219, 255, 0.628)"
-		);
+		this.renderer.setStyle(this.mostLikelyElement, "background", "rgba(160, 219, 255, 0.628)");
 	}
 
 	stopMostLikelyScoring() {
-		this.renderer.setStyle(
-			this.mostLikelyElement,
-			"background",
-			"rgb(223, 223, 223)"
-		);
+		this.renderer.setStyle(this.mostLikelyElement, "background", "rgb(223, 223, 223)");
 		this.mostLikelyScore.next({
 			playerScore: this.playerScore.getValue(),
 			averageScore: this.averageScore.getValue(),
@@ -204,11 +184,7 @@ export class PertComponentComponent implements AfterViewInit {
 
 	startPessimisticScoring() {
 		this.currentPert.next("pessimistic");
-		this.renderer.setStyle(
-			this.pessimisticElement,
-			"background",
-			"rgba(160, 219, 255, 0.628)"
-		);
+		this.renderer.setStyle(this.pessimisticElement, "background", "rgba(160, 219, 255, 0.628)");
 		this.pessimisticScore.next({
 			playerScore: this.playerScore.getValue(),
 			averageScore: this.averageScore.getValue(),

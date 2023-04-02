@@ -166,6 +166,10 @@ export class MainComponent implements AfterViewInit {
 		this.nextPert$.next(true);
 	}
 
+	previousPert() {
+		this.nextPert$.next(false);
+	}
+
 	getEnablePertLabel(): string {
 		return this.enablePert$.getValue() === true ? "Disable PERT Scoring" : "Enable PERT Scoring";
 	}
