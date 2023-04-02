@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild } from "@angular/core";
 import { trigger, state, style, animate, transition, keyframes } from "@angular/animations";
 import { StateService } from "../services/shared.service";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
@@ -40,6 +40,7 @@ import { BehaviorSubject, Observable, Subject } from "rxjs";
 export class PertComponentComponent implements AfterViewInit {
 	@Input() enablePert: Observable<boolean> | undefined;
 	@Input() nextPert$: Observable<boolean> | undefined;
+	@Output() pertStageEvent: EventEmitter<string> = new EventEmitter();
 	@ViewChild("redChip")
 	chip: ElementRef<HTMLElement> | undefined;
 	bindingVar = "";
@@ -151,13 +152,14 @@ export class PertComponentComponent implements AfterViewInit {
 			this.stopMostLikelyScoring();
 		} else if (this.currentPert.getValue() === "pessimistic") {
 			this.startMostLikelyScoring();
-			this.stopOptimisticScoring();
+			this.stopPessimisticScoring();
 		}
 	}
 
 	startOptimisticScoring() {
 		this.currentPert.next("optimistic");
 		this.renderer.setStyle(this.optimisticElement, "background", "rgba(160, 219, 255, 0.628)");
+		this.pertStageEvent.emit(this.currentPert.getValue());
 	}
 
 	stopOptimisticScoring() {
@@ -167,11 +169,13 @@ export class PertComponentComponent implements AfterViewInit {
 			playerScore: this.playerScore.getValue(),
 			averageScore: this.averageScore.getValue(),
 		});
+		this.pertStageEvent.emit(this.currentPert.getValue());
 	}
 
 	startMostLikelyScoring() {
 		this.currentPert.next("most likely");
 		this.renderer.setStyle(this.mostLikelyElement, "background", "rgba(160, 219, 255, 0.628)");
+		this.pertStageEvent.emit(this.currentPert.getValue());
 	}
 
 	stopMostLikelyScoring() {
@@ -180,6 +184,7 @@ export class PertComponentComponent implements AfterViewInit {
 			playerScore: this.playerScore.getValue(),
 			averageScore: this.averageScore.getValue(),
 		});
+		this.pertStageEvent.emit(this.currentPert.getValue());
 	}
 
 	startPessimisticScoring() {
@@ -189,5 +194,15 @@ export class PertComponentComponent implements AfterViewInit {
 			playerScore: this.playerScore.getValue(),
 			averageScore: this.averageScore.getValue(),
 		});
+		this.pertStageEvent.emit(this.currentPert.getValue());
+	}
+
+	stopPessimisticScoring() {
+		this.renderer.setStyle(this.pessimisticElement, "background", "rgb(223, 223, 223)");
+		this.pessimisticScore.next({
+			playerScore: this.playerScore.getValue(),
+			averageScore: this.averageScore.getValue(),
+		});
+		this.pertStageEvent.emit(this.currentPert.getValue());
 	}
 }

@@ -49,7 +49,7 @@
 				Average:<span *ngIf="(scoreVisible | async) === true && currentPert.getValue() === 'pessimistic'">{{ averageScore | async }}</span>
 			</p>
 		</div>
-		<div class="chips">
+		<!-- <div class="chips">
 			<img
 				[hidden]="!voted.getValue()"
 				[@someCoolAnimation]="bindingVar"
@@ -57,6 +57,6 @@
 				id="red-chip"
 				class="red-chip"
 				src="/assets/istockphoto-1366312579-1024x1024.png" />
-		</div>
+		</div> -->
 	</div>
 </div>
