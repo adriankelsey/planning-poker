@@ -1,8 +1,5 @@
 <div class="main-content">
 	<div class="table-view">
-		<div class="voting-phase-banner">
-			<h1>{{ votingPhases.banner }}</h1>
-		</div>
 		<div class="table">
 			<img class="poker-table" src="/assets/poker-table-cloth.png" />
 		</div>
@@ -11,7 +8,7 @@
 				<!-- start vote button -->
 				<button
 					class="start-vote-button"
-					*ngIf="votingPhases.startVisible == true"
+					*ngIf="(votingStage$ | async) === 'START_VOTE'"
 					id="startVoteButton"
 					mat-raised-button
 					color="accent"
@@ -21,7 +18,7 @@
 				<!-- finish vote button -->
 				<button
 					class="finish-vote-button"
-					*ngIf="votingPhases.finishVisible === true"
+					*ngIf="(votingStage$ | async) === 'FINISH_VOTE'"
 					id="startVoteButton"
 					mat-raised-button
 					color="accent"
@@ -31,7 +28,7 @@
 				<!-- reset vote button -->
 				<button
 					class="reset-vote-button"
-					*ngIf="(enablePert$ | async) === false && votingPhases.rescoreVisible === true"
+					*ngIf="(enablePert$ | async) === false && (votingStage$ | async) === 'RESET_VOTE'"
 					id="startVoteButton"
 					mat-raised-button
 					color="accent"
@@ -41,7 +38,7 @@
 				<!-- rescore vote button -->
 				<button
 					class="rescore-vote-button"
-					*ngIf="votingPhases.rescoreVisible === true"
+					*ngIf="(votingStage$ | async) === 'RESET_VOTE'"
 					id="startVoteButton"
 					mat-raised-button
 					color="accent"
@@ -50,20 +47,25 @@
 				</button>
 			</div>
 			<div class="pert-controls">
-				<button *ngIf="(enablePert$ | async) === true" mat-flat-button class="next-pert" (click)="nextPert()">Next</button>
+				<button *ngIf="(enablePert$ | async) === true" mat-flat-button class="next-pert" (click)="nextPert()">
+					{{ getNextOrFinishPertLabel() }}
+				</button>
 				<button *ngIf="(enablePert$ | async) === true" mat-flat-button class="next-pert" (click)="previousPert()">Back</button>
 				<button mat-flat-button class="enable-pert" (click)="enableOrDisablePert()">{{ getEnablePertLabel() }}</button>
 			</div>
 		</div>
 	</div>
-	<div #averageScore id="averageScore" class="average-score">
+	<div *ngIf="(enablePert$ | async) === false" #averageScore id="averageScore" class="average-score">
 		<app-average-scores></app-average-scores>
 	</div>
 	<div class="menu">
 		<app-menu></app-menu>
 	</div>
 	<div *ngIf="(enablePert$ | async) === true" class="pert">
-		<app-pert-component [enablePert]="enablePert$.asObservable()" [nextPert$]="nextPert$.asObservable()"></app-pert-component>
+		<app-pert-component
+			[enablePert]="enablePert$.asObservable()"
+			[nextPert$]="nextPert$.asObservable()"
+			(pertStageEvent)="getPertStage($event)"></app-pert-component>
 	</div>
 </div>
 <div class="cards">
