@@ -60,6 +60,8 @@ export class PertComponentComponent implements AfterViewInit {
 	mostLikelyElement: HTMLElement | undefined;
 	pessimisticElement: HTMLElement | undefined;
 
+	pertScore$: Subject<number> = new Subject();
+
 	constructor(stateService: StateService, private renderer: Renderer2, private element: ElementRef) {
 		stateService.userData.subscribe((usersData) => {
 			if (usersData)
@@ -215,7 +217,15 @@ export class PertComponentComponent implements AfterViewInit {
 		const mostLikelyScore = this.mostLikelyScore.getValue().averageScore;
 		const pessimisticScore = this.pessimisticScore.getValue().averageScore;
 
-		console.log(Math.round((optimisticScore + mostLikelyScore * 4 + pessimisticScore) / 6));
+		// PERT calculation
+		// E = (O + 4M + P) / 6
+		const pertScore = Math.round((optimisticScore + mostLikelyScore * 4 + pessimisticScore) / 6);
+
+		this.pertScore$.next(pertScore);
+
+		this.pertScore$.subscribe((value) => {
+			console.log(value);
+		});
 	}
 
 	styleElementStartScoring(element?: HTMLElement): void {
