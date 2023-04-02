@@ -48,7 +48,7 @@
 					</button>
 				</div>
 				<div class="pert-controls">
-					<button *ngIf="(enablePert$ | async) === true" mat-flat-button class="next-pert" (click)="nextPert()">
+					<button *ngIf="(enablePert$ | async) === true" mat-flat-button class="next-pert" (click)="nextPertOrFinish()">
 						{{ getNextOrFinishPertLabel() }}
 					</button>
 					<button *ngIf="(enablePert$ | async) === true" mat-flat-button class="next-pert" (click)="previousPert()">Back</button>
@@ -67,6 +67,7 @@
 		<app-pert-component
 			[enablePert]="enablePert$.asObservable()"
 			[nextPert$]="nextPert$.asObservable()"
+			[finishPertScoring$]="finishPertScoring.asObservable()"
 			(pertStageEvent)="getPertStage($event)"></app-pert-component>
 	</div>
 </div>

@@ -40,9 +40,13 @@ import { BehaviorSubject, Observable, Subject } from "rxjs";
 export class PertComponentComponent implements AfterViewInit {
 	@Input() enablePert: Observable<boolean> | undefined;
 	@Input() nextPert$: Observable<boolean> | undefined;
+	@Input() finishPertScoring$: Observable<boolean> | undefined;
+
 	@Output() pertStageEvent: EventEmitter<string> = new EventEmitter();
+
 	@ViewChild("redChip")
 	chip: ElementRef<HTMLElement> | undefined;
+
 	bindingVar = "";
 	voted: BehaviorSubject<boolean> = new BehaviorSubject(false);
 	playerScore: BehaviorSubject<number> = new BehaviorSubject(0);
@@ -58,7 +62,6 @@ export class PertComponentComponent implements AfterViewInit {
 
 	constructor(stateService: StateService, private renderer: Renderer2, private element: ElementRef) {
 		stateService.userData.subscribe((usersData) => {
-			console.log(usersData);
 			if (usersData)
 				usersData.forEach((user: any) => {
 					if (user.id === localStorage.getItem("playerId")) {
@@ -79,14 +82,6 @@ export class PertComponentComponent implements AfterViewInit {
 		stateService.averageScore.subscribe((value) => {
 			this.averageScore.next(value);
 		});
-
-		this.scoreVisible.subscribe((value) => {
-			console.log(value);
-		});
-
-		console.log("optimistic score: " + this.optimisticScore.getValue());
-		console.log("most likely score: " + this.mostLikelyScore.getValue());
-		console.log("pessimistice score: " + this.pessimisticScore.getValue());
 	}
 	ngAfterViewInit(): void {}
 
@@ -94,6 +89,7 @@ export class PertComponentComponent implements AfterViewInit {
 		this.optimisticElement = document.getElementById("optimistic")!;
 		this.mostLikelyElement = document.getElementById("most-likely")!;
 		this.pessimisticElement = document.getElementById("pessimistic")!;
+
 		this.enablePert?.subscribe((value) => {
 			if (value === true) {
 				this.startOptimisticScoring();
@@ -104,6 +100,12 @@ export class PertComponentComponent implements AfterViewInit {
 						this.previousPert();
 					}
 				});
+			}
+		});
+
+		this.finishPertScoring$?.subscribe((value) => {
+			if (value === true) {
+				this.finishPertScoring();
 			}
 		});
 	}
@@ -157,13 +159,13 @@ export class PertComponentComponent implements AfterViewInit {
 	}
 
 	startOptimisticScoring() {
+		this.styleElementStartScoring(this.optimisticElement);
 		this.currentPert.next("optimistic");
-		this.renderer.setStyle(this.optimisticElement, "background", "rgba(160, 219, 255, 0.628)");
 		this.pertStageEvent.emit(this.currentPert.getValue());
 	}
 
 	stopOptimisticScoring() {
-		this.renderer.setStyle(this.optimisticElement, "background", "rgb(223, 223, 223)");
+		this.styleElementStopScoring(this.optimisticElement);
 
 		this.optimisticScore.next({
 			playerScore: this.playerScore.getValue(),
@@ -173,13 +175,13 @@ export class PertComponentComponent implements AfterViewInit {
 	}
 
 	startMostLikelyScoring() {
+		this.styleElementStartScoring(this.mostLikelyElement);
 		this.currentPert.next("most likely");
-		this.renderer.setStyle(this.mostLikelyElement, "background", "rgba(160, 219, 255, 0.628)");
 		this.pertStageEvent.emit(this.currentPert.getValue());
 	}
 
 	stopMostLikelyScoring() {
-		this.renderer.setStyle(this.mostLikelyElement, "background", "rgb(223, 223, 223)");
+		this.styleElementStopScoring(this.mostLikelyElement);
 		this.mostLikelyScore.next({
 			playerScore: this.playerScore.getValue(),
 			averageScore: this.averageScore.getValue(),
@@ -188,8 +190,8 @@ export class PertComponentComponent implements AfterViewInit {
 	}
 
 	startPessimisticScoring() {
+		this.styleElementStartScoring(this.pessimisticElement);
 		this.currentPert.next("pessimistic");
-		this.renderer.setStyle(this.pessimisticElement, "background", "rgba(160, 219, 255, 0.628)");
 		this.pessimisticScore.next({
 			playerScore: this.playerScore.getValue(),
 			averageScore: this.averageScore.getValue(),
@@ -198,11 +200,29 @@ export class PertComponentComponent implements AfterViewInit {
 	}
 
 	stopPessimisticScoring() {
-		this.renderer.setStyle(this.pessimisticElement, "background", "rgb(223, 223, 223)");
+		this.styleElementStopScoring(this.pessimisticElement);
 		this.pessimisticScore.next({
 			playerScore: this.playerScore.getValue(),
 			averageScore: this.averageScore.getValue(),
 		});
 		this.pertStageEvent.emit(this.currentPert.getValue());
+	}
+
+	finishPertScoring() {
+		this.stopPessimisticScoring();
+		this.scoreVisible.next(true);
+		const optimisticScore = this.optimisticScore.getValue().averageScore;
+		const mostLikelyScore = this.mostLikelyScore.getValue().averageScore;
+		const pessimisticScore = this.pessimisticScore.getValue().averageScore;
+
+		console.log(Math.round((optimisticScore + mostLikelyScore * 4 + pessimisticScore) / 6));
+	}
+
+	styleElementStartScoring(element?: HTMLElement): void {
+		this.renderer.setStyle(element, "background", "rgba(160, 219, 255, 0.628)");
+	}
+
+	styleElementStopScoring(element?: HTMLElement): void {
+		this.renderer.setStyle(element, "background", "rgb(223, 223, 223)");
 	}
 }

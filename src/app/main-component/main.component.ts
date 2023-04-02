@@ -24,6 +24,7 @@ export class MainComponent implements AfterViewInit {
 	nextPert$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 	pertStage$: BehaviorSubject<string> = new BehaviorSubject("");
 	votingStage$: BehaviorSubject<string> = new BehaviorSubject("");
+	finishPertScoring: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
 	playerState: any = {
 		score: "",
@@ -148,14 +149,19 @@ export class MainComponent implements AfterViewInit {
 		}
 	}
 
-	nextPert() {
-		this.nextPert$.next(true);
+	nextPertOrFinish() {
 		this.votingStage$.next("START_VOTE");
+
+		if (this.pertStage$.getValue() === "pessimistic") {
+			this.finishPertScoring.next(true);
+		} else {
+			this.nextPert$.next(true);
+		}
 	}
 
 	previousPert() {
 		this.nextPert$.next(false);
-		this.votingStage$.next("RESCORE_VOTE");
+		this.votingStage$.next("RESET_VOTE");
 	}
 
 	getEnablePertLabel(): string {

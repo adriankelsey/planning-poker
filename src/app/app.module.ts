@@ -22,6 +22,7 @@ import { UsersService } from './login-component/services/users.service';
 import { SocketService } from './services/socket.service';
 import { AverageScoresComponent } from './average-scores-component/average-scores.component';
 import { PertComponentComponent } from './pert-component/pert-component.component';
+import { PertScoreComponent } from './pert-score/pert-score.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,6 +33,7 @@ import { PertComponentComponent } from './pert-component/pert-component.componen
     TableComponent,
     AverageScoresComponent,
     PertComponentComponent,
+    PertScoreComponent,
   ],
   imports: [
     BrowserModule,
