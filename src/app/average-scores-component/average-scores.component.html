@@ -1,5 +1,3 @@
 <body #main id="main" class="main">
-  <div #progress id="progress" class="average">
-    <h1>{{ averageProgress.getValue() }}</h1>
-  </div>
+	<div #progress id="progress" class="average" [attr.data-heading]="averageProgress.getValue()"></div>
 </body>

@@ -3,60 +3,62 @@
 		<div class="table">
 			<img class="poker-table" src="/assets/poker-table-cloth.png" />
 		</div>
-		<div class="controls">
-			<div class="standard-controls">
-				<!-- start vote button -->
-				<button
-					class="start-vote-button"
-					*ngIf="(votingStage$ | async) === 'START_VOTE'"
-					id="startVoteButton"
-					mat-raised-button
-					color="accent"
-					(click)="startVote()">
-					Start Vote
-				</button>
-				<!-- finish vote button -->
-				<button
-					class="finish-vote-button"
-					*ngIf="(votingStage$ | async) === 'FINISH_VOTE'"
-					id="startVoteButton"
-					mat-raised-button
-					color="accent"
-					(click)="finishVote()">
-					Finish Vote
-				</button>
-				<!-- reset vote button -->
-				<button
-					class="reset-vote-button"
-					*ngIf="(enablePert$ | async) === false && (votingStage$ | async) === 'RESET_VOTE'"
-					id="startVoteButton"
-					mat-raised-button
-					color="accent"
-					(click)="resetVote()">
-					New Ticket
-				</button>
-				<!-- rescore vote button -->
-				<button
-					class="rescore-vote-button"
-					*ngIf="(votingStage$ | async) === 'RESET_VOTE'"
-					id="startVoteButton"
-					mat-raised-button
-					color="accent"
-					(click)="rescoreVote()">
-					Rescore
-				</button>
+		<div class="sidebar">
+			<div class="controls">
+				<div class="standard-controls">
+					<!-- start vote button -->
+					<button
+						class="start-vote-button"
+						*ngIf="(votingStage$ | async) === 'START_VOTE'"
+						id="startVoteButton"
+						mat-raised-button
+						color="accent"
+						(click)="startVote()">
+						Start Vote
+					</button>
+					<!-- finish vote button -->
+					<button
+						class="finish-vote-button"
+						*ngIf="(votingStage$ | async) === 'FINISH_VOTE'"
+						id="startVoteButton"
+						mat-raised-button
+						color="accent"
+						(click)="finishVote()">
+						Finish Vote
+					</button>
+					<!-- reset vote button -->
+					<button
+						class="reset-vote-button"
+						*ngIf="(enablePert$ | async) === false && (votingStage$ | async) === 'RESET_VOTE'"
+						id="startVoteButton"
+						mat-raised-button
+						color="accent"
+						(click)="resetVote()">
+						New Ticket
+					</button>
+					<!-- rescore vote button -->
+					<button
+						class="rescore-vote-button"
+						*ngIf="(votingStage$ | async) === 'RESET_VOTE'"
+						id="startVoteButton"
+						mat-raised-button
+						color="accent"
+						(click)="rescoreVote()">
+						Rescore
+					</button>
+				</div>
+				<div class="pert-controls">
+					<button *ngIf="(enablePert$ | async) === true" mat-flat-button class="next-pert" (click)="nextPert()">
+						{{ getNextOrFinishPertLabel() }}
+					</button>
+					<button *ngIf="(enablePert$ | async) === true" mat-flat-button class="next-pert" (click)="previousPert()">Back</button>
+					<button mat-flat-button class="enable-pert" (click)="enableOrDisablePert()">{{ getEnablePertLabel() }}</button>
+				</div>
 			</div>
-			<div class="pert-controls">
-				<button *ngIf="(enablePert$ | async) === true" mat-flat-button class="next-pert" (click)="nextPert()">
-					{{ getNextOrFinishPertLabel() }}
-				</button>
-				<button *ngIf="(enablePert$ | async) === true" mat-flat-button class="next-pert" (click)="previousPert()">Back</button>
-				<button mat-flat-button class="enable-pert" (click)="enableOrDisablePert()">{{ getEnablePertLabel() }}</button>
+			<div *ngIf="(enablePert$ | async) === false" #averageScore id="averageScore" class="average-score">
+				<app-average-scores></app-average-scores>
 			</div>
 		</div>
-	</div>
-	<div *ngIf="(enablePert$ | async) === false" #averageScore id="averageScore" class="average-score">
-		<app-average-scores></app-average-scores>
 	</div>
 	<div class="menu">
 		<app-menu></app-menu>
