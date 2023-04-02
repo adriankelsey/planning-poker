@@ -22,19 +22,13 @@ export type isVisibleRecievedMessage = {
 export class MainComponent implements AfterViewInit {
 	enablePert$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 	nextPert$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+	pertStage$: BehaviorSubject<string> = new BehaviorSubject("");
+	votingStage$: BehaviorSubject<string> = new BehaviorSubject("");
+
 	playerState: any = {
 		score: "",
 		visible: true,
 		uuid: undefined,
-	};
-
-	votingPhases = {
-		banner: "",
-		cardVisible: false,
-		startVisible: true,
-		finishVisible: false,
-		resetVisible: false,
-		rescoreVisible: false,
 	};
 
 	finishButtonIsVisible: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
@@ -45,34 +39,22 @@ export class MainComponent implements AfterViewInit {
 	averageScoreResize: BehaviorSubject<number> = new BehaviorSubject(100);
 	windowWidth: BehaviorSubject<number> = new BehaviorSubject(0);
 	windowHeight: BehaviorSubject<number> = new BehaviorSubject(0);
-	constructor(
-		public menuComponent: TableComponent,
-		public stateService: StateService,
-		public socketService: SocketService,
-		private renderer: Renderer2
-	) {
+	constructor(public menuComponent: TableComponent, public stateService: StateService, public socketService: SocketService) {
 		this.socketService.onPlayerScore();
 		this.stateService.scoresVisible.subscribe((isVisible: isVisibleRecievedMessage) => {
 			if (isVisible) {
 				switch (isVisible.content.votingPhase) {
 					case "start vote":
-						this.votingPhases.startVisible = false;
-						this.votingPhases.finishVisible = true;
+						this.votingStage$.next("START_VOTE");
 						break;
 					case "finish vote":
-						this.votingPhases.resetVisible = true;
-						this.votingPhases.rescoreVisible = true;
-						this.votingPhases.finishVisible = false;
+						this.votingStage$.next("FINISH_VOTE");
 						break;
 					case "reset vote":
-						this.votingPhases.resetVisible = false;
-						this.votingPhases.rescoreVisible = false;
-						this.votingPhases.startVisible = true;
+						this.votingStage$.next("RESET_VOTE");
 						break;
 					case "re-score vote":
-						this.votingPhases.finishVisible = true;
-						this.votingPhases.rescoreVisible = false;
-						this.votingPhases.resetVisible = false;
+						this.votingStage$.next("RESCORE_VOTE");
 						break;
 				}
 			}
@@ -110,7 +92,9 @@ export class MainComponent implements AfterViewInit {
 	//   }
 	// }
 
-	async ngOnInit(): Promise<void> {}
+	async ngOnInit(): Promise<void> {
+		if (!this.votingStage$.getValue()) this.votingStage$.next("START_VOTE");
+	}
 
 	async getUsers() {
 		const users = await axios.get("http://localhost:3000/users");
@@ -139,38 +123,52 @@ export class MainComponent implements AfterViewInit {
 	}
 
 	async startVote() {
-		this.socketService.sendIsVisible(false, "start vote");
+		this.socketService.sendIsVisible(false, "finish vote");
 	}
 
 	async finishVote() {
-		this.socketService.sendIsVisible(true, "finish vote");
-	}
-
-	async resetVote() {
 		this.socketService.sendIsVisible(true, "reset vote");
 	}
 
+	async resetVote() {
+		this.socketService.sendIsVisible(true, "start vote");
+	}
+
 	rescoreVote() {
-		this.socketService.sendIsVisible(false, "re-score vote");
+		this.socketService.sendIsVisible(false, "start vote");
 	}
 
 	enableOrDisablePert() {
 		if (this.enablePert$.getValue() === true) {
 			this.enablePert$.next(false);
+			this.nextPert$.next(false);
 		} else {
 			this.enablePert$.next(true);
+			this.votingStage$.next("START_VOTE");
 		}
 	}
 
 	nextPert() {
 		this.nextPert$.next(true);
+		this.votingStage$.next("START_VOTE");
 	}
 
 	previousPert() {
 		this.nextPert$.next(false);
+		this.votingStage$.next("RESCORE_VOTE");
 	}
 
 	getEnablePertLabel(): string {
 		return this.enablePert$.getValue() === true ? "Disable PERT Scoring" : "Enable PERT Scoring";
+	}
+
+	// get output from pert componenet
+	// if current pert is pessimistic return 'finish' else 'next'
+	getNextOrFinishPertLabel() {
+		return this.pertStage$.getValue() === "pessimistic" ? "Finish" : "Next";
+	}
+
+	getPertStage($event: string) {
+		this.pertStage$.next($event);
 	}
 }
