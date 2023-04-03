@@ -57,11 +57,7 @@
 						{{ getNextOrFinishPertLabel() }}
 					</button>
 					<button *ngIf="(enablePert$ | async) === true" mat-flat-button class="next-pert" (click)="previousPert()">Back</button>
-					<!-- <button mat-flat-button class="enable-pert" (click)="enableOrDisablePert()">{{ getEnablePertLabel() }}</button> -->
 				</div>
-			</div>
-			<div *ngIf="(enablePert$ | async) === false" #averageScore id="averageScore" class="average-score">
-				<app-average-scores></app-average-scores>
 			</div>
 		</div>
 	</div>
