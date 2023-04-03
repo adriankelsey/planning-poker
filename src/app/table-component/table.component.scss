@@ -1,58 +1,64 @@
 .main-content {
-  width: 100%;
-  height: 100%;
-  margin: 20px;
+	width: 100%;
+	height: 100%;
+	margin: 20px;
 }
 
 table {
-  width: 100%;
-  background-color: rgba(0, 255, 255, 0);
+	width: 100%;
+	background-color: rgba(0, 255, 255, 0);
 }
 
 td {
-  font-size: 22px;
-  padding-left: 50px;
-  padding-top: 25px;
-  color: white;
-  font-family: "RobotoItalic";
+	font-size: 22px;
+	padding-left: 50px;
+	padding-top: 25px;
+	color: white;
+	font-family: "RobotoItalic";
 }
 
 th {
-  font-family: "MyFont";
-  font-size: 22px;
-  color: white;
+	font-family: "MyFont";
+	font-size: 22px;
+	color: white;
 }
 
 .header-players {
-  border-color: white;
-  border-right: solid;
+	border-color: white;
+	border-right: solid;
 }
 
 .header-score {
-  border-color: white;
-  padding: 10px;
+	border-color: white;
+	padding: 10px;
 }
 
 .row-players {
-  border-style: solid;
-  border-left: none;
-  border-top: none;
+	border-style: solid;
+	border-left: none;
+	border-top: none;
+	padding: 20px;
 }
 
 .row-score {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  margin-top: 20px;
-  border-bottom: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	margin-top: 20px;
+	border-bottom: none;
 }
 
 td .playing-card {
-  height: 10%;
+	height: 10%;
 }
 
 img {
-  width: 30%;
-  margin: 15px;
+	margin-top: 15px;
+	width: 300%;
+}
+
+.row-img {
+	padding: 0;
+	width: 10%;
 }

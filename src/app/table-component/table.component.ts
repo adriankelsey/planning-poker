@@ -40,7 +40,7 @@ export class TableComponent implements OnInit {
         });
       }
       this.dataSource = value;
-      this.stateService.averageScore.next(value);
+      console.log(value);
     });
     this.stateService.scoresVisible.subscribe(
       (value: isVisibleRecievedMessage) => {

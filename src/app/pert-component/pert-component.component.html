@@ -1,35 +1,65 @@
 <div class="main">
-  <div class="optimistic">
-    <h2>Optimistic</h2>
-    <div class="scores">
-      <p>(Your) Score: <span>10</span></p>
-      <p>Average:<span>10</span></p>
-    </div>
-    <div class="chips"></div>
-  </div>
-  <div class="most-likely">
-    <h2>Most Likely</h2>
-    <div class="scores">
-      <p>(Your) Score: <span>10</span></p>
-      <p>Average:<span>10</span></p>
-    </div>
-    <div class="chips"></div>
-  </div>
-  <div class="pessimistic">
-    <h2>Pessimistic</h2>
-    <div class="scores">
-      <p>(Your) Score: <span>10</span></p>
-      <p>Average:<span>10</span></p>
-    </div>
-    <div class="chips">
-      <img
-        [hidden]="!voted.getValue()"
-        [@someCoolAnimation]="bindingVar"
-        #redChip
-        id="red-chip"
-        class="red-chip"
-        src="/assets/istockphoto-1366312579-1024x1024.png"
-      />
-    </div>
-  </div>
+	<div #optimistic id="optimistic" class="optimistic">
+		<h2>Optimistic</h2>
+		<div class="scores">
+			<p>
+				(Your) Score:
+				<span *ngIf="(scoreVisible | async) === true && currentPert.getValue() === 'optimistic'">{{ playerScore | async }}</span>
+				<span *ngIf="currentPert.getValue() === 'most likely' || currentPert.getValue() === 'pessimistic'">
+					{{ (optimisticScore | async).playerScore }}
+				</span>
+			</p>
+			<p>
+				Average:
+				<span *ngIf="(scoreVisible | async) === true && currentPert.getValue() === 'optimistic'">{{ averageScore | async }}</span>
+				<span *ngIf="currentPert.getValue() === 'most likely' || currentPert.getValue() === 'pessimistic'">
+					{{ (optimisticScore | async).averageScore }}
+				</span>
+			</p>
+		</div>
+		<div class="chips"></div>
+	</div>
+	<div id="most-likely" class="most-likely">
+		<h2>Most Likely</h2>
+		<div class="scores">
+			<p>
+				(Your) Score:
+				<span *ngIf="(scoreVisible | async) === true && currentPert.getValue() === 'most likely'">{{ playerScore | async }}</span>
+				<span *ngIf="currentPert.getValue() === 'pessimistic'">
+					{{ (mostLikelyScore | async).playerScore }}
+				</span>
+			</p>
+			<p>
+				Average:<span *ngIf="(scoreVisible | async) === true && currentPert.getValue() === 'most likely'">{{ averageScore | async }}</span>
+				<span *ngIf="currentPert.getValue() === 'pessimistic'">
+					{{ (mostLikelyScore | async).averageScore }}
+				</span>
+			</p>
+		</div>
+		<div class="chips"></div>
+	</div>
+	<div id="pessimistic" class="pessimistic">
+		<h2>Pessimistic</h2>
+		<div class="scores">
+			<p>
+				(Your) Score:
+				<span *ngIf="(scoreVisible | async) === true && currentPert.getValue() === 'pessimistic'">{{ playerScore | async }}</span>
+			</p>
+			<p>
+				Average:<span *ngIf="(scoreVisible | async) === true && currentPert.getValue() === 'pessimistic'">{{ averageScore | async }}</span>
+			</p>
+		</div>
+		<!-- <div class="chips">
+			<img
+				[hidden]="!voted.getValue()"
+				[@someCoolAnimation]="bindingVar"
+				#redChip
+				id="red-chip"
+				class="red-chip"
+				src="/assets/istockphoto-1366312579-1024x1024.png" />
+		</div> -->
+	</div>
+</div>
+<div class="pert-score">
+	<app-pert-score [pertScore$]="pertScore$.asObservable()"></app-pert-score>
 </div>
