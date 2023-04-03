@@ -26,16 +26,6 @@
 						(click)="finishVote()">
 						Finish Vote
 					</button>
-					<!-- reset vote button -->
-					<button
-						class="reset-vote-button"
-						*ngIf="(enablePert$ | async) === false && (votingStage$ | async) === 'RESET_VOTE'"
-						id="startVoteButton"
-						mat-raised-button
-						color="accent"
-						(click)="resetVote()">
-						New Ticket
-					</button>
 					<!-- rescore vote button -->
 					<button
 						class="rescore-vote-button"
@@ -48,15 +38,13 @@
 					</button>
 				</div>
 				<div class="pert-controls">
-					<button
-						*ngIf="(enablePert$ | async) === true"
-						[disabled]="(votingStage$ | async) !== 'RESET_VOTE'"
-						mat-flat-button
-						class="next-pert"
-						(click)="nextPertOrFinish()">
+					<button [disabled]="(votingStage$ | async) !== 'RESET_VOTE'" mat-flat-button class="next-pert" (click)="nextPertOrFinish()">
 						{{ getNextOrFinishPertLabel() }}
 					</button>
-					<button *ngIf="(enablePert$ | async) === true" mat-flat-button class="next-pert" (click)="previousPert()">Back</button>
+					<button mat-flat-button class="next-pert" (click)="previousPert()">Back</button>
+					<button *ngIf="(pertStage$ | async) === 'FINISH_SCORING'" mat-flat-button class="next-pert" (click)="resetPertScoring()">
+						Reset
+					</button>
 				</div>
 			</div>
 		</div>
@@ -68,6 +56,7 @@
 		<app-pert-component
 			[nextPert$]="nextPert$.asObservable()"
 			[finishPertScoring$]="finishPertScoring.asObservable()"
+			[resetPert$]="resetPertScoring$.asObservable()"
 			(pertStageEvent)="getPertStage($event)"></app-pert-component>
 	</div>
 </div>

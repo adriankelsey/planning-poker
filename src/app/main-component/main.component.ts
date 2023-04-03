@@ -4,7 +4,7 @@ import { TableComponent } from "../table-component/table.component";
 import { StateService } from "../services/shared.service";
 import { SocketService } from "../services/socket.service";
 import { PlayerState } from "./models/player-state.model";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 
 export type isVisibleRecievedMessage = {
 	msge: string;
@@ -20,26 +20,12 @@ export type isVisibleRecievedMessage = {
 	styleUrls: ["./main.component.scss"],
 })
 export class MainComponent implements AfterViewInit {
-	enablePert$: BehaviorSubject<boolean> = new BehaviorSubject(true);
 	nextPert$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 	pertStage$: BehaviorSubject<string> = new BehaviorSubject("");
 	votingStage$: BehaviorSubject<string> = new BehaviorSubject("");
+	resetPertScoring$: Subject<boolean> = new Subject();
 	finishPertScoring: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-	playerState: any = {
-		score: "",
-		visible: true,
-		uuid: undefined,
-	};
-
-	finishButtonIsVisible: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-
-	scoresVisible = false;
-	@ViewChild("averageScore")
-	averageScoreElement: ElementRef<HTMLElement> | undefined;
-	averageScoreResize: BehaviorSubject<number> = new BehaviorSubject(100);
-	windowWidth: BehaviorSubject<number> = new BehaviorSubject(0);
-	windowHeight: BehaviorSubject<number> = new BehaviorSubject(0);
 	constructor(public menuComponent: TableComponent, public stateService: StateService, public socketService: SocketService) {
 		this.socketService.onPlayerScore();
 		this.stateService.scoresVisible.subscribe((isVisible: isVisibleRecievedMessage) => {
@@ -110,16 +96,11 @@ export class MainComponent implements AfterViewInit {
 	}
 
 	enableOrDisablePert() {
-		if (this.enablePert$.getValue() === true) {
-			this.enablePert$.next(false);
-			this.nextPert$.next(false);
-		} else {
-			this.enablePert$.next(true);
-			this.votingStage$.next("START_VOTE");
-		}
+		this.nextPert$.next(false);
+		this.votingStage$.next("START_VOTE");
 	}
 
-	nextPertOrFinish() {
+	nextPertOrFinish(): void {
 		this.votingStage$.next("START_VOTE");
 
 		if (this.pertStage$.getValue() === "pessimistic") {
@@ -129,22 +110,22 @@ export class MainComponent implements AfterViewInit {
 		}
 	}
 
-	previousPert() {
+	previousPert(): void {
 		this.nextPert$.next(false);
 		this.votingStage$.next("RESET_VOTE");
 	}
 
-	getEnablePertLabel(): string {
-		return this.enablePert$.getValue() === true ? "Disable PERT Scoring" : "Enable PERT Scoring";
-	}
-
 	// get output from pert componenet
 	// if current pert is pessimistic return 'finish' else 'next'
-	getNextOrFinishPertLabel() {
+	getNextOrFinishPertLabel(): string {
 		return this.pertStage$.getValue() === "pessimistic" ? "Finish" : "Next";
 	}
 
-	getPertStage($event: string) {
+	getPertStage($event: string): void {
 		this.pertStage$.next($event);
+	}
+
+	resetPertScoring(): void {
+		this.resetPertScoring$.next(true);
 	}
 }
