@@ -61,37 +61,7 @@ export class MainComponent implements AfterViewInit {
 			}
 		});
 	}
-	ngAfterViewInit(): void {
-		this.windowWidth.next(innerWidth);
-		this.windowHeight.next(innerHeight);
-	}
-
-	// @HostListener('window:resize', ['$event.target'])
-	// onResize() {
-	//   if (innerWidth < this.windowWidth.getValue()) {
-	//     this.renderer.setStyle(
-	//       this.averageScoreElement?.nativeElement,
-	//       'height',
-	//       `${20 - (this.windowWidth.getValue() - innerWidth) / 100}%`
-	//     );
-	//   }
-
-	//   if (innerWidth === 1920) {
-	//     this.renderer.setStyle(
-	//       this.averageScoreElement?.nativeElement,
-	//       'height',
-	//       `20%`
-	//     );
-	//   }
-
-	//   if (innerWidth === 1440) {
-	//     this.renderer.setStyle(
-	//       this.averageScoreElement?.nativeElement,
-	//       'height',
-	//       `20%`
-	//     );
-	//   }
-	// }
+	ngAfterViewInit(): void {}
 
 	async ngOnInit(): Promise<void> {
 		if (!this.votingStage$.getValue()) this.votingStage$.next("START_VOTE");

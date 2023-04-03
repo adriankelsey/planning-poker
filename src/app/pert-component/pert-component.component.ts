@@ -122,27 +122,6 @@ export class PertComponentComponent implements AfterViewInit {
 		});
 	}
 
-	showChip(voted: boolean) {
-		if (voted) {
-			this.animateFall();
-		} else {
-			this.reset();
-		}
-	}
-
-	animateFall() {
-		this.bindingVar = "fall";
-	}
-
-	reset() {
-		this.bindingVar = "reset";
-	}
-
-	toggle() {
-		this.bindingVar == "fall" ? this.reset() : this.animateFall();
-		console.log(this.bindingVar);
-	}
-
 	startPert() {
 		this.startOptimisticScoring();
 	}
@@ -151,7 +130,6 @@ export class PertComponentComponent implements AfterViewInit {
 		if (this.currentPert.getValue() === "optimistic") {
 			this.startMostLikelyScoring();
 			this.stopOptimisticScoring();
-			console.log(this.optimisticScore.getValue());
 		} else if (this.currentPert.getValue() === "most likely") {
 			this.stopMostLikelyScoring();
 			this.startPessimisticScoring();
@@ -244,5 +222,27 @@ export class PertComponentComponent implements AfterViewInit {
 
 	styleElementStopScoring(element?: HTMLElement): void {
 		this.renderer.setStyle(element, "background", "rgb(223, 223, 223)");
+	}
+
+	// Future Implementation for chips
+
+	showChip(voted: boolean) {
+		if (voted) {
+			this.animateFall();
+		} else {
+			this.reset();
+		}
+	}
+
+	animateFall() {
+		this.bindingVar = "fall";
+	}
+
+	reset() {
+		this.bindingVar = "reset";
+	}
+
+	toggle() {
+		this.bindingVar == "fall" ? this.reset() : this.animateFall();
 	}
 }

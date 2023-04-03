@@ -24,7 +24,6 @@ export class CardsComponent {
 		if (this.clickedCards.length > 1) {
 			const previousCard = document.getElementById(this.clickedCards[0].toString());
 			if (previousCard) this.highlightSelectedCard(previousCard, true);
-			console.log(this.clickedCards[0]);
 			this.clickedCards.shift();
 		}
 	}
