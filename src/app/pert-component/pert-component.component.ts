@@ -42,6 +42,7 @@ export class PertComponentComponent implements AfterViewInit {
 	@Input() enablePert: Observable<boolean> | undefined;
 	@Input() nextPert$: Observable<boolean> | undefined;
 	@Input() finishPertScoring$: Observable<boolean> | undefined;
+	@Input() resetPert$: Observable<boolean> | undefined;
 
 	@Output() pertStageEvent: EventEmitter<string> = new EventEmitter();
 
@@ -118,6 +119,12 @@ export class PertComponentComponent implements AfterViewInit {
 		this.finishPertScoring$?.subscribe((value) => {
 			if (value === true) {
 				this.finishPertScoring();
+			}
+		});
+
+		this.resetPert$?.subscribe((reset) => {
+			if (reset) {
+				this.startOptimisticScoring();
 			}
 		});
 	}
@@ -214,6 +221,10 @@ export class PertComponentComponent implements AfterViewInit {
 		this.pertScore$.subscribe((value) => {
 			console.log(value);
 		});
+
+		this.currentPert.next("FINISH_SCORING");
+
+		this.pertStageEvent.emit(this.currentPert.getValue());
 	}
 
 	styleElementStartScoring(element?: HTMLElement): void {
