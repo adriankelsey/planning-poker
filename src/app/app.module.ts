@@ -17,7 +17,6 @@ import { TableComponent } from "./table-component/table.component";
 import { StateService } from "./services/shared.service";
 import { UsersService } from "./login-component/services/users.service";
 import { SocketService } from "./services/socket.service";
-import { AverageScoresComponent } from "./average-scores-component/average-scores.component";
 import { PertComponentComponent } from "./pert-component/pert-component.component";
 import { PertScoreComponent } from "./pert-score/pert-score.component";
 import { AverageScoreService } from "./services/average-score.service";
@@ -29,7 +28,6 @@ import { AverageScoreService } from "./services/average-score.service";
 		MainComponent,
 		LoginComponent,
 		TableComponent,
-		AverageScoresComponent,
 		PertComponentComponent,
 		PertScoreComponent,
 	],
@@ -45,17 +43,7 @@ import { AverageScoreService } from "./services/average-score.service";
 		MatInputModule,
 		BrowserAnimationsModule,
 	],
-	providers: [
-		PlayerComponent,
-		CardsComponent,
-		MainComponent,
-		TableComponent,
-		StateService,
-		UsersService,
-		SocketService,
-		AverageScoresComponent,
-		AverageScoreService,
-	],
+	providers: [PlayerComponent, CardsComponent, MainComponent, TableComponent, StateService, UsersService, SocketService, AverageScoreService],
 	bootstrap: [AppComponent],
 })
 export class AppModule {}

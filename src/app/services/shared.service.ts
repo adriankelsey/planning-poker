@@ -1,11 +1,9 @@
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from "rxjs";
 
 export class StateService {
-  userData: BehaviorSubject<any> = new BehaviorSubject<any>('');
+	userData: BehaviorSubject<any> = new BehaviorSubject<any>("");
 
-  scoresVisible: BehaviorSubject<any> = new BehaviorSubject<any>('');
+	scoresVisible: BehaviorSubject<any> = new BehaviorSubject<any>("");
 
-  averageScore: BehaviorSubject<any> = new BehaviorSubject<any>('');
-
-  constructor() {}
+	constructor() {}
 }
