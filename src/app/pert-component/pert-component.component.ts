@@ -64,8 +64,6 @@ export class PertComponentComponent implements AfterViewInit {
 	pertScore$: Subject<number> = new Subject();
 
 	constructor(stateService: StateService, private renderer: Renderer2, private averageScoreService: AverageScoreService) {
-		this.averageScoreService.averageScore;
-
 		averageScoreService.averageScore.subscribe((averageScore) => {
 			this.averageScore.next(averageScore);
 		});
