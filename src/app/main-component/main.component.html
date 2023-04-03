@@ -48,11 +48,16 @@
 					</button>
 				</div>
 				<div class="pert-controls">
-					<button *ngIf="(enablePert$ | async) === true" mat-flat-button class="next-pert" (click)="nextPertOrFinish()">
+					<button
+						*ngIf="(enablePert$ | async) === true"
+						[disabled]="(votingStage$ | async) !== 'RESET_VOTE'"
+						mat-flat-button
+						class="next-pert"
+						(click)="nextPertOrFinish()">
 						{{ getNextOrFinishPertLabel() }}
 					</button>
 					<button *ngIf="(enablePert$ | async) === true" mat-flat-button class="next-pert" (click)="previousPert()">Back</button>
-					<button mat-flat-button class="enable-pert" (click)="enableOrDisablePert()">{{ getEnablePertLabel() }}</button>
+					<!-- <button mat-flat-button class="enable-pert" (click)="enableOrDisablePert()">{{ getEnablePertLabel() }}</button> -->
 				</div>
 			</div>
 			<div *ngIf="(enablePert$ | async) === false" #averageScore id="averageScore" class="average-score">
@@ -63,9 +68,8 @@
 	<div class="menu">
 		<app-menu></app-menu>
 	</div>
-	<div *ngIf="(enablePert$ | async) === true" class="pert">
+	<div class="pert">
 		<app-pert-component
-			[enablePert]="enablePert$.asObservable()"
 			[nextPert$]="nextPert$.asObservable()"
 			[finishPertScoring$]="finishPertScoring.asObservable()"
 			(pertStageEvent)="getPertStage($event)"></app-pert-component>

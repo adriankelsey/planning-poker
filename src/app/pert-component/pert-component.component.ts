@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Outp
 import { trigger, state, style, animate, transition, keyframes } from "@angular/animations";
 import { StateService } from "../services/shared.service";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
+import { AverageScoreService } from "../services/average-score.service";
 
 @Component({
 	selector: "app-pert-component",
@@ -62,7 +63,18 @@ export class PertComponentComponent implements AfterViewInit {
 
 	pertScore$: Subject<number> = new Subject();
 
-	constructor(stateService: StateService, private renderer: Renderer2, private element: ElementRef) {
+	constructor(
+		stateService: StateService,
+		private renderer: Renderer2,
+		private element: ElementRef,
+		private averageScoreService: AverageScoreService
+	) {
+		this.averageScoreService.averageScore;
+
+		stateService.averageScore.subscribe((value) => {
+			this.averageScore.next(value);
+		});
+
 		stateService.userData.subscribe((usersData) => {
 			if (usersData)
 				usersData.forEach((user: any) => {
@@ -76,13 +88,8 @@ export class PertComponentComponent implements AfterViewInit {
 
 		stateService.scoresVisible.subscribe((scoreVisible) => {
 			if (scoreVisible) {
-				console.log(scoreVisible.content.visible);
 				this.scoreVisible.next(scoreVisible.content.visible);
 			}
-		});
-
-		stateService.averageScore.subscribe((value) => {
-			this.averageScore.next(value);
 		});
 	}
 	ngAfterViewInit(): void {}
@@ -91,6 +98,16 @@ export class PertComponentComponent implements AfterViewInit {
 		this.optimisticElement = document.getElementById("optimistic")!;
 		this.mostLikelyElement = document.getElementById("most-likely")!;
 		this.pessimisticElement = document.getElementById("pessimistic")!;
+
+		this.startOptimisticScoring();
+
+		this.nextPert$?.subscribe((value) => {
+			if (value === true) {
+				this.nextPert();
+			} else {
+				this.previousPert();
+			}
+		});
 
 		this.enablePert?.subscribe((value) => {
 			if (value === true) {

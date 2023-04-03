@@ -166,6 +166,10 @@
 	background-color: rgb(160, 219, 255);
 }
 
+.next-pert:disabled {
+	background-color: rgba(160, 219, 255, 0.592);
+}
+
 .poker-table {
 	width: 200%;
 	height: 400%;

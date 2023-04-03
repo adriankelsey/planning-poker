@@ -20,7 +20,7 @@ export type isVisibleRecievedMessage = {
 	styleUrls: ["./main.component.scss"],
 })
 export class MainComponent implements AfterViewInit {
-	enablePert$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+	enablePert$: BehaviorSubject<boolean> = new BehaviorSubject(true);
 	nextPert$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 	pertStage$: BehaviorSubject<string> = new BehaviorSubject("");
 	votingStage$: BehaviorSubject<string> = new BehaviorSubject("");
